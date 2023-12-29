@@ -10,7 +10,7 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
-    public ProductDTO(Long id, String name, String description, double weight) {
+    public ProductDTO(Long id, String name, String description, double weight, String ingredients) {
         this.product_id = id;
         this.name = name;
         this.description = description;

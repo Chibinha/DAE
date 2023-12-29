@@ -22,7 +22,7 @@ public class Product implements Serializable {
         this.physicalProducts = new ArrayList<>();
     }
 
-    public Product(Long id, String name, String description, double weight) {
+    public Product(Long id, String name, String description, double weight, String ingredients) {
         this.product_id = id;
         this.name = name;
         this.description = description;
