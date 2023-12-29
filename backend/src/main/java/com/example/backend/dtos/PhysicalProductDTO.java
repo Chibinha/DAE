@@ -1,4 +1,4 @@
-package pt.produto.dtos;
+package com.example.backend.dtos;
 
 public class PhysicalProductDTO {
     private Long id;

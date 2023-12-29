@@ -1,29 +1,42 @@
-package pt.produto.dtos;
+package com.example.backend.entities;
 
-public class ProductDTO {
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+public class Product implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long product_id;
     private String name;
     private String description;
     private double weight;
     private String ingredients;
+    @OneToMany(mappedBy = "product")
+    private List<PhysicalProduct> physicalProducts;
 
-    public ProductDTO() {
+    public Product() {
+        this.physicalProducts = new ArrayList<>();
     }
 
-    public ProductDTO(Long id, String name, String description, double weight) {
+    public Product(Long id, String name, String description, double weight) {
         this.product_id = id;
         this.name = name;
         this.description = description;
         this.weight = weight;
         this.ingredients = "";
+        this.physicalProducts = new ArrayList<>();
     }
 
     public Long getProduct_id() {
         return product_id;
     }
 
-    public void setProduct_id(Long id) {
-        this.product_id = id;
+    public void setProduct_id(Long product_id) {
+        this.product_id = product_id;
     }
 
     public String getName() {
@@ -56,5 +69,13 @@ public class ProductDTO {
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public List<PhysicalProduct> getPhysicalProducts() {
+        return physicalProducts;
+    }
+
+    public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
+        this.physicalProducts = physicalProducts;
     }
 }

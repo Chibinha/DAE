@@ -1,4 +1,4 @@
-package pt.produto;
+package com.example.backend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

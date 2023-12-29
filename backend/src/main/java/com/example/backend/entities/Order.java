@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-public class Encomendas {
+public class Order {
     @Id
     private int idEncomenda;
     @Temporal(TemporalType.DATE)
@@ -19,11 +19,11 @@ public class Encomendas {
     private String operadorLogistica;
     private String estadoEncomenda;
 
-    public Encomendas() {
+    public Order() {
 
     }
 
-    public Encomendas(int idEncomenda, Date dataEncomenda, String consumidorFinal, String operadorLogistica, String estadoEncomenda) {
+    public Order(int idEncomenda, Date dataEncomenda, String consumidorFinal, String operadorLogistica, String estadoEncomenda) {
         this.idEncomenda = idEncomenda;
         this.dataEncomenda = dataEncomenda;
         this.consumidorFinal = consumidorFinal;
