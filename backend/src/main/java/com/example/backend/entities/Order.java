@@ -1,73 +1,71 @@
 package com.example.backend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "orders")
 public class Order {
     @Id
-    private int idEncomenda;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idOrder;
     @Temporal(TemporalType.DATE)
-    private Date dataEncomenda;
+    private Date orderDate;
     @NotNull
-    private String consumidorFinal;
-    private String operadorLogistica;
-    private String estadoEncomenda;
-
+    private String orderType;
+    private String materialType;
+    private String product;
     public Order() {
 
     }
 
-    public Order(int idEncomenda, Date dataEncomenda, String consumidorFinal, String operadorLogistica, String estadoEncomenda) {
-        this.idEncomenda = idEncomenda;
-        this.dataEncomenda = dataEncomenda;
-        this.consumidorFinal = consumidorFinal;
-        this.operadorLogistica = operadorLogistica;
-        this.estadoEncomenda = estadoEncomenda;
+    public Order(long idOrder, Date orderDate, String orderType, String materialType, String product) {
+        this.idOrder = idOrder;
+        this.orderDate = orderDate;
+        this.orderType = orderType;
+        this.materialType = materialType;
+        this.product = product;
     }
 
-    public int getIdEncomenda() {
-        return idEncomenda;
+    public long getIdOrder() {
+        return idOrder;
     }
 
-    public void setIdEncomenda(int idEncomenda) {
-        this.idEncomenda = idEncomenda;
+    public void setIdOrder(long idOrder) {
+        this.idOrder = idOrder;
     }
 
-    public Date getDataEncomenda() {
-        return dataEncomenda;
+    public Date getOrderDate() {
+        return orderDate;
     }
 
-    public void setDataEncomenda(Date dataEncomenda) {
-        this.dataEncomenda = dataEncomenda;
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
-    public String getConsumidorFinal() {
-        return consumidorFinal;
+    public String getOrderType() {
+        return orderType;
     }
 
-    public void setConsumidorFinal(String consumidorFinal) {
-        this.consumidorFinal = consumidorFinal;
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
     }
 
-    public String getOperadorLogistica() {
-        return operadorLogistica;
+    public String getMaterialType() {
+        return materialType;
     }
 
-    public void setOperadorLogistica(String operadorLogistica) {
-        this.operadorLogistica = operadorLogistica;
+    public void setMaterialType(String materialType) {
+        this.materialType = materialType;
     }
 
-    public String getEstadoEncomenda() {
-        return estadoEncomenda;
+    public String getProduct() {
+        return product;
     }
 
-    public void setEstadoEncomenda(String estadoEncomenda) {
-        this.estadoEncomenda = estadoEncomenda;
+    public void setProduct(String product) {
+        this.product = product;
     }
 }
