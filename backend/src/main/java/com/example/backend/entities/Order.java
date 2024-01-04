@@ -3,11 +3,14 @@ package com.example.backend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idOrder;
@@ -16,17 +19,24 @@ public class Order {
     @NotNull
     private String orderType;
     private String materialType;
-    private String product;
+    @OneToMany(mappedBy = "product")
+    private List<PhysicalProduct> products;
+    //@OneToMany(mappedBy = "observation")
+    //private List<Observation> observation;
+    @OneToMany(mappedBy = "client")
+    private List<Client> client;
     public Order() {
-
+        this.products = new ArrayList<>();
+        this.client = new ArrayList<>();
     }
 
-    public Order(long idOrder, Date orderDate, String orderType, String materialType, String product) {
+    public Order(long idOrder, Date orderDate, String orderType, String materialType) {
         this.idOrder = idOrder;
         this.orderDate = orderDate;
         this.orderType = orderType;
         this.materialType = materialType;
-        this.product = product;
+        this.products = new ArrayList<>();
+        this.client = new ArrayList<>();
     }
 
     public long getIdOrder() {
@@ -61,11 +71,19 @@ public class Order {
         this.materialType = materialType;
     }
 
-    public String getProduct() {
-        return product;
+    public List<PhysicalProduct> getProducts() {
+        return products;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public void setProducts(List<PhysicalProduct> products) {
+        this.products = products;
+    }
+
+    public List<Client> getClient() {
+        return client;
+    }
+
+    public void setClient(List<Client> client) {
+        this.client = client;
     }
 }

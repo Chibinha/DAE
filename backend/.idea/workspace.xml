@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5035b343-e461-478b-90f7-f23c887f9dfb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/OrderBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/OrderBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Order.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,6 +80,11 @@
       <workItem from="1703074840284" duration="805000" />
       <workItem from="1703782326766" duration="1363000" />
       <workItem from="1703868921429" duration="2716000" />
+<<<<<<< Updated upstream
+=======
+      <workItem from="1704309775744" duration="57000" />
+      <workItem from="1704382306320" duration="5047000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
