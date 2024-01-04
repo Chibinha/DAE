@@ -13,9 +13,9 @@ public class OrderBean {
     @PersistenceContext
     EntityManager em;
 
-    public void create(int idEncomenda, Date dataEncomenda, String consumidorFinal, String operadorLogistica, String estadoEncomenda ){
-        Order ecomendas = new Order(idEncomenda, dataEncomenda, consumidorFinal, operadorLogistica, estadoEncomenda);
-        em.persist(ecomendas);
+    /*public void create(long idOrder, Date orderDate, String orderType, String materialType, String product ){
+        Order order = new Order(idOrder, orderDate, orderType, materialType, product);
+        em.persist(order);
     }
-
+*/
 }
