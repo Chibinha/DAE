@@ -3,8 +3,8 @@ package com.example.backend.exceptions.mappers;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
-import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException;
-import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityNotFoundException;
+import com.example.backend.exceptions.MyEntityExistsException;
+import com.example.backend.exceptions.MyEntityNotFoundException;
 
 import java.util.logging.Logger;
 

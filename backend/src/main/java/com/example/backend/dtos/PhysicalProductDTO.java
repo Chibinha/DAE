@@ -1,17 +1,23 @@
 package com.example.backend.dtos;
 
+import java.sql.Timestamp;
+
 public class PhysicalProductDTO {
     private Long id;
-    private ProductDTO product;
-    private String serialNumber; // Unique serial number for each item
+    private long productId;
+    private String productName;
+    private String serialNumber;
+    private Timestamp stockTimestamp;
 
     public PhysicalProductDTO() {
     }
 
-    public PhysicalProductDTO(Long id, ProductDTO product, String serialNumber) {
+    public PhysicalProductDTO(Long id, long productId, String productName, String serialNumber, Timestamp stockTimestamp) {
         this.id = id;
-        this.product = product;
+        this.productId = productId;
+        this.productName = productName;
         this.serialNumber = serialNumber;
+        this.stockTimestamp = stockTimestamp;
     }
 
     public Long getId() {
@@ -22,12 +28,20 @@ public class PhysicalProductDTO {
         this.id = id;
     }
 
-    public ProductDTO getProduct() {
-        return product;
+    public long getProductId() {
+        return productId;
     }
 
-    public void setProduct(ProductDTO product) {
-        this.product = product;
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getSerialNumber() {
@@ -36,5 +50,13 @@ public class PhysicalProductDTO {
 
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
+    }
+
+    public Timestamp getStockTimestamp() {
+        return stockTimestamp;
+    }
+
+    public void setStockTimestamp(Timestamp stockTimestamp) {
+        this.stockTimestamp = stockTimestamp;
     }
 }

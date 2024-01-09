@@ -3,7 +3,7 @@ package com.example.backend.exceptions.mappers;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
-import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.CatchAllException;
+import com.example.backend.exceptions.CatchAllException;
 
 import java.util.logging.Logger;
 
