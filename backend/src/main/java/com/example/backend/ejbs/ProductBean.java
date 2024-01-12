@@ -12,12 +12,11 @@ import jakarta.persistence.Query;
 import java.util.List;
 
 @Stateless
-@NamedQuery(name = "getAllProducts", query = "SELECT p FROM Product p ORDER BY p.name")
 public class ProductBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public boolean exists(Long id) {
+    public boolean exists(long id) {
         Query query = entityManager.createQuery("SELECT COUNT(p) FROM Product p WHERE p.id = :id");
         query.setParameter("id", id);
         return ((long) query.getSingleResult()) > 0L;
@@ -38,7 +37,7 @@ public class ProductBean {
     }
 
     // Find
-    public Product find(Long id) throws MyEntityNotFoundException {
+    public Product find(long id) throws MyEntityNotFoundException {
         Product product = entityManager.find(Product.class, id);
         if (product == null) {
             throw new MyEntityNotFoundException("Product with id " + id + " not found");
@@ -47,7 +46,7 @@ public class ProductBean {
     }
 
     // Update
-    public void update(Long id, ProductDTO productDTO) throws MyEntityNotFoundException {
+    public void update(long id, ProductDTO productDTO) throws MyEntityNotFoundException {
         Product product = find(id);
 
         if (productDTO.getName() != null) {
@@ -66,7 +65,7 @@ public class ProductBean {
     }
 
     // Delete
-    public void delete(Long id) throws MyEntityNotFoundException{
+    public void delete(long id) throws MyEntityNotFoundException{
         entityManager.remove(find(id));
     }
 }

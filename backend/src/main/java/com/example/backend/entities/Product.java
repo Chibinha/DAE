@@ -10,10 +10,16 @@ import java.util.List;
 
 @Entity
 @Table(name = "product")
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllProducts",
+                query = "SELECT p FROM Product p ORDER BY p.id"
+        )
+})
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @NotNull
     private String name;
     private String description;
@@ -40,17 +46,17 @@ public class Product implements Serializable {
         this.name = name;
         this.description = description;
         this.weight = weight;
-        this.ingredients = "";
+        this.ingredients = ingredients;
         this.physicalProducts = new ArrayList<>();
         this.creationTimestamp = new Timestamp(System.currentTimeMillis());
         this.updateTimestamp = this.creationTimestamp;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long product_id) {
+    public void setId(long product_id) {
         this.id = product_id;
     }
 

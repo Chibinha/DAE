@@ -10,7 +10,6 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Stateless
-@NamedQuery(name = "getAllPhysicalProducts", query = "SELECT p FROM PhysicalProduct p ORDER BY p.serialNumber")
 public class PhysicalProductBean {
     @PersistenceContext
     private EntityManager entityManager;
@@ -26,7 +25,7 @@ public class PhysicalProductBean {
     // CRFUD
 
     // Create
-    public long create(String serialNumber, Long productId) throws MyEntityNotFoundException{
+    public long create(String serialNumber, long productId) throws MyEntityNotFoundException{
         Product product = productBean.find(productId);
 
         PhysicalProduct physicalProduct = new PhysicalProduct(product, serialNumber);
@@ -41,7 +40,7 @@ public class PhysicalProductBean {
     }
 
     // Find
-    public PhysicalProduct find(Long id) throws MyEntityNotFoundException {
+    public PhysicalProduct find(long id) throws MyEntityNotFoundException {
         PhysicalProduct physicalProduct = entityManager.find(PhysicalProduct.class, id);
         if (physicalProduct == null) {
             throw new MyEntityNotFoundException("PhysicalProduct with id " + id + " not found");
@@ -50,7 +49,7 @@ public class PhysicalProductBean {
     }
 
     // Update
-    public void update(Long id, String serialNumber) throws MyEntityNotFoundException {
+    public void update(long id, String serialNumber) throws MyEntityNotFoundException {
         PhysicalProduct physicalProduct = find(id);
         if (serialNumber != null) {
             physicalProduct.setSerialNumber(serialNumber);
@@ -59,7 +58,7 @@ public class PhysicalProductBean {
         entityManager.merge(physicalProduct);
     }
     // Delete
-    public void delete(Long id) throws MyEntityNotFoundException {
+    public void delete(long id) throws MyEntityNotFoundException {
         entityManager.remove(find(id));
     }
 }

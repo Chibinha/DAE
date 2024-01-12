@@ -64,7 +64,7 @@ public class ProductService {
     // Find
     @GET
     @Path("/{id}")
-    public Response find(@PathParam("id") Long id) throws MyEntityNotFoundException {
+    public Response find(@PathParam("id") long id) throws MyEntityNotFoundException {
         Product product = productBean.find(id);
 
         if (product == null) {
@@ -77,7 +77,7 @@ public class ProductService {
     // Update
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id, ProductDTO productDTO) throws MyEntityNotFoundException {
+    public Response update(@PathParam("id") long id, ProductDTO productDTO) throws MyEntityNotFoundException {
         productBean.update(id, productDTO);
         boolean notUpdated = false;
         String notUpdatedFields = "";
@@ -109,7 +109,7 @@ public class ProductService {
     // Delete
     @DELETE
     @Path("/{id}")
-    public Response delete(@PathParam("id") Long id) throws MyEntityNotFoundException {
+    public Response delete(@PathParam("id") long id) throws MyEntityNotFoundException {
         productBean.delete(id);
 
         if (productBean.exists(id)) {

@@ -15,7 +15,7 @@ public class ProductDTO {
         this.name = name;
         this.description = description;
         this.weight = weight;
-        this.ingredients = "";
+        this.ingredients = ingredients;
     }
 
     public Long getProduct_id() {

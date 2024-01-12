@@ -61,14 +61,14 @@ public class PhysicalProductService {
     // Find
     @GET
     @Path("/{id}")
-    public PhysicalProductDTO find(@PathParam("id") Long id) throws MyEntityNotFoundException {
+    public PhysicalProductDTO find(@PathParam("id") long id) throws MyEntityNotFoundException {
         return toDTO(physicalProductBean.find(id));
     }
 
     // Update
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id, String serialNumber) throws MyEntityNotFoundException {
+    public Response update(@PathParam("id") long id, String serialNumber) throws MyEntityNotFoundException {
         physicalProductBean.update(id, serialNumber);
 
         PhysicalProduct physicalProduct = physicalProductBean.find(id);
@@ -85,7 +85,7 @@ public class PhysicalProductService {
     // Delete
     @DELETE
     @Path("/{id}")
-    public Response delete(@PathParam("id") Long id) throws MyEntityNotFoundException {
+    public Response delete(@PathParam("id") long id) throws MyEntityNotFoundException {
         physicalProductBean.delete(id);
 
         if (physicalProductBean.exists(id)) {

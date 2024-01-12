@@ -13,10 +13,16 @@ import java.sql.Timestamp;
         name = "physical_product",
         uniqueConstraints = @UniqueConstraint(columnNames = {"id", "serial_number"})
 )
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllPhysicalProducts",
+                query = "SELECT p FROM PhysicalProduct p ORDER BY p.id"
+        )
+})
 public class PhysicalProduct implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @Column(name = "serial_number")
     @NotNull
     private String serialNumber;
@@ -40,11 +46,11 @@ public class PhysicalProduct implements Serializable {
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
