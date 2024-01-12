@@ -1,7 +1,7 @@
 <template>
     <div v-if="error">Error: {{ error.message }}</div>
     <div v-else>
-        <nuxt-link to="/create">Create a New Product</nuxt-link>
+        <nuxt-link to="/products/create">Create a New Product</nuxt-link>
         <h2>Products</h2>
         <table>
             <tr>
@@ -14,13 +14,13 @@
             </tr>
             
             <tr v-for="product in products">
-                <td>{{ product.product_id }}</td>
+                <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.description }}</td>
                 <td>{{ product.weight }}</td>
                 <td>{{ product.ingredients }}</td>
                 <td>
-                    <nuxt-link :to="`/products/${product.product_id}`">Details</nuxt-link>
+                    <nuxt-link :to="`/products/${product.id}`">Details</nuxt-link>
                 </td>
             </tr>
         </table>

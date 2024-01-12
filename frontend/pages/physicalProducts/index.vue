@@ -1,7 +1,7 @@
 <template>
     <div v-if="error">Error: {{ error.message }}</div>
     <div v-else>
-        <nuxt-link to="/create">Create a New Physical Products</nuxt-link>
+        <nuxt-link to="/physicalProducts/create">Create a New Physical Products</nuxt-link>
         <h2>Physical Products</h2>
         <!-- public class PhysicalProductDTO {
     private Long id;

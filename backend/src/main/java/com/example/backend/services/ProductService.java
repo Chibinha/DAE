@@ -54,11 +54,12 @@ public class ProductService {
     @GET
     @Path("/")
     public Response getAll() {
-        if (productBean.getAll().isEmpty()) {
+        List<Product> products = productBean.getAll();
+        if (products.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No products found.").build();
         }
 
-        return Response.ok(toDTOs(productBean.getAll())).build();
+        return Response.ok(toDTOs(products)).build();
     }
 
     // Find

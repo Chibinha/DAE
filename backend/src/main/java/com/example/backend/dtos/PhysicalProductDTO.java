@@ -1,9 +1,10 @@
 package com.example.backend.dtos;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class PhysicalProductDTO {
-    private Long id;
+public class PhysicalProductDTO implements Serializable {
+    private long id;
     private long productId;
     private String productName;
     private String serialNumber;
@@ -12,7 +13,7 @@ public class PhysicalProductDTO {
     public PhysicalProductDTO() {
     }
 
-    public PhysicalProductDTO(Long id, long productId, String productName, String serialNumber, Timestamp stockTimestamp) {
+    public PhysicalProductDTO(long id, long productId, String productName, String serialNumber, Timestamp stockTimestamp) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
@@ -20,11 +21,11 @@ public class PhysicalProductDTO {
         this.stockTimestamp = stockTimestamp;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
