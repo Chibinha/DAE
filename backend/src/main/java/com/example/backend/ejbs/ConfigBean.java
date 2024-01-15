@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
-import jakarta.ejb.Stateless;
 
 import java.util.logging.Logger;
 
@@ -15,7 +14,8 @@ public class ConfigBean {
     private ProductBean productBean;
     @EJB
     private PhysicalProductBean physicalProductBean;
-    //private ClientBean clientBean;
+    @EJB
+    private ClientBean clientBean;
     //private OrderBean orderBean;
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
 
@@ -35,8 +35,8 @@ public class ConfigBean {
             physicalProductBean.create("387654322", 3);
 
 
-            //clientBean.create("joao", "123", "joao", "joao@mail.com");
-            //clientBean.create("bruno", "123", "bruno", "bruno@mail.com");
+            clientBean.create("joao", "123", "joao", "joao@mail.com");
+            clientBean.create("bruno", "123", "bruno", "bruno@mail.com");
             //orderBean.create(1, date.toString(2024.01.11), "Alfredo", "Joaquim", "Delivered");
 
         } catch (Exception e) {
