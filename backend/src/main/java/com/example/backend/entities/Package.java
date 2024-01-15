@@ -23,17 +23,17 @@ public abstract class Package implements Serializable {
     protected int packageType;
     protected String material;
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "package")
-    protected List<Sensor> valores;
+    protected List<Sensor> values;
 
     public Package() {
-        this.valores = new LinkedList<Sensor>();
+        this.values = new LinkedList<Sensor>();
     }
 
     public Package(long id, int tipoEmbalagem, String material) {
         this.id = id;
         this.packageType = tipoEmbalagem;
         this.material = material;
-        this.valores = new LinkedList<Sensor>();
+        this.values = new LinkedList<Sensor>();
     }
 
     public long getId() {
@@ -44,12 +44,12 @@ public abstract class Package implements Serializable {
         this.id = id;
     }
 
-    public List<Sensor> getValores() {
-        return valores;
+    public List<Sensor> getValues() {
+        return values;
     }
 
-    public void setValores(List<Sensor> valores) {
-        this.valores = valores;
+    public void setValues(List<Sensor> values) {
+        this.values = values;
     }
 
     public int getPackageType() {

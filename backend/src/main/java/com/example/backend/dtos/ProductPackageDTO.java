@@ -9,11 +9,11 @@ public class ProductPackageDTO {
     private long id;
     private int packageType;
     private String material;
-    private List<SensorDTO> valores;
+    private List<SensorDTO> values;
     private long product_id;
 
     public ProductPackageDTO() {
-        this.valores = new LinkedList<SensorDTO>();
+        this.values = new LinkedList<SensorDTO>();
     }
 
     public ProductPackageDTO(long id, int packageType, String material, long product_id) {
@@ -21,15 +21,15 @@ public class ProductPackageDTO {
         this.packageType = packageType;
         this.material = material;
         this.product_id = product_id;
-        this.valores = new LinkedList<SensorDTO>();
+        this.values = new LinkedList<SensorDTO>();
     }
 
-    public ProductPackageDTO(long id, int packageType, String material, long product_id, List<SensorDTO> valores) {
+    public ProductPackageDTO(long id, int packageType, String material, long product_id, List<SensorDTO> values) {
         this.id = id;
         this.packageType = packageType;
         this.material = material;
         this.product_id = product_id;
-        this.valores = new LinkedList<SensorDTO>();
+        this.values = new LinkedList<SensorDTO>();
     }
 
     public long getId() {
@@ -56,12 +56,12 @@ public class ProductPackageDTO {
         this.material = material;
     }
 
-    public List<SensorDTO> getValores() {
-        return valores;
+    public List<SensorDTO> getValues() {
+        return values;
     }
 
-    public void setValores(List<SensorDTO> valores) {
-        this.valores = valores;
+    public void setValues(List<SensorDTO> values) {
+        this.values = values;
     }
 
     public long getProductId() {
