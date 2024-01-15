@@ -4,23 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5035b343-e461-478b-90f7-f23c887f9dfb" name="Changes" comment="Fix make deploy">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/nuxt.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/pages/physicalProducts/[id].vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/pages/physicalProducts/create.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/pages/physicalProducts/index.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/pages/products/[id].vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/pages/products/create.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/pages/products/index.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/server/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/tsconfig.json" beforeDir="false" />
+    <list default="true" id="5035b343-e461-478b-90f7-f23c887f9dfb" name="Changes" comment="[Products] Add price and inStock">
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/client/Catalog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/client/Catalog.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +59,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.keymap",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -109,6 +95,7 @@
       <workItem from="1704807934624" duration="92000" />
       <workItem from="1705089284221" duration="6384000" />
       <workItem from="1705329157168" duration="7000000" />
+      <workItem from="1705344410177" duration="1874000" />
     </task>
     <task id="LOCAL-00001" summary="Fix make deploy">
       <option name="closed" value="true" />
@@ -118,7 +105,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705329378037</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="[Products] Add price and inStock">
+      <option name="closed" value="true" />
+      <created>1705346285873</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1705346285873</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,6 +122,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Fix make deploy" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix make deploy" />
+    <MESSAGE value="[Products] Add price and inStock" />
+    <option name="LAST_COMMIT_MESSAGE" value="[Products] Add price and inStock" />
   </component>
 </project>

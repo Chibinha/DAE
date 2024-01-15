@@ -11,6 +11,10 @@
                             <input v-model="productForm.name" type="text">
                         </div>
                         <div>
+                            Price:
+                            <input v-model="productForm.price" type="number">
+                        </div>
+                        <div>
                             Description:
                             <input v-model="productForm.description" type="text">
                         </div>
@@ -35,6 +39,7 @@
                     </div>
                     <div v-if="foundProduct">
                         <p>Product Name: {{ foundProduct.name }}</p>
+                        <p>Product Price: {{ foundProduct.price }}</p>
                         <p>Product Description: {{ foundProduct.description }}</p>
                         <p>Product Weight: {{ foundProduct.weight }}</p>
                         <p>Product Ingredients: {{ foundProduct.ingredients }}</p>
@@ -53,6 +58,9 @@
                     </div>
                     <div>
                         New Name: <input v-model="updateForm.name" type="text">
+                    </div>
+                    <div>
+                        New Price: <input v-model="updateForm.price" type="number">
                     </div>
                     <div>
                         New Description: <input v-model="updateForm.description" type="text">
@@ -83,6 +91,7 @@ import { ref, reactive, inject } from 'vue'
 
 const productForm = reactive({
     name: '',
+    price: 0,
     description: '',
     weight: 0,
     ingredients: ''
@@ -91,6 +100,7 @@ const productForm = reactive({
 const updateForm = reactive({
     id: '',
     name: '',
+    price: 0,
     description: '',
     weight: 0,
     ingredients: ''

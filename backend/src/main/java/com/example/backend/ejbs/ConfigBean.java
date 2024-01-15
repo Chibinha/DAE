@@ -22,9 +22,9 @@ public class ConfigBean {
     @PostConstruct
     public void populateDB() {
         try {
-            productBean.create("Pizza", "Pizza de queijo", 0.5, "Queijo");
-            productBean.create("Hamburger", "Hamburger de carne", 0.5, "Carne");
-            productBean.create("Coca-Cola", "Coca-Cola", 0.5, "Coca-Cola");
+            productBean.create("Pizza", 10, "Pizza de queijo", 0.5, "Queijo");
+            productBean.create("Hamburger", 5, "Hamburger de carne", 0.5, "Carne");
+            productBean.create("Coca-Cola", 1, "Coca-Cola", 0.5, "Coca-Cola");
 
             // public long create(String serialNumber, long productId)
             physicalProductBean.create("123456781", 1);

@@ -64,7 +64,7 @@ onMounted(async () => {
           <div v-for="product in filteredproducts" :key="product.id" class="col-sm-4">
             <div class="card shadow-sm sm-4 mb-4">
               <div class="card-header text-center">
-                <h4>{{ product.name }}</h4>
+                <h4>{{ product.name }}: {{ product.id }}</h4>
               </div>
               <div class="card-body">
                 <h5>Description:</h5>
@@ -74,9 +74,9 @@ onMounted(async () => {
                 <h5>Weight</h5>
                 <p class="card-text">{{ product.weight }}</p>
                 <h5>Stock:</h5>
-                <p class="card-text"> 2</p>
+                <p class="card-text"> {{ product.inStock }}</p>
                 <div class="text-center">
-                  <h5> 10€</h5>
+                  <h5> {{product.price}}€</h5>
                 </div>
                 <!-- Apenas para clientes: INICIO-->
                 <div v-show="userStore.user">
