@@ -2,11 +2,13 @@ package com.example.backend.ejbs;
 
 import com.example.backend.entities.User;
 import com.example.backend.security.Hasher;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.Hibernate;
 
+@Stateless
 public class UserBean {
     @PersistenceContext
     private EntityManager em;
