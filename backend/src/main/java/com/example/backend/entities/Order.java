@@ -2,7 +2,6 @@ package com.example.backend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -20,6 +19,10 @@ import java.util.List;
         )
 })
 public class Order implements Serializable {
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    @NotNull
+    public Client client;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idOrder;
@@ -82,9 +85,13 @@ public class Order implements Serializable {
         this.materialType = materialType;
     }
 
-    public List<PhysicalProduct> getProducts() {
-        return products;
-    }
+//    public List<PhysicalProduct> getProducts() {
+//        return products;
+//    }
+//
+//    public void setProducts(List<PhysicalProduct> products) {
+//        this.products = products;
+//    }
 
     public void setProducts(List<PhysicalProduct> products) {
         this.products = products;

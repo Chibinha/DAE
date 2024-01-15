@@ -1,7 +1,9 @@
 package com.example.backend.dtos;
 
-public class ProductDTO {
-    private Long product_id;
+import java.io.Serializable;
+
+public class ProductDTO implements Serializable {
+    private long id;
     private String name;
     private String description;
     private double weight;
@@ -10,20 +12,20 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
-    public ProductDTO(Long id, String name, String description, double weight) {
-        this.product_id = id;
+    public ProductDTO(long id, String name, String description, double weight, String ingredients) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.weight = weight;
-        this.ingredients = "";
+        this.ingredients = ingredients;
     }
 
-    public Long getProduct_id() {
-        return product_id;
+    public long getId() {
+        return id;
     }
 
-    public void setProduct_id(Long id) {
-        this.product_id = id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

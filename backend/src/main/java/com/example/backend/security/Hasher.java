@@ -1,7 +1,7 @@
 package com.example.backend.security;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import pt.ipleiria.estg.dei.ei.dae.academics.entities.User;
+import com.example.backend.entities.User;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
