@@ -1,16 +1,26 @@
 package com.example.backend.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "product")
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllProducts",
+                query = "SELECT p FROM Product p ORDER BY p.id"
+        )
+})
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long product_id;
+    private long id;
+    @NotNull
     private String name;
     private String description;
     private double weight;
@@ -18,25 +28,36 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product")
     private List<PhysicalProduct> physicalProducts;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "creation_timestamp")
+    @NotNull
+    private Timestamp creationTimestamp;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_timestamp")
+    @NotNull
+    private Timestamp updateTimestamp;
+
     public Product() {
         this.physicalProducts = new ArrayList<>();
     }
 
-    public Product(Long id, String name, String description, double weight) {
-        this.product_id = id;
+    public Product(String name, String description, double weight, String ingredients) {
         this.name = name;
         this.description = description;
         this.weight = weight;
-        this.ingredients = "";
+        this.ingredients = ingredients;
         this.physicalProducts = new ArrayList<>();
+        this.creationTimestamp = new Timestamp(System.currentTimeMillis());
+        this.updateTimestamp = this.creationTimestamp;
     }
 
-    public Long getProduct_id() {
-        return product_id;
+    public long getId() {
+        return id;
     }
 
-    public void setProduct_id(Long product_id) {
-        this.product_id = product_id;
+    public void setId(long product_id) {
+        this.id = product_id;
     }
 
     public String getName() {
@@ -77,5 +98,21 @@ public class Product implements Serializable {
 
     public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
         this.physicalProducts = physicalProducts;
+    }
+
+    public Timestamp getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    public void setCreationTimestamp(Timestamp createdAt) {
+        this.creationTimestamp = createdAt;
+    }
+
+    public Timestamp getUpdateTimestamp() {
+        return updateTimestamp;
+    }
+
+    public void setUpdateTimestamp(Timestamp updatedAt) {
+        this.updateTimestamp = updatedAt;
     }
 }
