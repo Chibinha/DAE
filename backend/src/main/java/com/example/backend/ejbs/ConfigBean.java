@@ -23,6 +23,8 @@ public class ConfigBean {
     @EJB
     private OrderBean orderBean;
     private MakerBean makerBean;
+    @EJB
+    private LineOperatorBean lineOperatorBean;
     //private OrderBean orderBean;
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
 
@@ -52,6 +54,10 @@ public class ConfigBean {
             clientBean.create("bruno", "123", "bruno", "bruno@mail.com");
 
             orderBean.create("Primária", "Papel", "bruno", Collections.singletonMap(1L, 2));
+            lineOperatorBean.create("diogo", "123", "diogo", "diogo@mail.com");
+            lineOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
+
+            //orderBean.create(1, date.toString(2024.01.11), "Alfredo", "Joaquim", "Delivered");
 
         } catch (Exception e) {
             logger.severe(e.getClass().getCanonicalName() + e.getMessage());

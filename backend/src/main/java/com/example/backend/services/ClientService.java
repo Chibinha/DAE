@@ -70,14 +70,14 @@ public class ClientService {
 
 
     @GET // means: to call this endpoint, we need to use the HTTP GET method
-    @Path("/all") // means: the relative url path is “/api/students/”
-    public List<ClientDTO> getAllStudents() {
+    @Path("/all") // means: the relative url path is “/api/clients/”
+    public List<ClientDTO> getAllClients() {
         return toDTOsClient(clientBean.getAllClients());
     }
 
     @POST
     @Path("/")
-    public Response createNewStudent (ClientDTO clientDTO)throws MyEntityExistsException, MyConstraintViolationException {
+    public Response createNewClient (ClientDTO clientDTO)throws MyEntityExistsException, MyConstraintViolationException {
         clientBean.create(
                 clientDTO.getUsername(),
                 clientDTO.getPassword(),
@@ -98,7 +98,7 @@ public class ClientService {
 //        }
         var entity = clientBean.find(username);
         if (entity == null) {
-            var errorMsg = "Student '%s' not found.".formatted(username);
+            var errorMsg = "Client '%s' not found.".formatted(username);
             var status = Response.Status.NOT_FOUND;
             return Response.status(status).entity(errorMsg).build();
         }
