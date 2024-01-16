@@ -19,6 +19,8 @@ public class ConfigBean {
     private ClientBean clientBean;
     @EJB
     private MakerBean makerBean;
+    @EJB
+    private LineOperatorBean lineOperatorBean;
     //private OrderBean orderBean;
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
 
@@ -46,6 +48,9 @@ public class ConfigBean {
 
             clientBean.create("joao", "123", "joao", "joao@mail.com");
             clientBean.create("bruno", "123", "bruno", "bruno@mail.com");
+            lineOperatorBean.create("diogo", "123", "diogo", "diogo@mail.com");
+            lineOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
+
             //orderBean.create(1, date.toString(2024.01.11), "Alfredo", "Joaquim", "Delivered");
 
         } catch (Exception e) {
