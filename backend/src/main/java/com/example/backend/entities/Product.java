@@ -28,7 +28,6 @@ public class Product implements Serializable {
     private String ingredients;
     @OneToMany(mappedBy = "product")
     private List<PhysicalProduct> physicalProducts;
-
     private long inStock;
 
     @Temporal(TemporalType.TIMESTAMP)
