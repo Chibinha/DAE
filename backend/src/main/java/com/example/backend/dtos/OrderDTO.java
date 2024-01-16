@@ -5,35 +5,28 @@ import com.example.backend.entities.PhysicalProduct;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
-public class OrderDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrderDTO implements Serializable {
     private long idOrder;
-    @Temporal(TemporalType.DATE)
-    private Date orderDate;
-    @NotNull
     private String orderType;
     private String materialType;
-    @OneToMany(mappedBy = "product")
-    private List<PhysicalProduct> products;
-    /*//@OneToMany(mappedBy = "observation")
-    //private List<Observation> observation;
-    @OneToMany(mappedBy = "client")
-    private List<Client> client;*/
+    private List<PhysicalProductDTO> products;
+    public Client client;
     public OrderDTO() {
         this.products = new ArrayList<>();
     }
 
-    public OrderDTO(long idOrder, Date orderDate, String orderType, String materialType) {
-        this.idOrder = idOrder;
-        this.orderDate = orderDate;
+    public OrderDTO(String orderType, String materialType, Client client, List<PhysicalProductDTO> products) {
         this.orderType = orderType;
         this.materialType = materialType;
-        this.products = new ArrayList<>();
+        this.client = client;
+        this.products = products;
     }
 
     public long getIdOrder() {
@@ -42,14 +35,6 @@ public class OrderDTO {
 
     public void setIdOrder(long idOrder) {
         this.idOrder = idOrder;
-    }
-
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
     }
 
     public String getOrderType() {
@@ -68,11 +53,19 @@ public class OrderDTO {
         this.materialType = materialType;
     }
 
-    public List<PhysicalProduct> getProducts() {
+    public List<PhysicalProductDTO> getProducts() {
         return products;
     }
 
-    public void setProducts(List<PhysicalProduct> products) {
+    public void setProducts(List<PhysicalProductDTO> products) {
         this.products = products;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

@@ -1,10 +1,13 @@
 package com.example.backend.ejbs;
 
+import com.example.backend.entities.Client;
+import com.example.backend.entities.Product;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
 
+import java.util.Collections;
 import java.util.logging.Logger;
 
 @Singleton
@@ -16,7 +19,8 @@ public class ConfigBean {
     private PhysicalProductBean physicalProductBean;
     @EJB
     private ClientBean clientBean;
-    //private OrderBean orderBean;
+    @EJB
+    private OrderBean orderBean;
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
 
     @PostConstruct
@@ -37,7 +41,8 @@ public class ConfigBean {
 
             clientBean.create("joao", "123", "joao", "joao@mail.com");
             clientBean.create("bruno", "123", "bruno", "bruno@mail.com");
-            //orderBean.create(1, date.toString(2024.01.11), "Alfredo", "Joaquim", "Delivered");
+
+            orderBean.create("Primária", "Papel", "bruno", Collections.singletonMap(1L, 2));
 
         } catch (Exception e) {
             logger.severe(e.getClass().getCanonicalName() + e.getMessage());

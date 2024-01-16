@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(
@@ -19,10 +18,6 @@ import java.util.List;
         )
 })
 public class Order implements Serializable {
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    @NotNull
-    public Client client;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idOrder;
@@ -31,16 +26,21 @@ public class Order implements Serializable {
     @Column(name = "orderType")
     private String orderType;
 
-    @Column(name = "materialType")
-    private String materialType;
-
-    @OneToMany(mappedBy = "product")
-    private List<PhysicalProduct> products;
+    @ElementCollection
+    @CollectionTable(name = "order_product_quantities", joinColumns = @JoinColumn(name = "order_id"))
+    @MapKeyColumn(name = "product_id")
+    @Column(name = "productQuantities")
+    private Map<Long, Integer> productQuantities = new HashMap<>();
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client")
     @NotNull
     public Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "LineOperator")
+    @NotNull
+    public LineOperator lineOperator;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "orderTimestamp")
@@ -48,17 +48,16 @@ public class Order implements Serializable {
     private Timestamp orderTimestamp;
 
     public Order() {
-        this.products = new ArrayList<>();
-        //this.orderTimestamp = new Timestamp(System.currentTimeMillis());
+        this.productQuantities = new HashMap<>();
+        this.orderTimestamp = new Timestamp(System.currentTimeMillis());
     }
 
-    public Order(long idOrder, String orderType, String materialType, Client client) {
-        this.idOrder = idOrder;
+    public Order(String orderType, LineOperator lineOperator,Client client) {
         this.orderType = orderType;
-        this.materialType = materialType;
-        this.products = new ArrayList<>();
+        this.client = client;
+        this.lineOperator = lineOperator;
+        this.productQuantities = new HashMap<>();
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
-        this.client = new Client();
     }
 
     public long getIdOrder() {
@@ -77,24 +76,20 @@ public class Order implements Serializable {
         this.orderType = orderType;
     }
 
-    public String getMaterialType() {
-        return materialType;
+    public LineOperator getLineOperator() {
+        return lineOperator;
     }
 
-    public void setMaterialType(String materialType) {
-        this.materialType = materialType;
+    public void setLineOperator(LineOperator lineOperator) {
+        this.lineOperator = lineOperator;
     }
 
-//    public List<PhysicalProduct> getProducts() {
-//        return products;
-//    }
-//
-//    public void setProducts(List<PhysicalProduct> products) {
-//        this.products = products;
-//    }
+    public Client getClient() {
+        return client;
+    }
 
-    public void setProducts(List<PhysicalProduct> products) {
-        this.products = products;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Timestamp getOrderTimestamp() {
@@ -103,5 +98,31 @@ public class Order implements Serializable {
 
     public void setOrderTimestamp(Timestamp orderTimestamp) {
         this.orderTimestamp = orderTimestamp;
+    }
+
+    public void addProductQuantity(PhysicalProduct physicalProduct, int quantity) {
+        if (physicalProduct != null) {
+
+            Long productId = physicalProduct.getId();
+
+            if (productQuantities.containsKey(productId)) {
+                int existingQuantity = productQuantities.get(productId);
+                productQuantities.put(productId, existingQuantity + quantity);
+            } else {
+                productQuantities.put(productId, quantity);
+            }
+        }
+    }
+
+    public void removeProductQuantity(Long productId) {
+        this.productQuantities.remove(productId);
+    }
+
+    public Map<Long, Integer> getProductQuantities() {
+        return productQuantities;
+    }
+
+    public void setProductQuantities(Map<Long, Integer> productQuantities) {
+        this.productQuantities = productQuantities;
     }
 }
