@@ -32,6 +32,10 @@ public class PhysicalProduct implements Serializable {
     @NotNull
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "stock_timestamp")
     @NotNull
@@ -44,6 +48,8 @@ public class PhysicalProduct implements Serializable {
         this.product = product;
         this.serialNumber = serialNumber;
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
+        this.product.addPhysicalProduct(this);
+        this.order = null;
     }
 
     public long getId() {
@@ -68,6 +74,14 @@ public class PhysicalProduct implements Serializable {
 
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Timestamp getStockTimestamp() {

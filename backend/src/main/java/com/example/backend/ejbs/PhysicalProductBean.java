@@ -1,5 +1,7 @@
 package com.example.backend.ejbs;
 
+import com.example.backend.entities.Maker;
+import com.example.backend.entities.Order;
 import com.example.backend.entities.PhysicalProduct;
 import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyEntityNotFoundException;
@@ -15,12 +17,22 @@ public class PhysicalProductBean {
     private EntityManager entityManager;
     @EJB
     private ProductBean productBean;
+//    @EJB
+//    private OrderBean orderBean;
 
     public boolean exists(Long id) {
         Query query = entityManager.createQuery("SELECT COUNT(p) FROM PhysicalProduct p WHERE p.id = :id");
         query.setParameter("id", id);
         return ((long) query.getSingleResult()) > 0L;
     }
+
+    // set order
+//    public void setOrder(long id, long orderId) throws MyEntityNotFoundException {
+//        Order order = orderBean.find(orderId);
+//        PhysicalProduct physicalProduct = this.find(id);
+//        physicalProduct.setOrder(order);
+//        entityManager.merge(physicalProduct);
+//    }
 
     // CRFUD
 

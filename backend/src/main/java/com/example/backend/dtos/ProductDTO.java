@@ -5,19 +5,27 @@ import java.io.Serializable;
 public class ProductDTO implements Serializable {
     private long id;
     private String name;
+    private double price;
     private String description;
     private double weight;
     private String ingredients;
+    private long inStock;
+
+
+    private String makerName;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(long id, String name, String description, double weight, String ingredients) {
+    public ProductDTO(long id, String name, double price, String description, double weight, String ingredients, long inStock, String makerName) {
         this.id = id;
         this.name = name;
+        this.price = price;
         this.description = description;
         this.weight = weight;
         this.ingredients = ingredients;
+        this.inStock = inStock;
+        this.makerName = makerName;
     }
 
     public long getId() {
@@ -34,6 +42,14 @@ public class ProductDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getDescription() {
@@ -58,5 +74,21 @@ public class ProductDTO implements Serializable {
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public long getInStock() {
+        return inStock;
+    }
+
+    public void setInStock(long inStock) {
+        this.inStock = inStock;
+    }
+
+    public String getMakerName() {
+        return makerName;
+    }
+
+    public void setMakerName(String makerName) {
+        this.makerName = makerName;
     }
 }

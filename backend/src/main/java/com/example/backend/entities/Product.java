@@ -22,11 +22,18 @@ public class Product implements Serializable {
     private long id;
     @NotNull
     private String name;
+    private double price;
     private String description;
     private double weight;
     private String ingredients;
     @OneToMany(mappedBy = "product")
     private List<PhysicalProduct> physicalProducts;
+    private long inStock;
+
+    @ManyToOne
+    @JoinColumn(name = "maker_id")
+    @NotNull
+    private Maker maker;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_timestamp")
@@ -42,12 +49,15 @@ public class Product implements Serializable {
         this.physicalProducts = new ArrayList<>();
     }
 
-    public Product(String name, String description, double weight, String ingredients) {
+    public Product(String name, double price, String description, double weight, String ingredients, Maker maker) {
         this.name = name;
+        this.price = price;
         this.description = description;
         this.weight = weight;
         this.ingredients = ingredients;
+        this.maker = maker;
         this.physicalProducts = new ArrayList<>();
+        this.inStock = 0;
         this.creationTimestamp = new Timestamp(System.currentTimeMillis());
         this.updateTimestamp = this.creationTimestamp;
     }
@@ -66,6 +76,14 @@ public class Product implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getDescription() {
@@ -92,12 +110,39 @@ public class Product implements Serializable {
         this.ingredients = ingredients;
     }
 
+    public Maker getMaker() {
+        return maker;
+    }
+
+    public void setMaker(Maker maker) {
+        this.maker = maker;
+    }
+
     public List<PhysicalProduct> getPhysicalProducts() {
         return physicalProducts;
     }
 
     public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
         this.physicalProducts = physicalProducts;
+        this.inStock = physicalProducts.size();
+    }
+
+    public void addPhysicalProduct(PhysicalProduct physicalProduct) {
+        this.physicalProducts.add(physicalProduct);
+        this.inStock = physicalProducts.size();
+    }
+
+    public void removePhysicalProduct(PhysicalProduct physicalProduct) {
+        this.physicalProducts.remove(physicalProduct);
+        this.inStock = physicalProducts.size();
+    }
+
+    public long getInStock() {
+        return inStock;
+    }
+
+    public void setInStock(long inStock) {
+        this.inStock = inStock;
     }
 
     public Timestamp getCreationTimestamp() {
@@ -115,4 +160,5 @@ public class Product implements Serializable {
     public void setUpdateTimestamp(Timestamp updatedAt) {
         this.updateTimestamp = updatedAt;
     }
+
 }

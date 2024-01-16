@@ -1,6 +1,8 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.entities.Client;
+import com.example.backend.entities.Order;
+import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
@@ -54,7 +56,7 @@ public class ClientBean {
         }
     }
 
-    public void update(String username, String password, String name, String email,long courseCode) {
+    public void update(String username, String password, String name, String email) {
         Client client = entityManager.find(Client.class, username);
         if (client == null) {
             System.err.println("ERROR_CLIENT_NOT_FOUND: " + username);
@@ -85,4 +87,15 @@ public class ClientBean {
         }
         return null;
     }
+
+//    public Client getClientAlerts(String username) {
+//        Client client = this.find(username);
+//        if(client != null)
+//        {
+//            Hibernate.initialize(client.getAlerts());
+//            return this.find(username);
+//        }
+//        return null;
+//    }
+
 }

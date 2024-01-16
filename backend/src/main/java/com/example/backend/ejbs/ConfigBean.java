@@ -2,6 +2,7 @@ package com.example.backend.ejbs;
 
 import com.example.backend.entities.Client;
 import com.example.backend.entities.Product;
+import com.example.backend.entities.Maker;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
@@ -21,14 +22,22 @@ public class ConfigBean {
     private ClientBean clientBean;
     @EJB
     private OrderBean orderBean;
+    private MakerBean makerBean;
+    //private OrderBean orderBean;
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
 
     @PostConstruct
     public void populateDB() {
         try {
-            productBean.create("Pizza", "Pizza de queijo", 0.5, "Queijo");
-            productBean.create("Hamburger", "Hamburger de carne", 0.5, "Carne");
-            productBean.create("Coca-Cola", "Coca-Cola", 0.5, "Coca-Cola");
+            //String username, String password, String name, String email
+            makerBean.create("maker1", "123", "maker1", "maker1@mail.pt");
+            makerBean.create("maker2", "123", "maker2", "maker2@mail.pt");
+            makerBean.create("maker3", "123", "maker3", "maker3@mail.pt");
+
+            productBean.create("Pizza", 10, "Pizza de queijo", 0.5, "Queijo", "maker1");
+            productBean.create("Hamburger", 5, "Hamburger de carne", 0.5, "Carne", "maker2");
+            productBean.create("Coca-Cola", 1, "Coca-Cola", 0.5, "Coca-Cola", "maker3");
+
 
             // public long create(String serialNumber, long productId)
             physicalProductBean.create("123456781", 1);
