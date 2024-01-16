@@ -23,9 +23,11 @@ public class ProductService {
         return new ProductDTO(
                 product.getId(),
                 product.getName(),
+                product.getPrice(),
                 product.getDescription(),
                 product.getWeight(),
-                product.getIngredients()
+                product.getIngredients(),
+                product.getInStock()
         );
     }
 
@@ -39,6 +41,7 @@ public class ProductService {
     public Response create(ProductDTO productDTO) throws MyEntityNotFoundException {
         long id = productBean.create(
                 productDTO.getName(),
+                productDTO.getPrice(),
                 productDTO.getDescription(),
                 productDTO.getWeight(),
                 productDTO.getIngredients()

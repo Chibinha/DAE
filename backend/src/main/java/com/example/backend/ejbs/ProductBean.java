@@ -24,8 +24,8 @@ public class ProductBean {
 
     // CRUD
     // Create
-    public long create(String name, String description, double weight, String ingredients) {
-        Product product = new Product(name, description, weight, ingredients);
+    public long create(String name,double price, String description, double weight, String ingredients) {
+        Product product = new Product(name, price, description, weight, ingredients);
         entityManager.persist(product);
 
         return product.getId();

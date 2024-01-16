@@ -44,6 +44,7 @@ public class PhysicalProduct implements Serializable {
         this.product = product;
         this.serialNumber = serialNumber;
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
+        this.product.addPhysicalProduct(this);
     }
 
     public long getId() {
