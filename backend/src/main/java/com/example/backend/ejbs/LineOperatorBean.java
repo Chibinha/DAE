@@ -5,6 +5,7 @@ import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.security.Hasher;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
@@ -12,7 +13,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.hibernate.Hibernate;
 
 import java.util.List;
-
+@Stateless
 public class LineOperatorBean {
 
     @PersistenceContext

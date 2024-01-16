@@ -50,7 +50,6 @@ public class ConfigBean {
             clientBean.create("bruno", "123", "bruno", "bruno@mail.com");
             lineOperatorBean.create("diogo", "123", "diogo", "diogo@mail.com");
             lineOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
-            lineOperatorBean.create("joao", "123", "joao", "joao@mail.com");
 
             //orderBean.create(1, date.toString(2024.01.11), "Alfredo", "Joaquim", "Delivered");
 
