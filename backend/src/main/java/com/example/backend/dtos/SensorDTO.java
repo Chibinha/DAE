@@ -1,18 +1,26 @@
 package com.example.backend.dtos;
 
 public class SensorDTO {
+    private long id;
     protected String name;
-    protected String sensorType;
-    protected String unit;
+    protected String type;
 
     public SensorDTO() {
 
     }
 
-    public SensorDTO(String name, String sensorType, String unit) {
+    public SensorDTO(long id, String name, String type) {
+        this.id = id;
         this.name = name;
-        this.sensorType = sensorType;
-        this.unit = unit;
+        this.type = type;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -23,19 +31,12 @@ public class SensorDTO {
         this.name = name;
     }
 
-    public String getSensorType() {
-        return sensorType;
+    public String getType() {
+        return type;
     }
 
-    public void setSensorType(String sensorType) {
-        this.sensorType = sensorType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
 }

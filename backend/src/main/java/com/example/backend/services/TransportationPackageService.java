@@ -1,12 +1,8 @@
 package com.example.backend.services;
 
-import com.example.backend.dtos.ProductPackageDTO;
 import com.example.backend.dtos.SensorDTO;
 import com.example.backend.dtos.TransportationPackageDTO;
-import com.example.backend.ejbs.ProductPackageBean;
 import com.example.backend.ejbs.TransportationPackageBean;
-import com.example.backend.entities.Order;
-import com.example.backend.entities.ProductPackage;
 import com.example.backend.entities.Sensor;
 import com.example.backend.entities.TransportationPackage;
 import com.example.backend.exceptions.MyConstraintViolationException;
@@ -45,8 +41,7 @@ public class TransportationPackageService {
                 transportationPackage.getId(),
                 transportationPackage.getPackageType(),
                 transportationPackage.getMaterial(),
-                transportationPackage.getOrder().getIdOrder(),
-                sensorToDTOs(transportationPackage.getValues())
+                transportationPackage.getOrder().getIdOrder()
         );
     }
 
@@ -56,9 +51,9 @@ public class TransportationPackageService {
 
     private SensorDTO toDTO(Sensor sensor) {
         return new SensorDTO(
+                sensor.getId(),
                 sensor.getName(),
-                sensor.getSensorType(),
-                sensor.getUnit()
+                sensor.getType()
         );
     }
 
@@ -97,14 +92,14 @@ public class TransportationPackageService {
                 .build();
     }
 
-    @GET
-    @Path("{id}/order")
-    public Response getTransportationPackageSensorValues(@PathParam("id") long id) {
-        TransportationPackage transportationPackage = transportationPackageBean.find(id);
-        if (transportationPackage != null) {
-            List<SensorDTO> dtos = sensorToDTOs(transportationPackage.getValues());
-            return Response.ok(dtos).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND).entity("ERROR_FINDING_TRANSPORTATION_PACKAGE").build();
-    }
+//    @GET
+//    @Path("{id}/order")
+//    public Response getTransportationPackageSensorValues(@PathParam("id") long id) {
+//        TransportationPackage transportationPackage = transportationPackageBean.find(id);
+//        if (transportationPackage != null) {
+//            List<SensorDTO> dtos = sensorToDTOs(transportationPackage.getSensor());
+//            return Response.ok(dtos).build();
+//        }
+//        return Response.status(Response.Status.NOT_FOUND).entity("ERROR_FINDING_TRANSPORTATION_PACKAGE").build();
+//    }
 }

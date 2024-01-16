@@ -28,8 +28,12 @@ public class Product implements Serializable {
     private String ingredients;
     @OneToMany(mappedBy = "product")
     private List<PhysicalProduct> physicalProducts;
-
     private long inStock;
+
+    @ManyToOne
+    @JoinColumn(name = "maker_id")
+    @NotNull
+    private Maker maker;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_timestamp")
@@ -45,12 +49,13 @@ public class Product implements Serializable {
         this.physicalProducts = new ArrayList<>();
     }
 
-    public Product(String name, double price, String description, double weight, String ingredients) {
+    public Product(String name, double price, String description, double weight, String ingredients, Maker maker) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.weight = weight;
         this.ingredients = ingredients;
+        this.maker = maker;
         this.physicalProducts = new ArrayList<>();
         this.inStock = 0;
         this.creationTimestamp = new Timestamp(System.currentTimeMillis());
@@ -103,6 +108,14 @@ public class Product implements Serializable {
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public Maker getMaker() {
+        return maker;
+    }
+
+    public void setMaker(Maker maker) {
+        this.maker = maker;
     }
 
     public List<PhysicalProduct> getPhysicalProducts() {

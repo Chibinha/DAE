@@ -1,6 +1,7 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.dtos.ProductDTO;
+import com.example.backend.entities.Maker;
 import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.Stateless;
@@ -24,8 +25,10 @@ public class ProductBean {
 
     // CRUD
     // Create
-    public long create(String name,double price, String description, double weight, String ingredients) {
-        Product product = new Product(name, price, description, weight, ingredients);
+    public long create(String name,double price, String description, double weight, String ingredients, String makerName) {
+        Maker maker = entityManager.find(Maker.class, makerName);
+
+        Product product = new Product(name, price, description, weight, ingredients, maker);
         entityManager.persist(product);
 
         return product.getId();

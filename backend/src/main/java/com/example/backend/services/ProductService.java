@@ -27,7 +27,8 @@ public class ProductService {
                 product.getDescription(),
                 product.getWeight(),
                 product.getIngredients(),
-                product.getInStock()
+                product.getInStock(),
+                product.getMaker().getUsername()
         );
     }
 
@@ -44,7 +45,8 @@ public class ProductService {
                 productDTO.getPrice(),
                 productDTO.getDescription(),
                 productDTO.getWeight(),
-                productDTO.getIngredients()
+                productDTO.getIngredients(),
+                productDTO.getMakerName()
         );
         Product newProduct = productBean.find(id);
         if (newProduct == null) {

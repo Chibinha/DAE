@@ -1,25 +1,51 @@
 package com.example.backend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "sensor")
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllSensors",
+                query = "SELECT s FROM Sensor s ORDER BY s.id"
+        )
+})
 public class Sensor implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
-    private String sensorType;
-    private String unit;
+    private String type;
+
+    @OneToMany(mappedBy = "sensor")
+    private List<Observation> observations;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     public Sensor() {
-
+        this.observations = new ArrayList<>();
     }
 
-    public Sensor(String name, String sensorType, String unit) {
+    public Sensor(int id, String name, String type, Order order) {
+        this.id = id;
         this.name = name;
-        this.sensorType = sensorType;
-        this.unit = unit;
+        this.type = type;
+        this.observations = new ArrayList<>();
+        this.order = order;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -30,19 +56,27 @@ public class Sensor implements Serializable {
         this.name = name;
     }
 
-    public String getSensorType() {
-        return sensorType;
+    public String getType() {
+        return type;
     }
 
-    public void setSensorType(String sensorType) {
-        this.sensorType = sensorType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getUnit() {
-        return unit;
+    public List<Observation> getObservations() {
+        return observations;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setObservations(List<Observation> observations) {
+        this.observations = observations;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
