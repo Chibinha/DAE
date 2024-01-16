@@ -1,29 +1,35 @@
 package com.example.backend.dtos;
 
-public class ProductDTO {
-    private Long product_id;
+import java.io.Serializable;
+
+public class ProductDTO implements Serializable {
+    private long id;
     private String name;
+    private double price;
     private String description;
     private double weight;
     private String ingredients;
+    private long inStock;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(Long id, String name, String description, double weight) {
-        this.product_id = id;
+    public ProductDTO(long id, String name, double price, String description, double weight, String ingredients, long inStock) {
+        this.id = id;
         this.name = name;
+        this.price = price;
         this.description = description;
         this.weight = weight;
-        this.ingredients = "";
+        this.ingredients = ingredients;
+        this.inStock = inStock;
     }
 
-    public Long getProduct_id() {
-        return product_id;
+    public long getId() {
+        return id;
     }
 
-    public void setProduct_id(Long id) {
-        this.product_id = id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -32,6 +38,14 @@ public class ProductDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getDescription() {
@@ -56,5 +70,13 @@ public class ProductDTO {
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public long getInStock() {
+        return inStock;
+    }
+
+    public void setInStock(long inStock) {
+        this.inStock = inStock;
     }
 }
