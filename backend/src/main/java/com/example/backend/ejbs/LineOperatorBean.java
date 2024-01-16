@@ -30,7 +30,6 @@ public class LineOperatorBean {
 
     public LineOperator find(String username) {
         return entityManager.find(LineOperator.class, username);
-
     }
 
     public void create(String username, String password, String name, String email) throws MyEntityExistsException, MyConstraintViolationException {
@@ -56,7 +55,7 @@ public class LineOperatorBean {
     public void update(String username, String password, String name, String email) {
         LineOperator lineOperator = entityManager.find(LineOperator.class, username);
         if (lineOperator == null) {
-            System.err.println("ERROR_CLIENT_NOT_FOUND: " + username);
+            System.err.println("ERROR_LINEOPERATOR_NOT_FOUND: " + username);
             return;
         }
         entityManager.lock(lineOperator, LockModeType.OPTIMISTIC);
