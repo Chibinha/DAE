@@ -25,6 +25,7 @@ public class OrderBean {
     private EntityManager entityManager;
     @EJB
     private ClientBean clientBean;
+    private LineOperatorBean lineOperatorBean;
 
     //CRUFD
    /* public Order find(long idOrder) {
@@ -33,13 +34,14 @@ public class OrderBean {
 
     public void create(String orderType, String lineOperator_username, String client_username, Map<Long, Integer> products) throws MyConstraintViolationException, MyEntityNotFoundException {
         Client client = clientBean.find(client_username);
+        LineOperator lineOperator = lineOperatorBean.find(lineOperator_username);
         if(client == null)
             throw new MyEntityNotFoundException("Client with username '" + client_username + "' not found");
 
         Order order = null;
 
         try {
-            order = new Order(orderType, lineOperator_username, client);
+            order = new Order(orderType, lineOperator, client);
             entityManager.persist(order);
             entityManager.flush();
         }
