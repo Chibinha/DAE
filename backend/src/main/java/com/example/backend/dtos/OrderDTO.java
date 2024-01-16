@@ -1,10 +1,12 @@
 package com.example.backend.dtos;
 
 import com.example.backend.entities.Client;
+import com.example.backend.entities.LineOperator;
 import com.example.backend.entities.PhysicalProduct;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import javax.sound.sampled.Line;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,16 +17,16 @@ import java.util.List;
 public class OrderDTO implements Serializable {
     private long idOrder;
     private String orderType;
-    private String materialType;
+    private LineOperator lineOperator;
     private List<PhysicalProductDTO> products;
     public Client client;
     public OrderDTO() {
         this.products = new ArrayList<>();
     }
 
-    public OrderDTO(String orderType, String materialType, Client client, List<PhysicalProductDTO> products) {
+    public OrderDTO(String orderType, LineOperator lineOperator, Client client, List<PhysicalProductDTO> products) {
         this.orderType = orderType;
-        this.materialType = materialType;
+        this.lineOperator = lineOperator;
         this.client = client;
         this.products = products;
     }
@@ -45,12 +47,12 @@ public class OrderDTO implements Serializable {
         this.orderType = orderType;
     }
 
-    public String getMaterialType() {
-        return materialType;
+    public LineOperator getLineOperator() {
+        return lineOperator;
     }
 
-    public void setMaterialType(String materialType) {
-        this.materialType = materialType;
+    public void setLineOperator(LineOperator lineOperator) {
+        this.lineOperator = lineOperator;
     }
 
     public List<PhysicalProductDTO> getProducts() {

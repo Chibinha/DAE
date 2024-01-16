@@ -9,7 +9,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5035b343-e461-478b-90f7-f23c887f9dfb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/OrderDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/OrderDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/LineOperatorBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/LineOperatorBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/OrderBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/OrderBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/LineOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/LineOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/OrderService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

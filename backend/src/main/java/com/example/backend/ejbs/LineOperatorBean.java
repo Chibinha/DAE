@@ -23,7 +23,7 @@ public class LineOperatorBean {
     public LineOperator find(long id) throws MyEntityNotFoundException {
         LineOperator lineOperator = entityManager.find(LineOperator.class, id);
         if (lineOperator == null) {
-            throw new MyEntityNotFoundException("Client with id " + id + " not found");
+            throw new MyEntityNotFoundException("Line Operator with id " + id + " not found");
         }
         return lineOperator;
     }

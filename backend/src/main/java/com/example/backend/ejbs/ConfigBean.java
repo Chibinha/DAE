@@ -1,7 +1,5 @@
 package com.example.backend.ejbs;
 
-import com.example.backend.entities.Client;
-import com.example.backend.entities.Product;
 import com.example.backend.entities.Maker;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
@@ -21,11 +19,12 @@ public class ConfigBean {
     @EJB
     private ClientBean clientBean;
     @EJB
-    private OrderBean orderBean;
     private MakerBean makerBean;
     @EJB
     private LineOperatorBean lineOperatorBean;
-    //private OrderBean orderBean;
+    @EJB
+    private OrderBean orderBean;
+
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
 
     @PostConstruct
@@ -52,10 +51,10 @@ public class ConfigBean {
 
             clientBean.create("joao", "123", "joao", "joao@mail.com");
             clientBean.create("bruno", "123", "bruno", "bruno@mail.com");
-
-            orderBean.create("Primária", "Papel", "bruno", Collections.singletonMap(1L, 2));
             lineOperatorBean.create("diogo", "123", "diogo", "diogo@mail.com");
             lineOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
+
+            orderBean.create("Primária", "marco", "bruno", Collections.singletonMap(1L, 2));
 
             //orderBean.create(1, date.toString(2024.01.11), "Alfredo", "Joaquim", "Delivered");
 

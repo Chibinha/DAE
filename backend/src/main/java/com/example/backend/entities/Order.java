@@ -38,7 +38,7 @@ public class Order implements Serializable {
     public Client client;
 
     @ManyToOne
-    @JoinColumn(name = "LineOperator")
+    @JoinColumn(name = "lineOperator")
     @NotNull
     public LineOperator lineOperator;
 

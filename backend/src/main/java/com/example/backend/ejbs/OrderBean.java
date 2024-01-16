@@ -37,6 +37,8 @@ public class OrderBean {
         LineOperator lineOperator = lineOperatorBean.find(lineOperator_username);
         if(client == null)
             throw new MyEntityNotFoundException("Client with username '" + client_username + "' not found");
+        if(lineOperator == null)
+            throw new MyEntityNotFoundException("Line Operator with username '" + lineOperator_username + "' not found");
 
         Order order = null;
 
