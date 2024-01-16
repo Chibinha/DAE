@@ -5,17 +5,14 @@ import com.example.backend.dtos.SensorDTO;
 import com.example.backend.ejbs.ProductPackageBean;
 import com.example.backend.entities.ProductPackage;
 import com.example.backend.entities.Sensor;
-import com.example.backend.entities.TransportationPackage;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,8 +41,7 @@ public class ProductPackageService {
                 productPackage.getId(),
                 productPackage.getPackageType(),
                 productPackage.getMaterial(),
-                productPackage.getProduct().getId(),
-                sensorToDTOs(productPackage.getValues())
+                productPackage.getProduct().getId()
         );
     }
 
@@ -55,9 +51,10 @@ public class ProductPackageService {
 
     private SensorDTO toDTO(Sensor sensor) {
         return new SensorDTO(
+                sensor.getId(),
                 sensor.getName(),
-                sensor.getSensorType(),
-                sensor.getUnit()
+                sensor.getType()
+
         );
     }
 
@@ -95,14 +92,14 @@ public class ProductPackageService {
                 .build();
     }
 
-    @GET
-    @Path("{id}/order")
-    public Response getTransportationPackageSensorValues(@PathParam("id") long id) {
-        ProductPackage productPackage = productPackageBean.find(id);
-        if (productPackage != null) {
-            List<SensorDTO> dtos = sensorToDTOs(productPackage.getValues());
-            return Response.ok(dtos).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND).entity("ERROR_FINDING_PRODUCT_PACKAGE").build();
-    }
+//    @GET
+//    @Path("{id}/order")
+//    public Response getTransportationPackageSensorValues(@PathParam("id") long id) {
+//        ProductPackage productPackage = productPackageBean.find(id);
+//        if (productPackage != null) {
+//            List<SensorDTO> dtos = sensorToDTOs(productPackage.getSensor());
+//            return Response.ok(dtos).build();
+//        }
+//        return Response.status(Response.Status.NOT_FOUND).entity("ERROR_FINDING_PRODUCT_PACKAGE").build();
+//    }
 }

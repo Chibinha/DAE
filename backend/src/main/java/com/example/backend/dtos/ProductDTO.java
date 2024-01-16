@@ -11,10 +11,13 @@ public class ProductDTO implements Serializable {
     private String ingredients;
     private long inStock;
 
+
+    private String makerName;
+
     public ProductDTO() {
     }
 
-    public ProductDTO(long id, String name, double price, String description, double weight, String ingredients, long inStock) {
+    public ProductDTO(long id, String name, double price, String description, double weight, String ingredients, long inStock, String makerName) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -22,6 +25,7 @@ public class ProductDTO implements Serializable {
         this.weight = weight;
         this.ingredients = ingredients;
         this.inStock = inStock;
+        this.makerName = makerName;
     }
 
     public long getId() {
@@ -78,5 +82,13 @@ public class ProductDTO implements Serializable {
 
     public void setInStock(long inStock) {
         this.inStock = inStock;
+    }
+
+    public String getMakerName() {
+        return makerName;
+    }
+
+    public void setMakerName(String makerName) {
+        this.makerName = makerName;
     }
 }

@@ -3,6 +3,7 @@ package com.example.backend.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,18 +23,14 @@ public abstract class Package implements Serializable {
     protected long id;
     protected int packageType;
     protected String material;
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "package")
-    protected List<Sensor> values;
 
     public Package() {
-        this.values = new LinkedList<Sensor>();
     }
 
     public Package(long id, int tipoEmbalagem, String material) {
         this.id = id;
         this.packageType = tipoEmbalagem;
         this.material = material;
-        this.values = new LinkedList<Sensor>();
     }
 
     public long getId() {
@@ -42,14 +39,6 @@ public abstract class Package implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public List<Sensor> getValues() {
-        return values;
-    }
-
-    public void setValues(List<Sensor> values) {
-        this.values = values;
     }
 
     public int getPackageType() {

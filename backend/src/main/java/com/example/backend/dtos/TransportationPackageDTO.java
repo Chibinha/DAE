@@ -7,27 +7,15 @@ public class TransportationPackageDTO {
     protected long id;
     protected int packageType;
     protected String material;
-    protected List<SensorDTO> values;
     protected long order_id;
 
-    public TransportationPackageDTO() {
-        this.values = new LinkedList<SensorDTO>();
-    }
+    public TransportationPackageDTO() {}
 
     public TransportationPackageDTO(long id, int packageType, String material, long order_id) {
         this.id = id;
         this.packageType = packageType;
         this.material = material;
-        this.values = new LinkedList<SensorDTO>();
         this.order_id = order_id;
-    }
-
-    public TransportationPackageDTO(long id, int packageType, String material, long order_id, List<SensorDTO> values) {
-        this.id = id;
-        this.packageType = packageType;
-        this.material = material;
-        this.order_id = order_id;
-        this.values = new LinkedList<SensorDTO>();
     }
 
     public long getId() {
@@ -53,15 +41,6 @@ public class TransportationPackageDTO {
     public void setMaterial(String material) {
         this.material = material;
     }
-
-    public List<SensorDTO> getValues() {
-        return values;
-    }
-
-    public void setValues(List<SensorDTO> values) {
-        this.values = values;
-    }
-
 
     public long getOrderId() {
         return order_id;
