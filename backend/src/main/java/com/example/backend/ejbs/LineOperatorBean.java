@@ -1,13 +1,10 @@
 package com.example.backend.ejbs;
 
-import com.example.backend.entities.Client;
-import com.example.backend.entities.Order;
-import com.example.backend.entities.Product;
+import com.example.backend.entities.LineOperator;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.security.Hasher;
-import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
@@ -16,23 +13,22 @@ import org.hibernate.Hibernate;
 
 import java.util.List;
 
-@Stateless
-public class ClientBean {
+public class LineOperatorBean {
 
     @PersistenceContext
     private EntityManager entityManager;
     private Hasher hasher;
 
-    public Client find(long id) throws MyEntityNotFoundException {
-        Client client = entityManager.find(Client.class, id);
-        if (client == null) {
+    public LineOperator find(long id) throws MyEntityNotFoundException {
+        LineOperator lineOperator = entityManager.find(LineOperator.class, id);
+        if (lineOperator == null) {
             throw new MyEntityNotFoundException("Client with id " + id + " not found");
         }
-        return client;
+        return lineOperator;
     }
 
-    public Client find(String username) {
-        return entityManager.find(Client.class, username);
+    public LineOperator find(String username) {
+        return entityManager.find(LineOperator.class, username);
 
     }
 
@@ -42,10 +38,10 @@ public class ClientBean {
         {
             try {
                 hasher = new Hasher();
-                Client client = new Client(username, hasher.hash(password), name, email);
-                entityManager.persist(client);
+                LineOperator lineOperator = new LineOperator(username, hasher.hash(password), name, email);
+                entityManager.persist(lineOperator);
                 entityManager.flush(); // when using Hibernate, to force it to throw a ContraintViolationException, as in the JPA specification
-                entityManager.persist(client);
+                entityManager.persist(lineOperator);
             }
             catch (ConstraintViolationException e) {
                 throw new MyConstraintViolationException(e);
@@ -57,45 +53,33 @@ public class ClientBean {
     }
 
     public void update(String username, String password, String name, String email) {
-        Client client = entityManager.find(Client.class, username);
-        if (client == null) {
+        LineOperator lineOperator = entityManager.find(LineOperator.class, username);
+        if (lineOperator == null) {
             System.err.println("ERROR_CLIENT_NOT_FOUND: " + username);
             return;
         }
-        entityManager.lock(client, LockModeType.OPTIMISTIC);
-        client.setPassword(password);
-        client.setName(name);
-        client.setEmail(email);
+        entityManager.lock(lineOperator, LockModeType.OPTIMISTIC);
+        lineOperator.setPassword(password);
+        lineOperator.setName(name);
+        lineOperator.setEmail(email);
     }
 
     public void delete(long id) throws MyEntityNotFoundException{
         entityManager.remove(find(id));
     }
 
-    public List<Client> getAllClients() {
-        return entityManager.createNamedQuery("getAllClients", Client.class).getResultList();
+    public List<LineOperator> getAllLineOperators() {
+        return entityManager.createNamedQuery("getAllLineOperators", LineOperator.class).getResultList();
     }
 
 
-
-    public Client getClientOrders(String username) {
-        Client client = this.find(username);
-        if(client != null)
+    public LineOperator getLineOperatorOrders(String username) {
+        LineOperator lineOperator = this.find(username);
+        if(lineOperator != null)
         {
-            Hibernate.initialize(client.getOrders());
+//            Hibernate.initialize(lineOperator.getOrders());
             return this.find(username);
         }
         return null;
     }
-
-//    public Client getClientAlerts(String username) {
-//        Client client = this.find(username);
-//        if(client != null)
-//        {
-//            Hibernate.initialize(client.getAlerts());
-//            return this.find(username);
-//        }
-//        return null;
-//    }
-
 }

@@ -1,9 +1,6 @@
 package com.example.backend.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.ws.rs.Encoded;
-import com.example.backend.entities.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +16,18 @@ public class Client extends User {
     @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
     private List<Order> orders;
 
+//    @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
+//    private List<Alert> alerts;
+
     public Client(String username, String password, String name, String email) {
         super(username, password, name, email);
         this.orders = new ArrayList<Order>();
+//        this.alerts = new ArrayList<Alert>();
     }
 
     public Client() {
         this.orders = new ArrayList<Order>();
+//        this.alerts = new ArrayList<Alert>();
     }
 
     public List<Order> getOrders() {
@@ -41,4 +43,8 @@ public class Client extends User {
         if(order!= null)
             this.orders.remove(order);
     }
+
+//    public List<Alert> getAlerts() {
+//        return alerts;
+//    }
 }
