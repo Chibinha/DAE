@@ -23,8 +23,8 @@ public class TransportationPackageBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @EJB
-    private OrderBean orderBean;
+//    @EJB
+//    private OrderBean orderBean;
 
     public boolean exists(long id) {
         Query query = entityManager.createQuery(

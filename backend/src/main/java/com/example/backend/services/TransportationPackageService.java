@@ -1,4 +1,4 @@
-package com.example.backend.ws;
+package com.example.backend.services;
 
 import com.example.backend.dtos.ProductPackageDTO;
 import com.example.backend.dtos.SensorDTO;
@@ -32,7 +32,7 @@ public class TransportationPackageService {
                 transportationPackage.getId(),
                 transportationPackage.getPackageType(),
                 transportationPackage.getMaterial(),
-                transportationPackage.getOrder().getIdEncomenda()
+                transportationPackage.getOrder().getIdOrder()
         );
     }
 
@@ -45,7 +45,7 @@ public class TransportationPackageService {
                 transportationPackage.getId(),
                 transportationPackage.getPackageType(),
                 transportationPackage.getMaterial(),
-                transportationPackage.getOrder().getIdEncomenda(),
+                transportationPackage.getOrder().getIdOrder(),
                 sensorToDTOs(transportationPackage.getValues())
         );
     }

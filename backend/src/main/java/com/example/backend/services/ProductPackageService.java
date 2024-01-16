@@ -1,4 +1,4 @@
-package com.example.backend.ws;
+package com.example.backend.services;
 
 import com.example.backend.dtos.ProductPackageDTO;
 import com.example.backend.dtos.SensorDTO;

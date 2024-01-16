@@ -14,7 +14,7 @@ public class TransportationPackageDTO {
         this.values = new LinkedList<SensorDTO>();
     }
 
-    public TransportationPackageDTO(long id, int packageType, String material, int order_id) {
+    public TransportationPackageDTO(long id, int packageType, String material, long order_id) {
         this.id = id;
         this.packageType = packageType;
         this.material = material;
