@@ -7,19 +7,27 @@ public class TransportationPackageDTO {
     protected long id;
     protected int packageType;
     protected String material;
-    protected List<SensorDTO> valores;
-    protected OrderDTO order;
+    protected List<SensorDTO> values;
+    protected long order_id;
 
     public TransportationPackageDTO() {
-        this.valores = new LinkedList<SensorDTO>();
+        this.values = new LinkedList<SensorDTO>();
     }
 
-    public TransportationPackageDTO(long id, int packageType, String material, OrderDTO order) {
+    public TransportationPackageDTO(long id, int packageType, String material, int order_id) {
         this.id = id;
         this.packageType = packageType;
         this.material = material;
-        this.valores = new LinkedList<SensorDTO>();
-        this.order = order;
+        this.values = new LinkedList<SensorDTO>();
+        this.order_id = order_id;
+    }
+
+    public TransportationPackageDTO(long id, int packageType, String material, long order_id, List<SensorDTO> values) {
+        this.id = id;
+        this.packageType = packageType;
+        this.material = material;
+        this.order_id = order_id;
+        this.values = new LinkedList<SensorDTO>();
     }
 
     public long getId() {
@@ -46,20 +54,20 @@ public class TransportationPackageDTO {
         this.material = material;
     }
 
-    public List<SensorDTO> getValores() {
-        return valores;
+    public List<SensorDTO> getValues() {
+        return values;
     }
 
-    public void setValores(List<SensorDTO> valores) {
-        this.valores = valores;
+    public void setValues(List<SensorDTO> values) {
+        this.values = values;
     }
 
 
-    public OrderDTO getOrder() {
-        return order;
+    public long getOrderId() {
+        return order_id;
     }
 
-    public void setOrder(OrderDTO order) {
-        this.order = order;
+    public void setOrderId(long order_id) {
+        this.order_id = order_id;
     }
 }
