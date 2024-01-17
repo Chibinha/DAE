@@ -9,6 +9,7 @@ import com.example.backend.ejbs.ClientBean;
 import com.example.backend.entities.Alert;
 import com.example.backend.entities.Client;
 import com.example.backend.entities.Order;
+import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
@@ -76,8 +77,13 @@ public class ClientService {
     @GET
     @Path("{username}/orders")
     public Response getClientOrders(@PathParam("username") String username) {
-        var client = clientBean.getClientOrders(username);
-        return Response.ok(dtoConverter.orderToDTOList(client.getOrders())).build();
+        if(username.equals("anonymous"))
+            return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
+        else
+        {
+            var client = clientBean.getClientOrders(username);
+            return Response.ok(dtoConverter.orderToDTOList(client.getOrders())).build();
+        }
     }
 
     @GET
@@ -86,4 +92,25 @@ public class ClientService {
         List<Alert> alerts = alertBean.getUserAlerts(username);
         return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
+        
+
+//    @GET
+//    @Path("{username}/orders/{index}")
+//    public Response getClientOrders(@PathParam("username") String username, @PathParam("index") int index) {
+//        var client = clientBean.getClientOrders(username);
+//        var orders = client.getOrders();
+//        var dtos = toDTO(orders.get(index));
+//        return Response.ok(dtos).build();
+//    }
+
+//    @GET
+//    @Path("{username}/alerts")
+//    public Response getClientAlerts(@PathParam("username") String username) {
+//        var client = clientBean.getClientAlerts(username);
+//        var dtos = toDTOsAlert(client.getAlerts());
+//        return Response.ok(dtos).build();
+//    }
+
+
+
 }

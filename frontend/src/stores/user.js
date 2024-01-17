@@ -1,44 +1,53 @@
-import { ref, inject } from 'vue'
+import { ref, computed, inject } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
     const axios = inject('axios')
+    const serverBaseUrl = inject('serverBaseUrl')
 
     const user = ref(null)
-    
-    async function loadUser () {
+
+    const username = computed(() => user.value?.username ?? 'bruno')
+
+    const userType = computed(() => user.value?.dtype ?? 'V')
+
+    async function loadUser() {
         try {
-            const response = await axios.get(' ... ')
+            const response = await axios.get('auth/me')
             user.value = response.data.data
         } catch (error) {
-            clearUser () 
+            clearUser()
             throw error
         }
     }
-    
-    function clearUser () {
+
+
+    function clearUser() {
         delete axios.defaults.headers.common.Authorization
         sessionStorage.removeItem('token')
         user.value = null
-    }  
-    
-    async function login (credentials) {
+    }
+
+    async function login(credentials) {
         try {
-            const response = await axios.post('login', credentials)
-            // axios.defaults.headers.common.Authorization = "Bearer " + response.data.access_token
+            console.log(credentials)
+            const response = await axios.post('auth/login', credentials)
+            axios.defaults.headers.common.Authorization = "Bearer " + response.data.access_token
             sessionStorage.setItem('token', response.data.access_token)
             await loadUser()
-            return true       
-        } 
+            socket.emit('loggedIn', user.value)
+            return true
+        }
         catch(error) {
             clearUser()
             return false
         }
     }
-    
+
     async function logout () {
         try {
-            await axios.post('logout')
+            await axios.post('auth/logout')
+            socket.emit('loggedOut', user.value)
             clearUser()
             return true
         } catch (error) {
@@ -46,16 +55,27 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
+
     async function restoreToken () {
         let storedToken = sessionStorage.getItem('token')
         if (storedToken) {
-            // axios.defaults.headers.common.Authorization = "Bearer " + storedToken
+            axios.defaults.headers.common.Authorization = "Bearer " + storedToken
             await loadUser()
+            socket.emit('loggedIn', user.value)
             return true
         }
         clearUser()
         return false
     }
 
-    return { user, login, logout, restoreToken}
+    return {
+        user,
+        username,
+        userType,
+        login,
+        logout,
+        loadUser,
+        clearUser,
+        restoreToken,
+    }
 })

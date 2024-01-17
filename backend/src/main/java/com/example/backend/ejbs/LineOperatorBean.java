@@ -69,7 +69,7 @@ public class LineOperatorBean {
         LineOperator lineOperator = this.find(username);
         if(lineOperator != null)
         {
-//            Hibernate.initialize(lineOperator.getOrders());
+            Hibernate.initialize(lineOperator.getOrders());
             return this.find(username);
         }
         return null;

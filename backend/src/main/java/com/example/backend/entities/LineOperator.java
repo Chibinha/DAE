@@ -18,24 +18,24 @@ public class LineOperator extends User{
 
     public LineOperator(String username, String password, String name, String email) {
         super(username, password, name, email);
-//        this.orders = new ArrayList<Order>();
+        this.orders = new ArrayList<Order>();
     }
 
     public LineOperator() {
-//        this.orders = new ArrayList<Order>();
+        this.orders = new ArrayList<Order>();
     }
 
-//    public List<Order> getOrders() {
-//        return orders;
-//    }
-//
-//    public void addOrder(Order order) {
-//        if(order!= null)
-//            this.orders.add(order);
-//    }
-//
-//    public void removeOrder(Order order) {
-//        if(order!= null)
-//            this.orders.remove(order);
-//    }
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void addOrder(Order order) {
+        if(order!= null)
+            this.orders.add(order);
+    }
+
+    public void removeOrder(Order order) {
+        if(order!= null)
+            this.orders.remove(order);
+    }
 }

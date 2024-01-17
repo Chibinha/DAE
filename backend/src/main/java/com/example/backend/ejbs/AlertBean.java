@@ -4,11 +4,13 @@ import com.example.backend.entities.Alert;
 import com.example.backend.entities.User;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.websocket.WebsocketService;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
 
+@Stateless
 public class AlertBean {
     @PersistenceContext
     private EntityManager entityManager;

@@ -106,13 +106,13 @@ public class LineOperatorService {
         return Response.ok(dto).build();
     }
 
-//    @GET
-//    @Path("{username}/orders")
-//    public Response getClientOrders(@PathParam("username") String username) {
-//        var lineOperator = lineOperatorBean.getLineOperatorOrders(username);
-//        var dtos = toDTOsOrder(lineOperator.getOrders());
-//        return Response.ok(dtos).build();
-//    }
+    @GET
+    @Path("{username}/orders")
+    public Response getClientOrders(@PathParam("username") String username) {
+        var lineOperator = lineOperatorBean.getLineOperatorOrders(username);
+        var dtos = toDTOsOrder(lineOperator.getOrders());
+        return Response.ok(dtos).build();
+    }
 
 //    @GET
 //    @Path("{username}/alerts")
