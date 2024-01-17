@@ -20,19 +20,11 @@ public class LineOperatorBean {
     private EntityManager entityManager;
     private Hasher hasher;
 
-    public LineOperator find(long id) throws MyEntityNotFoundException {
-        LineOperator lineOperator = entityManager.find(LineOperator.class, id);
-        if (lineOperator == null) {
-            throw new MyEntityNotFoundException("Line Operator with id " + id + " not found");
-        }
-        return lineOperator;
-    }
-
-    public LineOperator find(String username) {
+    public LineOperator find(String username){
         return entityManager.find(LineOperator.class, username);
     }
 
-    public void create(String username, String password, String name, String email) throws MyEntityExistsException, MyConstraintViolationException {
+    public void create(String username, String password, String name, String email) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
 
         if(this.find(username)== null)
         {
@@ -64,8 +56,8 @@ public class LineOperatorBean {
         lineOperator.setEmail(email);
     }
 
-    public void delete(long id) throws MyEntityNotFoundException{
-        entityManager.remove(find(id));
+    public void delete(String username) throws MyEntityNotFoundException{
+        entityManager.remove(find(username));
     }
 
     public List<LineOperator> getAllLineOperators() {

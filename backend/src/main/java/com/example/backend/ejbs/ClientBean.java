@@ -23,20 +23,11 @@ public class ClientBean {
     private EntityManager entityManager;
     private Hasher hasher;
 
-    public Client find(long id) throws MyEntityNotFoundException {
-        Client client = entityManager.find(Client.class, id);
-        if (client == null) {
-            throw new MyEntityNotFoundException("Client with id " + id + " not found");
-        }
-        return client;
-    }
-
     public Client find(String username) {
         return entityManager.find(Client.class, username);
-
     }
 
-    public void create(String username, String password, String name, String email) throws MyEntityExistsException, MyConstraintViolationException {
+    public void create(String username, String password, String name, String email) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
 
         if(this.find(username)== null)
         {
@@ -68,8 +59,8 @@ public class ClientBean {
         client.setEmail(email);
     }
 
-    public void delete(long id) throws MyEntityNotFoundException{
-        entityManager.remove(find(id));
+    public void delete(String username) throws MyEntityNotFoundException{
+        entityManager.remove(find(username));
     }
 
     public List<Client> getAllClients() {

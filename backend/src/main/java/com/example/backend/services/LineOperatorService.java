@@ -77,7 +77,7 @@ public class LineOperatorService {
 
     @POST
     @Path("/")
-    public Response createNewLineOperator (LineOperatorDTO lineOperatorDTO)throws MyEntityExistsException, MyConstraintViolationException {
+    public Response createNewLineOperator (LineOperatorDTO lineOperatorDTO) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         lineOperatorBean.create(
                 lineOperatorDTO.getUsername(),
                 lineOperatorDTO.getPassword(),

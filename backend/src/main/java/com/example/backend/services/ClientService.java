@@ -77,7 +77,7 @@ public class ClientService {
 
     @POST
     @Path("/")
-    public Response createNewClient (ClientDTO clientDTO)throws MyEntityExistsException, MyConstraintViolationException {
+    public Response createNewClient (ClientDTO clientDTO) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         clientBean.create(
                 clientDTO.getUsername(),
                 clientDTO.getPassword(),
