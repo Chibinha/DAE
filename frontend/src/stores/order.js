@@ -6,6 +6,7 @@ export const useOrderStore = defineStore('order', () => {
     const axios = inject('axios')
     const userStore = useUserStore()
     const orders = ref([])
+    const order = ref([])
 
     async function loadOrders() {
         try {
@@ -15,6 +16,17 @@ export const useOrderStore = defineStore('order', () => {
         }
         catch (error) {
             clearOrders()
+            throw error
+        }
+    }
+
+    async function loadOrder(id) {
+        try {
+            const response = await axios.get(`client/${userStore.username}/orders/` + id)
+            order.value = response.data.data
+            return order.value
+        }
+        catch (error) {
             throw error
         }
     }
@@ -29,6 +41,7 @@ export const useOrderStore = defineStore('order', () => {
 
     return {
         loadOrders,
+        loadOrder,
         totalOrders,
     }
 })

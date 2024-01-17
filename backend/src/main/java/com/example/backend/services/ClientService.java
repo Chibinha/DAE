@@ -94,14 +94,13 @@ public class ClientService {
     }
         
 
-//    @GET
-//    @Path("{username}/orders/{index}")
-//    public Response getClientOrders(@PathParam("username") String username, @PathParam("index") int index) {
-//        var client = clientBean.getClientOrders(username);
-//        var orders = client.getOrders();
-//        var dtos = toDTO(orders.get(index));
-//        return Response.ok(dtos).build();
-//    }
+    @GET
+    @Path("{username}/orders/{index}")
+    public Response getClientOrders(@PathParam("username") String username, @PathParam("index") int index) {
+        var client = clientBean.getClientOrders(username);
+        var orders = client.getOrders();
+        return Response.ok(dtoConverter.orderToDTO(orders.get(index))).build();
+    }
 
 //    @GET
 //    @Path("{username}/alerts")

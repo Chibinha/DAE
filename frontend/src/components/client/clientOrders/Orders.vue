@@ -27,13 +27,9 @@ const totalOrders = computed(() =>
   orderStore.totalOrders
 )
 
-const seeDetails = (order) => {
-  router.push({ name: 'Order', params: { id: order.idOrder } })
+const seeDetails = (id) => {
+  router.push({ name: 'Order', params: { id: id } })
 }
-
-// const newOrder = () => {
-//   router.push({ name: 'NewOrder' })
-// }
 
 onMounted(() => {
     loadOrders()
@@ -58,8 +54,7 @@ onMounted(() => {
   <h5 v-if="totalOrders == 0">Não tem encomendas </h5>
   <order-table v-else
    :orders="getOrders"
-   @edit="seeDetails"
-   >
+   @details="seeDetails">
   </order-table>
 </template>
 
