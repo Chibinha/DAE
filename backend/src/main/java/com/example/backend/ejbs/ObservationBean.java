@@ -32,6 +32,8 @@ public class ObservationBean {
         Observation observation = new Observation(type, value, unit, sensor);
         entityManager.persist(observation);
 
+        find(observation.getId());
+
         //send notification
         WebsocketService.sendNotification("joao", "New observation created: " + value);
         return observation.getId();

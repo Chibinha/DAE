@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.dtos.DTOConverter;
 import com.example.backend.dtos.ProductPackageDTO;
 import com.example.backend.dtos.SensorDTO;
 import com.example.backend.ejbs.ProductPackageBean;
@@ -22,50 +23,11 @@ import java.util.stream.Collectors;
 public class ProductPackageService {
     @EJB
     private ProductPackageBean productPackageBean;
-
-    private ProductPackageDTO toDTONoSensorValues(ProductPackage productPackage) {
-        return new ProductPackageDTO(
-                productPackage.getId(),
-                productPackage.getPackageType(),
-                productPackage.getMaterial(),
-                productPackage.getProduct().getId()
-        );
-    }
-
-    private List<ProductPackageDTO> toDTOsNoSensorValues(List<ProductPackage> productPackages) {
-        return productPackages.stream().map(this::toDTONoSensorValues).collect(Collectors.toList());
-    }
-
-    private ProductPackageDTO toDTO(ProductPackage productPackage) {
-        return new ProductPackageDTO(
-                productPackage.getId(),
-                productPackage.getPackageType(),
-                productPackage.getMaterial(),
-                productPackage.getProduct().getId()
-        );
-    }
-
-    private List<ProductPackageDTO> toDTOs(List<ProductPackage> productPackages) {
-        return productPackages.stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
-    private SensorDTO toDTO(Sensor sensor) {
-        return new SensorDTO(
-                sensor.getId(),
-                sensor.getName(),
-                sensor.getType()
-
-        );
-    }
-
-    private List<SensorDTO> sensorToDTOs(List<Sensor> sensors) {
-        return sensors.stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
+    private final DTOConverter dtoConverter = new DTOConverter();
     @GET // means: to call this endpoint, we need to use the HTTP GET method
     @Path("/")
     public List<ProductPackageDTO> getAllProductPackages() {
-        return toDTOsNoSensorValues(productPackageBean.getAll());
+        return dtoConverter.productPackageToDTOList(productPackageBean.getAll());
     }
 
     @POST
@@ -77,7 +39,7 @@ public class ProductPackageService {
         ProductPackage newProductPackage = productPackageBean.find(productPackageDTO.getId());
         if (newProductPackage == null)
             return Response.status(Response.Status.BAD_REQUEST).build();
-        return Response.status(Response.Status.CREATED).entity(toDTO(newProductPackage)).build();
+        return Response.status(Response.Status.CREATED).entity(dtoConverter.productPackageToDTO(newProductPackage)).build();
     }
 
     @GET
@@ -85,7 +47,7 @@ public class ProductPackageService {
     public Response getProductPackageDetails(@PathParam("id") long id) throws MyEntityNotFoundException {
         ProductPackage productPackage = productPackageBean.find(id);
         if (productPackage != null) {
-            return Response.ok(toDTO(productPackage)).build();
+            return Response.ok(dtoConverter.productPackageToDTO(productPackage)).build();
         }
         return Response.status(Response.Status.NOT_FOUND)
                 .entity("ERROR_FINDING_PRODUCT_PACKAGE")
