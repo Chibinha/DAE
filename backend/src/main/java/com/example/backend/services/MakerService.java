@@ -28,15 +28,24 @@ public class MakerService {
     //Get Own products
     @GET
     @Path("/products")
-    public List<ProductDTO> getProducts() {
-        return dtoConverter.productToDTOList(makerBean.getProducts());
+    public List<ProductDTO> getProducts(@PathParam("username") String username) throws MyEntityNotFoundException {
+        List<Product> products = makerBean.getProducts(username);
+        return dtoConverter.productToDTOList(products);
     }
 
     //Get Own pshysical products
     @GET
     @Path("/physicalproducts")
-    public List<PhysicalProductDTO> getPhysicalProducts() {
-        return dtoConverter.physicalProductToDTOList(makerBean.getPhysicalProducts());
+    public List<PhysicalProductDTO> getPhysicalProducts(@PathParam("username") String username) throws MyEntityNotFoundException {
+        List<PhysicalProduct> physicalProducts = makerBean.getPhysicalProducts(username);
+        return dtoConverter.physicalProductToDTOList(physicalProducts);
+    }
+
+    @GET
+    @Path("/physicalproducts/{productId}")
+    public List<PhysicalProductDTO> getPhysicalProductsForProduct(@PathParam("username") String username, @PathParam("productId") long productId) throws MyEntityNotFoundException {
+        List<PhysicalProduct> physicalProducts = makerBean.getPhysicalProductsForProduct(username, productId);
+        return dtoConverter.physicalProductToDTOList(physicalProducts);
     }
 
     //Get Alerts
@@ -79,5 +88,13 @@ public class MakerService {
             return Response.status(Response.Status.BAD_REQUEST).entity("Physical Product with id [" + id + "] not created.").build();
         }
         return Response.status(Response.Status.CREATED).entity("Physical Product with id [" + id + "] created.").build();
+    }
+
+    // Create new List of physical product
+    @POST
+    @Path("/physicalproducts/list")
+    public Response createPhysicalProductList(List<PhysicalProductDTO> physicalProductDTOList, @PathParam("username") String username) throws MyEntityNotFoundException {
+        makerBean.createPhysicalProductList(physicalProductDTOList);
+        return Response.status(Response.Status.CREATED).entity("Physical Products created.").build();
     }
 }

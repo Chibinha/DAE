@@ -7,10 +7,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Entity
-@Table(
-        name = "orders",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"idOrder"})
-)
+@Table(name = "orders")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllOrders",
@@ -23,20 +20,14 @@ public class Order implements Serializable {
     private long id;
 
     @NotNull
-    @Column(name = "type")
     private String type;
-
     @NotNull
-    @Column(name = "price")
-    private double price;
-
-    @NotNull
-    @Column(name = "status")
     private String status;
+    @Column(name = "total_price")
+    private double totalPrice;
 
-    @OneToMany(mappedBy = "order")
-    @Column(name= "products")
-    private List<PhysicalProduct> products;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    private List<PhysicalProduct> physicalProducts;
 
     @ManyToOne
     @JoinColumn(name = "client")
@@ -54,20 +45,21 @@ public class Order implements Serializable {
     private Timestamp orderTimestamp;
 
     public Order() {
-        this.products = new ArrayList<>();
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
+        this.physicalProducts = new ArrayList<>();
     }
 
-    public Order(String type, String status, LineOperator lineOperator,Client client, List<PhysicalProduct> physicalProducts) {
+    public Order(String type, double totalPrice, LineOperator lineOperator, Client client, List<PhysicalProduct> physicalProducts) {
         this.type = type;
-        this.status = status;
-        this.lineOperator = lineOperator;
+        this.status = "created";
+        this.totalPrice = totalPrice;
         this.client = client;
-        this.products = physicalProducts;
+        this.lineOperator = lineOperator;
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
+        this.physicalProducts = physicalProducts;
     }
 
-    public long getIdOrder() {
+    public long getId() {
         return id;
     }
 
@@ -79,20 +71,8 @@ public class Order implements Serializable {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public double getPrice() {
-        return price;
+    public void setType(String orderType) {
+        this.type = orderType;
     }
 
     public LineOperator getLineOperator() {
@@ -119,46 +99,28 @@ public class Order implements Serializable {
         this.orderTimestamp = orderTimestamp;
     }
 
-    public List<PhysicalProduct> getProducts() {
-        return new ArrayList<>(products);
+    public List<PhysicalProduct> getPhysicalProducts() {
+        return physicalProducts;
     }
 
-    public void setProducts(List<PhysicalProduct> products) {
-        this.products = products;
+    public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
+        this.physicalProducts = physicalProducts;
     }
 
-    public void addProducts(PhysicalProduct product) {
-        this.products.add(product);
+    public String getStatus() {
+        return status;
     }
 
-    public void removeProducts(PhysicalProduct product) {
-        this.products.remove(product);
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    /*public void addProductQuantity(PhysicalProduct physicalProduct, int quantity) {
-        if (physicalProduct != null) {
-
-            Long productId = physicalProduct.getId();
-
-            if (productQuantities.containsKey(productId)) {
-                int existingQuantity = productQuantities.get(productId);
-                productQuantities.put(productId, existingQuantity + quantity);
-            } else {
-                productQuantities.put(productId, quantity);
-            }
-        }
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void removeProductQuantity(Long productId) {
-        this.productQuantities.remove(productId);
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
-
-    public Map<Long, Integer> getProducts() {
-        return productQuantities;
-    }
-
-    public int calculateTotalPrice() {
-        return productQuantities.values().stream().mapToInt(Integer::intValue).sum();
-    }
-    */
+    
 }

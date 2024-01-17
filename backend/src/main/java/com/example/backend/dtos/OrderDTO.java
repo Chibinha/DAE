@@ -1,31 +1,36 @@
 package com.example.backend.dtos;
 
-import com.example.backend.entities.Client;
-import com.example.backend.entities.LineOperator;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;;
 import java.io.Serializable;
 import java.util.*;
 
 public class OrderDTO implements Serializable {
-    private long idOrder;
-    private String orderType;
+    private long id;
+    private String type;
+    private String status;
+    private double totalPrice;
     private String lineOperator;
-    private Map<Long, Integer> productQuantities;
+    private List<PhysicalProductDTO> physicalProducts;
     public String client;
     public OrderDTO() {
-        this.productQuantities = new HashMap<>();
+        this.physicalProducts = new ArrayList<>();
     }
 
-    public OrderDTO(String orderType, String lineOperator, String client, Map<Long, Integer> productQuantities) {
-        this.orderType = orderType;
+    public OrderDTO(long id, String type, String status, double totalPrice, String lineOperator, String client, List<PhysicalProductDTO> physicalProducts) {
+        this.id = id;
+        this.type = type;
+        this.status = status;
+        this.totalPrice = totalPrice;
         this.lineOperator = lineOperator;
         this.client = client;
-        this.productQuantities = productQuantities;
+        this.physicalProducts = physicalProducts;
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getType() {
@@ -36,14 +41,6 @@ public class OrderDTO implements Serializable {
         this.type = type;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getLineOperator() {
         return lineOperator;
     }
@@ -51,15 +48,6 @@ public class OrderDTO implements Serializable {
     public void setLineOperator(String lineOperator) {
         this.lineOperator = lineOperator;
     }
-
-    public Map<Long, Integer> getProductQuantities() {
-        return productQuantities;
-    }
-
-    public void setProductQuantities(Map<Long, Integer> productQuantities) {
-        this.productQuantities = productQuantities;
-    }
-
 
     public String getClient() {
         return client;
@@ -69,11 +57,27 @@ public class OrderDTO implements Serializable {
         this.client = client;
     }
 
-    public List<PhysicalProductDTO> getProducts() {
-        return products;
+    public List<PhysicalProductDTO> getPhysicalProducts() {
+        return physicalProducts;
     }
 
-    public void setProducts(List<PhysicalProductDTO> products) {
-        this.products = products;
+    public void setPhysicalProducts(List<PhysicalProductDTO> physicalProducts) {
+        this.physicalProducts = physicalProducts;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

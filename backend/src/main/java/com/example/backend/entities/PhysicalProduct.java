@@ -21,6 +21,10 @@ import java.sql.Timestamp;
         @NamedQuery(
                 name = "getMakerPhysicalProducts",
                 query = "SELECT p FROM PhysicalProduct p WHERE p.product.maker.username = :username ORDER BY p.id"
+        ),//getMakerPhysicalProductsForProduct
+        @NamedQuery(
+                name = "getMakerPhysicalProductsForProduct",
+                query = "SELECT p FROM PhysicalProduct p WHERE p.product.maker.username = :username AND p.product.id = :productId ORDER BY p.id"
         ),
 })
 public class PhysicalProduct implements Serializable {

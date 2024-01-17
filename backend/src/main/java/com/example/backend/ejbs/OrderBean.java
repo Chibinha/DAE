@@ -11,12 +11,12 @@ import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PersistenceContext;
-import jakarta.validation.ConstraintViolationException;
 import org.hibernate.Hibernate;
 
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -38,10 +38,13 @@ public class OrderBean {
         return entityManager.find(Order.class, idOrder);
     }*/
 
-    public void create(String type, String status, String usernameClient, String usernameLineOp, Map<Long, Integer> products) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+    //usernames client and lineop
+    //Receives a json payload with product ids and quantities
+    public void create(String usernameClient, String usernameLineOp, Map<Long, Integer> products) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
         Client client = clientBean.find(usernameClient);
         LineOperator lineOperator = lineOperatorBean.find(usernameLineOp);
         List<PhysicalProduct> physicalProducts = new ArrayList<>();
+        double totalPrice = 0;
 
         // Retrieve PhysicalProducts for each product ID
         for (Map.Entry<Long, Integer> entry : products.entrySet()) {
@@ -58,10 +61,11 @@ public class OrderBean {
             // Add PhysicalProducts to the list
             for (int i = 0; i < quantity; i++) {
                 physicalProducts.add(productPhysicalProducts.get(i));
+                totalPrice += productPhysicalProducts.get(i).getProduct().getPrice();
             }
         }
 
-        Order order = new Order("order", lineOperator, client, physicalProducts);
+        Order order = new Order("order", totalPrice, lineOperator, client, physicalProducts);
         entityManager.persist(order);
     }
 
@@ -78,49 +82,18 @@ public class OrderBean {
         return order;
     }
 
-    public void addProductToOrder(long id, PhysicalProduct product) throws MyEntityNotFoundException {
-        Order order = find(id);
-        if (order == null){
-            throw new MyEntityNotFoundException("Order not found");
-        }
-        PhysicalProduct productToAdd = entityManager.find(PhysicalProduct.class, product);
-        if (productToAdd == null){
-            throw new MyEntityNotFoundException("Product not found");
-        }
-        order.addProducts(productToAdd);
-    }
-
-    public int removeProductFromOrder(long id, PhysicalProduct product) throws MyEntityNotFoundException{
-        Order order = find(id);
-        if (order == null){
-            throw new MyEntityNotFoundException("Order not found");
-        }
-        PhysicalProduct productToAdd = entityManager.find(PhysicalProduct.class, product);
-        if (productToAdd == null){
-            throw new MyEntityNotFoundException("Product not found");
-        }
-        order.removeProducts(product);
-        return OK;
-    }
-
-    public List<PhysicalProduct> getOrderProducts(long id) {
-        Order order = find(id);
-
-        Hibernate.initialize(order.getProducts());
-        return order.getProducts();
-    }
-
-    /*public List<PhysicalProduct> getAllProductsForOrder(long orderId) {
-        Order order = entityManager.find(Order.class, orderId);
-        if (order != null) {
-
-            List<Long> productIds = order.getProducts().keySet().stream().collect(Collectors.toList());
-
-            return entityManager.createQuery("SELECT p FROM Product p WHERE p.id IN :productIds", PhysicalProduct.class)
-                    .setParameter("productIds", productIds)
-                    .getResultList();
-        }
-        return Collections.emptyList();
-    }*/
+//    public List<PhysicalProduct> getAllProductsForOrder(long orderId) {
+//        Order order = entityManager.find(Order.class, orderId);
+//        if (order != null) {
+//            // Retrieve product IDs from the order's map
+//            List<Long> productIds = order.getProducts().keySet().stream().collect(Collectors.toList());
+//
+//            // Retrieve products based on product IDs
+//            return entityManager.createQuery("SELECT p FROM Product p WHERE p.id IN :productIds", PhysicalProduct.class)
+//                    .setParameter("productIds", productIds)
+//                    .getResultList();
+//        }
+//        return Collections.emptyList();
+//    }
 }
 

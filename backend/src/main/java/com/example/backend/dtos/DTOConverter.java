@@ -102,7 +102,7 @@ public class DTOConverter {
                 observation.getTimestamp(),
                 observation.getSensor().getId(),
                 observation.getMyPackage().getId(),
-                observation.getOrder().getIdOrder()
+                observation.getOrder().getId()
         );
     }
     public List<ObservationDTO> observationToDTOList(List<Observation> observations) {
@@ -117,7 +117,7 @@ public class DTOConverter {
                 transportationPackage.getId(),
                 transportationPackage.getPackageType(),
                 transportationPackage.getMaterial(),
-                transportationPackage.getOrder().getIdOrder()
+                transportationPackage.getOrder().getId()
         );
     }
     public List<TransportationPackageDTO> transportationPackageToDTOList(List<TransportationPackage> transportationPackages) {
@@ -142,10 +142,13 @@ public class DTOConverter {
     // Order
     public OrderDTO orderToDTO(Order order) {
         return new OrderDTO(
-                order.getOrderType(),
+                order.getId(),
+                order.getType(),
+                order.getStatus(),
+                order.getTotalPrice(),
                 order.getLineOperator().getUsername(),
                 order.getClient().getUsername(),
-                order.getProducts()
+                physicalProductToDTOList(order.getPhysicalProducts())
         );
     }
     public List<OrderDTO> orderToDTOList(List<Order> orders) {
