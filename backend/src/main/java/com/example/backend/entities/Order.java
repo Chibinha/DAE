@@ -3,38 +3,61 @@ package com.example.backend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Entity
-@Table(name = "orders")
+@Table(
+        name = "orders",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"idOrder"})
+)
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllOrders",
+                query = "SELECT o FROM Order o ORDER BY o.idOrder"
+        )
+})
 public class Order implements Serializable {
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    @NotNull
-    public Client client;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idOrder;
-    @Temporal(TemporalType.DATE)
-    private Date orderDate;
-    @NotNull
-    private String orderType;
-    private String materialType;
 
-//    @OneToMany(mappedBy = "product")
-//    private List<PhysicalProduct> products;
+    @NotNull
+    @Column(name = "orderType")
+    private String orderType;
+
+    @ElementCollection
+    @CollectionTable(name = "order_product_quantities", joinColumns = @JoinColumn(name = "order_id"))
+    @MapKeyColumn(name = "product_id")
+    @Column(name = "productQuantities")
+    private Map<Long, Integer> productQuantities = new HashMap<>();
+
+    @ManyToOne
+    @JoinColumn(name = "client")
+    @NotNull
+    public Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "lineOperator")
+    @NotNull
+    public LineOperator lineOperator;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "orderTimestamp")
+    @NotNull
+    private Timestamp orderTimestamp;
+
     public Order() {
-        //this.products = new ArrayList<>();
+        this.productQuantities = new HashMap<>();
+        this.orderTimestamp = new Timestamp(System.currentTimeMillis());
     }
 
-    public Order(long idOrder, Date orderDate, String orderType, String materialType) {
-        this.idOrder = idOrder;
-        this.orderDate = orderDate;
+    public Order(String orderType, LineOperator lineOperator,Client client) {
         this.orderType = orderType;
-        this.materialType = materialType;
-        //this.products = new ArrayList<>();
+        this.client = client;
+        this.lineOperator = lineOperator;
+        this.productQuantities = new HashMap<>();
+        this.orderTimestamp = new Timestamp(System.currentTimeMillis());
     }
 
     public long getIdOrder() {
@@ -45,14 +68,6 @@ public class Order implements Serializable {
         this.idOrder = idOrder;
     }
 
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
-
     public String getOrderType() {
         return orderType;
     }
@@ -61,20 +76,53 @@ public class Order implements Serializable {
         this.orderType = orderType;
     }
 
-    public String getMaterialType() {
-        return materialType;
+    public LineOperator getLineOperator() {
+        return lineOperator;
     }
 
-    public void setMaterialType(String materialType) {
-        this.materialType = materialType;
+    public void setLineOperator(LineOperator lineOperator) {
+        this.lineOperator = lineOperator;
     }
 
-//    public List<PhysicalProduct> getProducts() {
-//        return products;
-//    }
-//
-//    public void setProducts(List<PhysicalProduct> products) {
-//        this.products = products;
-//    }
+    public Client getClient() {
+        return client;
+    }
 
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Timestamp getOrderTimestamp() {
+        return orderTimestamp;
+    }
+
+    public void setOrderTimestamp(Timestamp orderTimestamp) {
+        this.orderTimestamp = orderTimestamp;
+    }
+
+    public void addProductQuantity(PhysicalProduct physicalProduct, int quantity) {
+        if (physicalProduct != null) {
+
+            Long productId = physicalProduct.getId();
+
+            if (productQuantities.containsKey(productId)) {
+                int existingQuantity = productQuantities.get(productId);
+                productQuantities.put(productId, existingQuantity + quantity);
+            } else {
+                productQuantities.put(productId, quantity);
+            }
+        }
+    }
+
+    public void removeProductQuantity(Long productId) {
+        this.productQuantities.remove(productId);
+    }
+
+    public Map<Long, Integer> getProducts() {
+        return productQuantities;
+    }
+
+    public void setProductQuantities(Map<Long, Integer> productQuantities) {
+        this.productQuantities = productQuantities;
+    }
 }

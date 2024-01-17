@@ -13,8 +13,8 @@ import java.util.List;
         )
 })
 public class LineOperator extends User{
-//    @OneToMany(mappedBy = "lineOperator", cascade = CascadeType.REMOVE)
-//    private List<Order> orders;
+   @OneToMany(mappedBy = "lineOperator", cascade = CascadeType.REMOVE)
+   private List<Order> orders;
 
     public LineOperator(String username, String password, String name, String email) {
         super(username, password, name, email);

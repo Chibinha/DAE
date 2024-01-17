@@ -3,6 +3,7 @@ package com.example.backend.ejbs;
 import com.example.backend.entities.Observation;
 import com.example.backend.entities.Sensor;
 import com.example.backend.exceptions.MyEntityNotFoundException;
+import com.example.backend.websocket.WebsocketService;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
@@ -31,6 +32,8 @@ public class ObservationBean {
         Observation observation = new Observation(type, value, unit, sensor);
         entityManager.persist(observation);
 
+        //send notification
+        WebsocketService.sendNotification("joao", "New observation created: " + value);
         return observation.getId();
     }
 

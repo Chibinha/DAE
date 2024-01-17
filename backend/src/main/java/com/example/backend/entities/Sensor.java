@@ -17,13 +17,14 @@ import java.util.List;
 public class Sensor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String name;
     private String type;
 
     @OneToMany(mappedBy = "sensor")
     private List<Observation> observations;
 
+    // needs to change to @ManyToMany after Order is created
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
@@ -38,7 +39,7 @@ public class Sensor implements Serializable {
         this.observations = new ArrayList<>();
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

@@ -11,16 +11,15 @@ import router from './router'
 
 import axios from 'axios'
 import Toaster from "@meforma/vue-toaster";
+import io from 'socket.io-client'
 
 const app = createApp(App)
+
 
 
 const serverBaseUrl = 'http://localhost:8080/academics'
 app.provide('axios', axios.create({
     baseURL: serverBaseUrl + '/api',
-    headers: {
-      'Content-type': 'application/json',
-    },
   }))
 app.provide('serverBaseUrl', serverBaseUrl)  
 
