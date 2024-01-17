@@ -9,11 +9,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5035b343-e461-478b-90f7-f23c887f9dfb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/DTOConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/MakerDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/ObservationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ObservationBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/SensorBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/websocket/WebsocketEndpoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/websocket/WebsocketService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/alerts/Alerts.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/client/clientOrders/Order.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/client/clientOrders/OrderDetails.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/client/clientOrders/OrderTable.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/components/client/clientOrders/Orders.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/stores/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/AlertDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/AlertDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/OrderDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/OrderDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/AlertBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/AlertBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ClientBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ClientBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/OrderBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/OrderBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/LineOperatorBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/LineOperatorBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/MakerBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/MakerBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/PhysicalProductBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/PhysicalProductBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ProductPackageBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ProductPackageBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/TransportationPackageBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/TransportationPackageBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Alert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Alert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/LineOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/LineOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Maker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Maker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Observation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Observation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/PhysicalProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/PhysicalProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Sensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Sensor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/ClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/LineOperatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/LineOperatorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/MakerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/MakerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/PhysicalProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/PhysicalProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/ProductPackageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/ProductPackageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/TransportationPackageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/TransportationPackageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/WelcomeItem.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/client/MyOrders.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/stores/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/stores/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/views/AboutView.vue" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,32 +103,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Sensors&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/DAE/backend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Sensors",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/DAE/frontend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -113,7 +159,7 @@
       <workItem from="1705344410177" duration="2362000" />
       <workItem from="1705424730329" duration="4124000" />
       <workItem from="1705435261469" duration="7575000" />
-      <workItem from="1705490052854" duration="5784000" />
+      <workItem from="1705490052854" duration="21618000" />
     </task>
     <task id="LOCAL-00001" summary="Fix make deploy">
       <option name="closed" value="true" />
@@ -136,6 +182,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

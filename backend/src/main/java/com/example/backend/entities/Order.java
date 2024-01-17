@@ -91,7 +91,7 @@ public class Order implements Serializable {
         this.status = status;
     }
 
-    public long getPrice() {
+    public double getPrice() {
         return price;
     }
 
