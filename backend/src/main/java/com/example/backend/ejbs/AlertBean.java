@@ -23,6 +23,8 @@ public class AlertBean {
         Alert alert = new Alert(user, description);
         entityManager.persist(alert);
 
+        find(alert.getId());
+
         // Send WebSocket notification
         WebsocketService.sendNotification(username, description);
 

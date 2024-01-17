@@ -17,19 +17,25 @@ public class ProductBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public boolean exists(long id) {
+    public boolean exists(long id) throws MyEntityNotFoundException  {
         Query query = entityManager.createQuery("SELECT COUNT(p) FROM Product p WHERE p.id = :id");
         query.setParameter("id", id);
-        return ((long) query.getSingleResult()) > 0L;
+        if ((long) query.getSingleResult() > 0L) {
+            return true;
+        } else {
+            throw new MyEntityNotFoundException("Product with id " + id + " not found");
+        }
     }
 
     // CRUD
     // Create
-    public long create(String name,double price, String description, double weight, String ingredients, String makerName) {
+    public long create(String name,double price, String description, double weight, String ingredients, String makerName) throws MyEntityNotFoundException {
         Maker maker = entityManager.find(Maker.class, makerName);
 
         Product product = new Product(name, price, description, weight, ingredients, maker);
         entityManager.persist(product);
+
+        find(product.getId());
 
         return product.getId();
     }

@@ -14,7 +14,12 @@ import java.util.List;
         @NamedQuery(
                 name = "getAllProducts",
                 query = "SELECT p FROM Product p ORDER BY p.id"
-        )
+        ),
+        @NamedQuery(
+                name = "getMakerProducts",
+                query = "SELECT p FROM Product p WHERE p.maker.username = :username ORDER BY p.id"
+        ),
+
 })
 public class Product implements Serializable {
     @Id

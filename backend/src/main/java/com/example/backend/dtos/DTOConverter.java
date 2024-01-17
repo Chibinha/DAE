@@ -15,7 +15,6 @@ public class DTOConverter {
                 maker.getEmail()
         );
     }
-
     public List<MakerDTO> makerToDTOList(List<Maker> makers) {
         return makers.stream().map(this::makerToDTO).collect(Collectors.toList());
     }
@@ -29,7 +28,6 @@ public class DTOConverter {
                 client.getEmail()
         );
     }
-
     public List<ClientDTO> clientToDTOList(List<Client> clients) {
         return clients.stream().map(this::clientToDTO).collect(Collectors.toList());
     }
@@ -43,7 +41,6 @@ public class DTOConverter {
                 lineOperator.getEmail()
         );
     }
-
     public List<LineOperatorDTO> lineOperatorToDTOList(List<LineOperator> lineOperators) {
         return lineOperators.stream().map(this::lineOperatorToDTO).collect(Collectors.toList());
     }
@@ -63,7 +60,6 @@ public class DTOConverter {
                 product.getMaker().getUsername()
         );
     }
-
     public List<ProductDTO> productToDTOList(List<Product> products) {
         return products.stream().map(this::productToDTO).collect(Collectors.toList());
     }
@@ -78,7 +74,6 @@ public class DTOConverter {
                 physicalProduct.getStockTimestamp()
         );
     }
-
     public List<PhysicalProductDTO> physicalProductToDTOList(List<PhysicalProduct> physicalProducts) {
         return physicalProducts.stream().map(this::physicalProductToDTO).collect(Collectors.toList());
     }
@@ -93,7 +88,6 @@ public class DTOConverter {
                 sensor.getType()
         );
     }
-
     public List<SensorDTO> sensorToDTOList(List<Sensor> sensors) {
         return sensors.stream().map(this::sensorToDTO).collect(Collectors.toList());
     }
@@ -111,15 +105,37 @@ public class DTOConverter {
                 observation.getOrder().getIdOrder()
         );
     }
-
     public List<ObservationDTO> observationToDTOList(List<Observation> observations) {
         return observations.stream().map(this::observationToDTO).collect(Collectors.toList());
     }
     //#endregion
 
     //#region Packages
-    // Package
+    // Transportation Package
+    public TransportationPackageDTO transportationPackageToDTO(TransportationPackage transportationPackage) {
+        return new TransportationPackageDTO(
+                transportationPackage.getId(),
+                transportationPackage.getPackageType(),
+                transportationPackage.getMaterial(),
+                transportationPackage.getOrder().getIdOrder()
+        );
+    }
+    public List<TransportationPackageDTO> transportationPackageToDTOList(List<TransportationPackage> transportationPackages) {
+        return transportationPackages.stream().map(this::transportationPackageToDTO).collect(Collectors.toList());
+    }
 
+    // Product Package
+    public ProductPackageDTO productPackageToDTO(ProductPackage productPackage) {
+        return new ProductPackageDTO(
+                productPackage.getId(),
+                productPackage.getPackageType(),
+                productPackage.getMaterial(),
+                productPackage.getProduct().getId()
+        );
+    }
+    public List<ProductPackageDTO> productPackageToDTOList(List<ProductPackage> productPackages) {
+        return productPackages.stream().map(this::productPackageToDTO).collect(Collectors.toList());
+    }
     //#endregion
 
     //#region Orders
@@ -132,7 +148,6 @@ public class DTOConverter {
                 order.getProducts()
         );
     }
-
     public List<OrderDTO> orderToDTOList(List<Order> orders) {
         return orders.stream().map(this::orderToDTO).collect(Collectors.toList());
     }
@@ -147,7 +162,6 @@ public class DTOConverter {
                 alert.getTimestamp()
         );
     }
-
     public List<AlertDTO> alertToDTOList(List<Alert> alerts) {
         return alerts.stream().map(this::alertToDTO).collect(Collectors.toList());
     }

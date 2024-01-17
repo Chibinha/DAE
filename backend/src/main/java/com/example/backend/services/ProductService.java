@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.dtos.DTOConverter;
 import com.example.backend.dtos.ProductDTO;
 import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyEntityNotFoundException;
@@ -18,24 +19,7 @@ import java.util.stream.Collectors;
 public class ProductService {
     @EJB
     private ProductBean productBean;
-
-    private ProductDTO toDTO(Product product) {
-        return new ProductDTO(
-                product.getId(),
-                product.getName(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getWeight(),
-                product.getIngredients(),
-                product.getInStock(),
-                product.getMaker().getUsername()
-        );
-    }
-
-    private List<ProductDTO> toDTOs(List<Product> products) {
-        return products.stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
+    private final DTOConverter dtoConverter = new DTOConverter();
     // Create
     @POST
     @Path("/")
@@ -48,11 +32,10 @@ public class ProductService {
                 productDTO.getIngredients(),
                 productDTO.getMakerName()
         );
-        Product newProduct = productBean.find(id);
-        if (newProduct == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Product with id" + id + "not found.").build();
+        if (id < 1) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Product with id [" + id + "] not created.").build();
         }
-        return Response.status(Response.Status.CREATED).entity(toDTO(newProduct)).build();
+        return Response.status(Response.Status.CREATED).entity("Product with id [" + id + "] created.").build();
     }
 
     // Read
@@ -64,7 +47,7 @@ public class ProductService {
             return Response.status(Response.Status.NOT_FOUND).entity("No products found.").build();
         }
 
-        return Response.ok(toDTOs(products)).build();
+        return Response.ok(dtoConverter.productToDTOList(products)).build();
     }
 
     // Find
@@ -77,7 +60,7 @@ public class ProductService {
             return Response.status(Response.Status.NOT_FOUND).entity("Product with id [" + id + "] not found.").build();
         }
 
-        return Response.ok(toDTO(product)).build();
+        return Response.ok(dtoConverter.productToDTO(product)).build();
     }
 
     // Update
