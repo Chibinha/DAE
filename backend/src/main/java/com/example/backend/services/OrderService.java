@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.dtos.DTOConverter;
 import com.example.backend.ejbs.OrderBean;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
@@ -11,6 +12,7 @@ public class OrderService {
 
     @EJB
     private OrderBean orderBean;
+    private final DTOConverter dtoConverter = new DTOConverter();
 
     /*public void createOrder(String type, String status, String lineOperatorUsername, String clientUsername, Map<Long, Integer> productQuantities) throws MyConstraintViolationException, MyEntityNotFoundException {
         orderBean.create(type, status, lineOperatorUsername, clientUsername, productQuantities);

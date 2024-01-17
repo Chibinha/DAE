@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.dtos.DTOConverter;
 import com.example.backend.dtos.LineOperatorDTO;
 import com.example.backend.dtos.OrderDTO;
 import com.example.backend.ejbs.LineOperatorBean;
@@ -28,56 +29,19 @@ public class LineOperatorService {
 
     @EJB
     private LineOperatorBean lineOperatorBean;
+    private final DTOConverter dtoConverter = new DTOConverter();
 
     private ExternalContext securityContext;
 
-    private LineOperatorDTO toDTO(LineOperator lineOperator) {
-        LineOperatorDTO lineOperatorDTO = new LineOperatorDTO(
-                lineOperator.getUsername(),
-                lineOperator.getPassword(),
-                lineOperator.getName(),
-                lineOperator.getEmail()
-        );
-        return lineOperatorDTO;
-    }
-
-    // converts an entire list of entities into a list of DTOs
-    private List<LineOperatorDTO> toDTOsLineOperator(List<LineOperator> lineOperators) {
-        return lineOperators.stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
-    private OrderDTO toDTO(Order order) {
-        return new OrderDTO(
-//                order.getIdOrder(),
-//                order.getOrderDate(),
-//                order.getOrderType(),
-//                order.getMaterialType()
-        );
-    }
-
-    // converts an entire list of entities into a list of DTOs
-    private List<OrderDTO> toDTOsOrder(List<Order> orders) {
-        return orders.stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
-//    private List<AlertDTO> toDTOsAlert(List<Alert> alerts) {
-//        return alerts.stream().map(this::toDTO).collect(Collectors.toList());
-//    }
-//    private AlertDTO toDTO(Alert alert) {
-//        return new AlertDTO(
-//        );
-//    }
-
-
     @GET // means: to call this endpoint, we need to use the HTTP GET method
     @Path("/all") // means: the relative url path is “/api/lineOperator/”
-    public List<LineOperatorDTO> getAllLineOperators() {
-        return toDTOsLineOperator(lineOperatorBean.getAllLineOperators());
+    public List<LineOperatorDTO> getAll() {
+        return dtoConverter.lineOperatorToDTOList(lineOperatorBean.getAll());
     }
 
     @POST
     @Path("/")
-    public Response createNewLineOperator (LineOperatorDTO lineOperatorDTO)throws MyEntityExistsException, MyConstraintViolationException {
+    public Response createNewLineOperator (LineOperatorDTO lineOperatorDTO) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         lineOperatorBean.create(
                 lineOperatorDTO.getUsername(),
                 lineOperatorDTO.getPassword(),
@@ -85,7 +49,7 @@ public class LineOperatorService {
                 lineOperatorDTO.getEmail()
         );
         LineOperator lineOperator = lineOperatorBean.find(lineOperatorDTO.getUsername());
-        return Response.status(Response.Status.CREATED).entity(toDTO(lineOperator)).build();
+        return Response.status(Response.Status.CREATED).entity(dtoConverter.lineOperatorToDTO(lineOperator)).build();
     }
 
     @GET
@@ -96,23 +60,21 @@ public class LineOperatorService {
 //        if(!principal.getName().equals(username)) {
 //            return Response.status(Response.Status.FORBIDDEN).build();
 //        }
-        var entity = lineOperatorBean.find(username);
-        if (entity == null) {
+        var lineOperator = lineOperatorBean.find(username);
+        if (lineOperator == null) {
             var errorMsg = "Line Operator '%s' not found.".formatted(username);
             var status = Response.Status.NOT_FOUND;
             return Response.status(status).entity(errorMsg).build();
         }
-        var dto = toDTO(entity);
-        return Response.ok(dto).build();
+        return Response.ok(dtoConverter.lineOperatorToDTO(lineOperator)).build();
     }
 
-//    @GET
-//    @Path("{username}/orders")
-//    public Response getClientOrders(@PathParam("username") String username) {
-//        var lineOperator = lineOperatorBean.getLineOperatorOrders(username);
-//        var dtos = toDTOsOrder(lineOperator.getOrders());
-//        return Response.ok(dtos).build();
-//    }
+    @GET
+    @Path("{username}/orders")
+    public Response getClientOrders(@PathParam("username") String username) {
+        var lineOperator = lineOperatorBean.getLineOperatorOrders(username);
+        return Response.ok().build();
+    }
 
 //    @GET
 //    @Path("{username}/alerts")

@@ -26,22 +26,15 @@ public class PhysicalProductBean {
         return ((long) query.getSingleResult()) > 0L;
     }
 
-    // set order
-//    public void setOrder(long id, long orderId) throws MyEntityNotFoundException {
-//        Order order = orderBean.find(orderId);
-//        PhysicalProduct physicalProduct = this.find(id);
-//        physicalProduct.setOrder(order);
-//        entityManager.merge(physicalProduct);
-//    }
-
-    // CRFUD
-
+    // CRUD
     // Create
     public long create(String serialNumber, long productId) throws MyEntityNotFoundException{
         Product product = productBean.find(productId);
 
         PhysicalProduct physicalProduct = new PhysicalProduct(product, serialNumber);
         entityManager.persist(physicalProduct);
+
+        find(physicalProduct.getId());
 
         return physicalProduct.getId();
     }

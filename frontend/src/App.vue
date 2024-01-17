@@ -81,7 +81,7 @@ const clickMenuOption = () => {
             </li>
 
             <li v-show="!userStore.user" class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'myorders' }" :to="{ name: 'myorders' }"
+              <router-link class="nav-link" :class="{ active: $route.name === 'orders' }" :to="{ name: 'orders' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
                 My Orders
@@ -109,6 +109,14 @@ const clickMenuOption = () => {
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
                 physicalProductCRUD
+              </router-link>
+            </li>
+
+            <li v-show="!userStore.user" class="nav-item">
+              <router-link class="nav-link" :class="{ active: $route.name === 'alerts' }" :to="{ name: 'alerts' }"
+                @click="clickMenuOption">
+                <i class="bi bi-circle"></i>
+                alerts
               </router-link>
             </li>
 

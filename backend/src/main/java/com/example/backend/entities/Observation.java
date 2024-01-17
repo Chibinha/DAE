@@ -7,10 +7,17 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
+@Table(name = "observation")
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllObservations",
+                query = "SELECT o FROM Observation o ORDER BY o.id"
+        )
+})
 public class Observation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String type;
     private String value;
     private String unit;
@@ -34,22 +41,21 @@ public class Observation implements Serializable {
     public Observation() {
     }
 
-    public Observation(int id, String type, String value, String unit, Timestamp timestamp, Sensor sensor, Package myPackage) {
-        this.id = id;
+    public Observation(String type, String value, String unit, Sensor sensor) {
         this.type = type;
         this.value = value;
         this.unit = unit;
-        this.timestamp = timestamp;
+        this.timestamp = new Timestamp(System.currentTimeMillis());
         this.sensor = sensor;
-        this.myPackage = myPackage;
         this.order = null;
+        this.myPackage = null;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

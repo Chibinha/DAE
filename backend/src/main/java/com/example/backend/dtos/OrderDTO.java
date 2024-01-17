@@ -5,35 +5,23 @@ import com.example.backend.entities.LineOperator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OrderDTO implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String type;
-    private long price;
-    private String status;
-    private List<PhysicalProductDTO> products;
-    public Client client;
-    public LineOperator lineOperator;
-    private Timestamp orderTimestamp;
+    private long idOrder;
+    private String orderType;
+    private String lineOperator;
+    private Map<Long, Integer> productQuantities;
+    public String client;
     public OrderDTO() {
-        this.products = new ArrayList<>();
-        this.orderTimestamp = new Timestamp(System.currentTimeMillis());
+        this.productQuantities = new HashMap<>();
     }
 
-    public OrderDTO(String type, String status, LineOperator lineOperator, Client client, List<PhysicalProductDTO> products) {
-        this.type = type;
-        this.status = status;
+    public OrderDTO(String orderType, String lineOperator, String client, Map<Long, Integer> productQuantities) {
+        this.orderType = orderType;
         this.lineOperator = lineOperator;
         this.client = client;
-        this.products = products;
-        this.orderTimestamp = new Timestamp(System.currentTimeMillis());
+        this.productQuantities = productQuantities;
     }
 
     public long getId() {
@@ -56,19 +44,28 @@ public class OrderDTO implements Serializable {
         this.status = status;
     }
 
-    public LineOperator getLineOperator() {
+    public String getLineOperator() {
         return lineOperator;
     }
 
-    public void setLineOperator(LineOperator lineOperator) {
+    public void setLineOperator(String lineOperator) {
         this.lineOperator = lineOperator;
     }
 
-    public Client getClient() {
+    public Map<Long, Integer> getProductQuantities() {
+        return productQuantities;
+    }
+
+    public void setProductQuantities(Map<Long, Integer> productQuantities) {
+        this.productQuantities = productQuantities;
+    }
+
+
+    public String getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(String client) {
         this.client = client;
     }
 
