@@ -7,6 +7,7 @@ import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 @Singleton
@@ -53,8 +54,12 @@ public class ConfigBean {
             clientBean.create("bruno", "123", "bruno", "bruno@mail.com");
             lineOperatorBean.create("diogo", "123", "diogo", "diogo@mail.com");
             lineOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
-
-            orderBean.create("Primária", "marco", "bruno", Collections.singletonMap(1L, 2));
+            HashMap<Long, Integer> order1 = new HashMap<Long, Integer>();
+            order1.put(1L, 2);
+            order1.put(2L,3);
+            order1.put(3L, 1);
+            orderBean.create("Primária", "marco", "bruno", order1);
+            //orderBean.getAllProductsForOrder(1);
 
             //orderBean.create(1, date.toString(2024.01.11), "Alfredo", "Joaquim", "Delivered");
 

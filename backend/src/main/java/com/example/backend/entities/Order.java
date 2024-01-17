@@ -118,7 +118,7 @@ public class Order implements Serializable {
         this.productQuantities.remove(productId);
     }
 
-    public Map<Long, Integer> getProductQuantities() {
+    public Map<Long, Integer> getProducts() {
         return productQuantities;
     }
 

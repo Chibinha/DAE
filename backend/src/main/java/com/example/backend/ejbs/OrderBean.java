@@ -16,8 +16,10 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintViolationException;
 import org.hibernate.Hibernate;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Stateless
 public class OrderBean {
@@ -25,6 +27,7 @@ public class OrderBean {
     private EntityManager entityManager;
     @EJB
     private ClientBean clientBean;
+    @EJB
     private LineOperatorBean lineOperatorBean;
 
     //CRUFD
@@ -70,9 +73,23 @@ public class OrderBean {
         Order order = entityManager.find(Order.class, idOrder);
         if (order != null) {
             // Ensure the products are initialized
-            Hibernate.initialize(order.getProductQuantities());
+            Hibernate.initialize(order.getProducts());
         }
         return order;
+    }
+
+    public List<PhysicalProduct> getAllProductsForOrder(long orderId) {
+        Order order = entityManager.find(Order.class, orderId);
+        if (order != null) {
+            // Retrieve product IDs from the order's map
+            List<Long> productIds = order.getProducts().keySet().stream().collect(Collectors.toList());
+
+            // Retrieve products based on product IDs
+            return entityManager.createQuery("SELECT p FROM Product p WHERE p.id IN :productIds", PhysicalProduct.class)
+                    .setParameter("productIds", productIds)
+                    .getResultList();
+        }
+        return Collections.emptyList();
     }
 }
 
