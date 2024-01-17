@@ -142,7 +142,10 @@ public class DTOConverter {
     // Order
     public OrderDTO orderToDTO(Order order) {
         return new OrderDTO(
+                order.getId(),
                 order.getType(),
+                order.getStatus(),
+                order.getTotalPrice(),
                 order.getLineOperator().getUsername(),
                 order.getClient().getUsername(),
                 physicalProductToDTOList(order.getPhysicalProducts())

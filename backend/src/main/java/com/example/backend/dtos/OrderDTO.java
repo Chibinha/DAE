@@ -6,6 +6,8 @@ import java.util.*;
 public class OrderDTO implements Serializable {
     private long id;
     private String type;
+    private String status;
+    private double totalPrice;
     private String lineOperator;
     private List<PhysicalProductDTO> physicalProducts;
     public String client;
@@ -13,8 +15,11 @@ public class OrderDTO implements Serializable {
         this.physicalProducts = new ArrayList<>();
     }
 
-    public OrderDTO(String type, String lineOperator, String client, List<PhysicalProductDTO> physicalProducts) {
+    public OrderDTO(long id, String type, String status, double totalPrice, String lineOperator, String client, List<PhysicalProductDTO> physicalProducts) {
+        this.id = id;
         this.type = type;
+        this.status = status;
+        this.totalPrice = totalPrice;
         this.lineOperator = lineOperator;
         this.client = client;
         this.physicalProducts = physicalProducts;
@@ -58,5 +63,21 @@ public class OrderDTO implements Serializable {
 
     public void setPhysicalProducts(List<PhysicalProductDTO> physicalProducts) {
         this.physicalProducts = physicalProducts;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

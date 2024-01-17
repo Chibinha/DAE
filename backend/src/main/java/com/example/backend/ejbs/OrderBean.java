@@ -42,6 +42,7 @@ public class OrderBean {
         Client client = clientBean.find(usernameClient);
         LineOperator lineOperator = lineOperatorBean.find(usernameLineOp);
         List<PhysicalProduct> physicalProducts = new ArrayList<>();
+        double totalPrice = 0;
 
         // Retrieve PhysicalProducts for each product ID
         for (Map.Entry<Long, Integer> entry : products.entrySet()) {
@@ -58,10 +59,11 @@ public class OrderBean {
             // Add PhysicalProducts to the list
             for (int i = 0; i < quantity; i++) {
                 physicalProducts.add(productPhysicalProducts.get(i));
+                totalPrice += productPhysicalProducts.get(i).getProduct().getPrice();
             }
         }
 
-        Order order = new Order("order", lineOperator, client, physicalProducts);
+        Order order = new Order("order", totalPrice, lineOperator, client, physicalProducts);
         entityManager.persist(order);
     }
 

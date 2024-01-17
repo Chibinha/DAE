@@ -7,10 +7,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Entity
-@Table(
-        name = "orders",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"idOrder"})
-)
+@Table(name = "orders")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllOrders",
@@ -23,8 +20,11 @@ public class Order implements Serializable {
     private long id;
 
     @NotNull
-    @Column(name = "orderType")
     private String type;
+    @NotNull
+    private String status;
+    @Column(name = "total_price")
+    private double totalPrice;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<PhysicalProduct> physicalProducts;
@@ -49,8 +49,10 @@ public class Order implements Serializable {
         this.physicalProducts = new ArrayList<>();
     }
 
-    public Order(String type, LineOperator lineOperator, Client client, List<PhysicalProduct> physicalProducts) {
+    public Order(String type, double totalPrice, LineOperator lineOperator, Client client, List<PhysicalProduct> physicalProducts) {
         this.type = type;
+        this.status = "created";
+        this.totalPrice = totalPrice;
         this.client = client;
         this.lineOperator = lineOperator;
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
@@ -103,5 +105,21 @@ public class Order implements Serializable {
 
     public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
         this.physicalProducts = physicalProducts;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
