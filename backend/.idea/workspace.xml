@@ -9,14 +9,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5035b343-e461-478b-90f7-f23c887f9dfb" name="Changes" comment="[Products] Add price and inStock">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/websocket/WebsocketEndpoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/websocket/WebsocketService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/MakerBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/MakerBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ObservationBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ObservationBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Maker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Maker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Sensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Sensor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/websocket/WebsocketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/websocket/WebsocketService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +61,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Sensors",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/DAE/backend",
