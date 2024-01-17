@@ -89,9 +89,7 @@ public class ConfigBean {
             order1.put(1L, 2);
             order1.put(2L,3);
             order1.put(3L, 1);
-            orderBean.create("Primária", "marco", "bruno", order1);
-            orderBean.create("Secundária", "marco", "bruno", order1);
-            orderBean.create("Terciária", "marco", "bruno", order1);
+            orderBean.create("joao", "marco", order1);
             //orderBean.getAllProductsForOrder(1);
             //#endregion
         } catch (Exception e) {

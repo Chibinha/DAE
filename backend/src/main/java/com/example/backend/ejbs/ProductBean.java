@@ -2,13 +2,14 @@ package com.example.backend.ejbs;
 
 import com.example.backend.dtos.ProductDTO;
 import com.example.backend.entities.Maker;
+import com.example.backend.entities.PhysicalProduct;
 import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import org.hibernate.Hibernate;
 
 import java.util.List;
 
@@ -76,5 +77,15 @@ public class ProductBean {
     // Delete
     public void delete(long id) throws MyEntityNotFoundException{
         entityManager.remove(find(id));
+    }
+
+    //get List<PhysicalProduct> from Product
+    public List<PhysicalProduct> getListPhysicalProducts(long productId) {
+        Product product = entityManager.find(Product.class, productId);
+        if (product != null) {
+            Hibernate.initialize(product.getPhysicalProducts());
+            return product.getPhysicalProducts();
+        }
+        return null;
     }
 }
