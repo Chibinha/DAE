@@ -14,23 +14,29 @@ import java.util.*;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllOrders",
-                query = "SELECT o FROM Order o ORDER BY o.idOrder"
+                query = "SELECT o FROM Order o ORDER BY o.id"
         )
 })
 public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idOrder;
+    private long id;
 
     @NotNull
-    @Column(name = "orderType")
-    private String orderType;
+    @Column(name = "type")
+    private String type;
 
-    @ElementCollection
-    @CollectionTable(name = "order_product_quantities", joinColumns = @JoinColumn(name = "order_id"))
-    @MapKeyColumn(name = "product_id")
-    @Column(name = "productQuantities")
-    private Map<Long, Integer> productQuantities = new HashMap<>();
+    @NotNull
+    @Column(name = "price")
+    private double price;
+
+    @NotNull
+    @Column(name = "status")
+    private String status;
+
+    @OneToMany(mappedBy = "order")
+    @Column(name= "products")
+    private List<PhysicalProduct> products;
 
     @ManyToOne
     @JoinColumn(name = "client")
@@ -48,32 +54,45 @@ public class Order implements Serializable {
     private Timestamp orderTimestamp;
 
     public Order() {
-        this.productQuantities = new HashMap<>();
+        this.products = new ArrayList<>();
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
     }
 
-    public Order(String orderType, LineOperator lineOperator,Client client) {
-        this.orderType = orderType;
-        this.client = client;
+    public Order(String type, String status, LineOperator lineOperator,Client client, List<PhysicalProduct> physicalProducts) {
+        this.type = type;
+        this.status = status;
         this.lineOperator = lineOperator;
-        this.productQuantities = new HashMap<>();
+        this.client = client;
+        this.products = physicalProducts;
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
     }
 
     public long getIdOrder() {
-        return idOrder;
+        return id;
     }
 
-    public void setIdOrder(long idOrder) {
-        this.idOrder = idOrder;
+    public void setId(long idOrder) {
+        this.id = idOrder;
     }
 
-    public String getOrderType() {
-        return orderType;
+    public String getType() {
+        return type;
     }
 
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public long getPrice() {
+        return price;
     }
 
     public LineOperator getLineOperator() {
@@ -100,7 +119,23 @@ public class Order implements Serializable {
         this.orderTimestamp = orderTimestamp;
     }
 
-    public void addProductQuantity(PhysicalProduct physicalProduct, int quantity) {
+    public List<PhysicalProduct> getProducts() {
+        return new ArrayList<>(products);
+    }
+
+    public void setProducts(List<PhysicalProduct> products) {
+        this.products = products;
+    }
+
+    public void addProducts(PhysicalProduct product) {
+        this.products.add(product);
+    }
+
+    public void removeProducts(PhysicalProduct product) {
+        this.products.remove(product);
+    }
+
+    /*public void addProductQuantity(PhysicalProduct physicalProduct, int quantity) {
         if (physicalProduct != null) {
 
             Long productId = physicalProduct.getId();
@@ -122,7 +157,8 @@ public class Order implements Serializable {
         return productQuantities;
     }
 
-    public void setProductQuantities(Map<Long, Integer> productQuantities) {
-        this.productQuantities = productQuantities;
+    public int calculateTotalPrice() {
+        return productQuantities.values().stream().mapToInt(Integer::intValue).sum();
     }
+    */
 }

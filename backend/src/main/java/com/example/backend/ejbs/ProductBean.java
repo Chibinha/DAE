@@ -2,13 +2,14 @@ package com.example.backend.ejbs;
 
 import com.example.backend.dtos.ProductDTO;
 import com.example.backend.entities.Maker;
+import com.example.backend.entities.PhysicalProduct;
 import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import org.hibernate.Hibernate;
 
 import java.util.List;
 
@@ -17,19 +18,25 @@ public class ProductBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public boolean exists(long id) {
+    public boolean exists(long id) throws MyEntityNotFoundException  {
         Query query = entityManager.createQuery("SELECT COUNT(p) FROM Product p WHERE p.id = :id");
         query.setParameter("id", id);
-        return ((long) query.getSingleResult()) > 0L;
+        if ((long) query.getSingleResult() > 0L) {
+            return true;
+        } else {
+            throw new MyEntityNotFoundException("Product with id " + id + " not found");
+        }
     }
 
     // CRUD
     // Create
-    public long create(String name,double price, String description, double weight, String ingredients, String makerName) {
+    public long create(String name,double price, String description, double weight, String ingredients, String makerName) throws MyEntityNotFoundException {
         Maker maker = entityManager.find(Maker.class, makerName);
 
         Product product = new Product(name, price, description, weight, ingredients, maker);
         entityManager.persist(product);
+
+        find(product.getId());
 
         return product.getId();
     }
@@ -70,5 +77,15 @@ public class ProductBean {
     // Delete
     public void delete(long id) throws MyEntityNotFoundException{
         entityManager.remove(find(id));
+    }
+
+    //get List<PhysicalProduct> from Product
+    public List<PhysicalProduct> getListPhysicalProducts(long productId) {
+        Product product = entityManager.find(Product.class, productId);
+        if (product != null) {
+            Hibernate.initialize(product.getPhysicalProducts());
+            return product.getPhysicalProducts();
+        }
+        return null;
     }
 }

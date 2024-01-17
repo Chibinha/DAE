@@ -12,7 +12,7 @@ public class OrderService {
     @EJB
     private OrderBean orderBean;
 
-    public void createOrder(String orderType, String lineOperatorUsername, String clientUsername, Map<Long, Integer> productQuantities) throws MyConstraintViolationException, MyEntityNotFoundException {
-        orderBean.create(orderType, lineOperatorUsername, clientUsername, productQuantities);
-    }
+    /*public void createOrder(String type, String status, String lineOperatorUsername, String clientUsername, Map<Long, Integer> productQuantities) throws MyConstraintViolationException, MyEntityNotFoundException {
+        orderBean.create(type, status, lineOperatorUsername, clientUsername, productQuantities);
+    }*/
 }

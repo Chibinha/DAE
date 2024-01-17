@@ -53,15 +53,17 @@ public class ConfigBean {
             clientBean.create("joao", "123", "joao", "joao@mail.com");
             clientBean.create("bruno", "123", "bruno", "bruno@mail.com");
             lineOperatorBean.create("diogo", "123", "diogo", "diogo@mail.com");
-            lineOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
-            HashMap<Long, Integer> order1 = new HashMap<Long, Integer>();
+            lineOperatorBean.create("marco", "123", "marco", "marco@mail.com");
+            /*HashMap<Long, Integer> order1 = new HashMap<>();
             order1.put(1L, 2);
             order1.put(2L,3);
-            order1.put(3L, 1);
-            orderBean.create("Primária", "marco", "bruno", order1);
+            order1.put(3L, 1);*/
+            orderBean.create("Primária", "Ready","marco", "bruno");
+            orderBean.addProductToOrder(1, physicalProductBean.find(1));
+            //orderBean.findOrder(1).addProducts(physicalProductBean.find(1));
+            //orderBean.findOrder(1).addProducts(physicalProductBean.find(2));
             //orderBean.getAllProductsForOrder(1);
 
-            //orderBean.create(1, date.toString(2024.01.11), "Alfredo", "Joaquim", "Delivered");
 
         } catch (Exception e) {
             logger.severe(e.getClass().getCanonicalName() + e.getMessage());
