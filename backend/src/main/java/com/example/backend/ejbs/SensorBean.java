@@ -20,9 +20,11 @@ public class SensorBean {
 
     // CRUD
     // Create
-    public long create(String name, String type) {
+    public long create(String name, String type) throws MyEntityNotFoundException {
         Sensor sensor = new Sensor(name, type);
         entityManager.persist(sensor);
+
+        find(sensor.getId());
 
         return sensor.getId();
     }

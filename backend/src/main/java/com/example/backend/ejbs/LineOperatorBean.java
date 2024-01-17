@@ -44,6 +44,11 @@ public class LineOperatorBean {
         }
     }
 
+    //getAll
+    public List<LineOperator> getAll() {
+        return entityManager.createNamedQuery("getAllLineOperators", LineOperator.class).getResultList();
+    }
+
     public void update(String username, String password, String name, String email) {
         LineOperator lineOperator = entityManager.find(LineOperator.class, username);
         if (lineOperator == null) {

@@ -25,11 +25,13 @@ public class ProductBean {
 
     // CRUD
     // Create
-    public long create(String name,double price, String description, double weight, String ingredients, String makerName) {
+    public long create(String name,double price, String description, double weight, String ingredients, String makerName) throws MyEntityNotFoundException {
         Maker maker = entityManager.find(Maker.class, makerName);
 
         Product product = new Product(name, price, description, weight, ingredients, maker);
         entityManager.persist(product);
+
+        find(product.getId());
 
         return product.getId();
     }
