@@ -1,47 +1,39 @@
 package com.example.backend.dtos;
 
-import com.example.backend.entities.Client;
-import com.example.backend.entities.LineOperator;
-import com.example.backend.entities.PhysicalProduct;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-
-import javax.sound.sampled.Line;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
 public class OrderDTO implements Serializable {
-    private long idOrder;
-    private String orderType;
+    private long id;
+    private String type;
     private String lineOperator;
-    private Map<Long, Integer> productQuantities;
+    private List<PhysicalProductDTO> physicalProducts;
     public String client;
     public OrderDTO() {
-        this.productQuantities = new HashMap<>();
+        this.physicalProducts = new ArrayList<>();
     }
 
-    public OrderDTO(String orderType, String lineOperator, String client, Map<Long, Integer> productQuantities) {
-        this.orderType = orderType;
+    public OrderDTO(String type, String lineOperator, String client, List<PhysicalProductDTO> physicalProducts) {
+        this.type = type;
         this.lineOperator = lineOperator;
         this.client = client;
-        this.productQuantities = productQuantities;
+        this.physicalProducts = physicalProducts;
     }
 
-    public long getIdOrder() {
-        return idOrder;
+    public long getId() {
+        return id;
     }
 
-    public void setIdOrder(long idOrder) {
-        this.idOrder = idOrder;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getOrderType() {
-        return orderType;
+    public String getType() {
+        return type;
     }
 
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getLineOperator() {
@@ -52,20 +44,19 @@ public class OrderDTO implements Serializable {
         this.lineOperator = lineOperator;
     }
 
-    public Map<Long, Integer> getProductQuantities() {
-        return productQuantities;
-    }
-
-    public void setProductQuantities(Map<Long, Integer> productQuantities) {
-        this.productQuantities = productQuantities;
-    }
-
-
     public String getClient() {
         return client;
     }
 
     public void setClient(String client) {
         this.client = client;
+    }
+
+    public List<PhysicalProductDTO> getPhysicalProducts() {
+        return physicalProducts;
+    }
+
+    public void setPhysicalProducts(List<PhysicalProductDTO> physicalProducts) {
+        this.physicalProducts = physicalProducts;
     }
 }
