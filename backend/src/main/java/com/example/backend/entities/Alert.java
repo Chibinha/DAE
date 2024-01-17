@@ -14,6 +14,10 @@ import java.util.Calendar;
         @NamedQuery(
                 name = "getAllAlerts",
                 query = "SELECT a FROM Alert a ORDER BY a.id"
+        ),
+        @NamedQuery(
+                name = "getUserAlerts",
+                query = "SELECT a FROM Alert a WHERE a.user = :user ORDER BY a.id"
         )
 })
 public class Alert implements Serializable {
@@ -33,7 +37,6 @@ public class Alert implements Serializable {
     private Timestamp timestamp;
 
     public Alert() {
-
     }
 
     public Alert(User user, String description) {
