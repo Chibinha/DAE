@@ -9,26 +9,23 @@ import jakarta.validation.constraints.NotNull;
 import javax.sound.sampled.Line;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class OrderDTO implements Serializable {
     private long idOrder;
     private String orderType;
-    private LineOperator lineOperator;
-    private List<PhysicalProductDTO> products;
-    public Client client;
+    private String lineOperator;
+    private Map<Long, Integer> productQuantities;
+    public String client;
     public OrderDTO() {
-        this.products = new ArrayList<>();
+        this.productQuantities = new HashMap<>();
     }
 
-    public OrderDTO(String orderType, LineOperator lineOperator, Client client, List<PhysicalProductDTO> products) {
+    public OrderDTO(String orderType, String lineOperator, String client, Map<Long, Integer> productQuantities) {
         this.orderType = orderType;
         this.lineOperator = lineOperator;
         this.client = client;
-        this.products = products;
+        this.productQuantities = productQuantities;
     }
 
     public long getIdOrder() {
@@ -47,27 +44,28 @@ public class OrderDTO implements Serializable {
         this.orderType = orderType;
     }
 
-    public LineOperator getLineOperator() {
+    public String getLineOperator() {
         return lineOperator;
     }
 
-    public void setLineOperator(LineOperator lineOperator) {
+    public void setLineOperator(String lineOperator) {
         this.lineOperator = lineOperator;
     }
 
-    public List<PhysicalProductDTO> getProducts() {
-        return products;
+    public Map<Long, Integer> getProductQuantities() {
+        return productQuantities;
     }
 
-    public void setProducts(List<PhysicalProductDTO> products) {
-        this.products = products;
+    public void setProductQuantities(Map<Long, Integer> productQuantities) {
+        this.productQuantities = productQuantities;
     }
 
-    public Client getClient() {
+
+    public String getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(String client) {
         this.client = client;
     }
 }
