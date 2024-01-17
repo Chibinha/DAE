@@ -58,8 +58,12 @@ public class TransportationPackageBean {
         return transportationPackage;
     }
 
-    public TransportationPackage find(long id) {
-        return entityManager.find(TransportationPackage.class, id);
+    public TransportationPackage find(long id) throws MyEntityNotFoundException {
+        TransportationPackage transportationPackage = entityManager.find(TransportationPackage.class, id);
+        if (transportationPackage == null) {
+            throw new MyEntityNotFoundException("Package with id " + id + " not found");
+        }
+        return transportationPackage;
     }
 
     public List<TransportationPackage> getAll() {

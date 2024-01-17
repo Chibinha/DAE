@@ -50,8 +50,12 @@ public class ProductPackageBean {
         return productPackage;
     }
 
-    public ProductPackage find(long id) {
-        return entityManager.find(ProductPackage.class, id);
+    public ProductPackage find(long id) throws MyEntityNotFoundException {
+        ProductPackage productPackage = entityManager.find(ProductPackage.class, id);
+        if (productPackage == null) {
+            throw new MyEntityNotFoundException("Package with id " + id + " not found");
+        }
+        return productPackage;
     }
 
     public List<ProductPackage> getAll() {
