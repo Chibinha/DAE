@@ -116,7 +116,7 @@ public class ClientService {
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
         {
-            return Response.ok(dtoConverter.physicalProductToDTOList(clientBean.getClientOrderProducts(username ,index))).build();
+            return Response.ok(dtoConverter.productToDTOList(clientBean.getClientOrderProducts(username ,index))).build();
         }
     }
 

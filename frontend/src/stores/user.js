@@ -9,7 +9,7 @@ export const useUserStore = defineStore('user', () => {
 
     const username = computed(() => user.value?.username ?? 'joao')
 
-    const userType = computed(() => user.value?.dtype ?? 'V')
+    const userType = computed(() => user.value?.dtype ?? 'client')
 
     async function loadUser() {
         try {

@@ -5,7 +5,7 @@ import { useOrderStore } from '../../../stores/order'
 // import { useProductStore } from '../../../stores/product'
 // import { useUserStore } from '../../../stores/user'
 
-import { ref, inject, computed, watch, onMounted } from 'vue'
+import { onMounted } from 'vue'
 
 const orderStore = useOrderStore()
 
@@ -32,6 +32,10 @@ const loadProducts = async () => {
   }
 }
 
+// const seeProduct = (product) => {
+//   router.push({ name: 'Product', params: { id: product.id } })
+// }
+
 onMounted(() => {
     loadOrder()
     loadProducts()
@@ -49,7 +53,6 @@ onMounted(() => {
             <tr>
                 <th>Custo Total</th>
                 <th>Estado</th>
-                <th>Tipo</th>
                 <th>Data de Encomenda</th>
                 <th></th>
             </tr>
@@ -57,36 +60,36 @@ onMounted(() => {
             <tbody>
                 <td>{{ orderStore.order.totalPrice }}€</td>
                 <td>{{ orderStore.order.status }}</td>
-                <td>{{ orderStore.order.type }}</td>
                 <td>{{ orderStore.order.orderTimestamp }}</td>
             </tbody>
         </table>
 
         <h5 class="mt-5 mb-3">Produtos Encomendados:</h5>
-
-
         <table class="table">
             <thead>
             <tr>
-                <th>Id Encomenda</th>
-                <th>Custo Total</th>
-                <th>Status</th>
-                <th>Type</th>
-                <th>Data de Encomenda</th>
+                <th>Produto</th>
+                <th>Fabricante</th>
+                <th>Descrição</th>
+                <th>Preço Un.</th>
+                <th>Quantidade</th>
+                <th>Subtotal</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="order in orders" :key="order.idOrder">
-                <td>{{ order.id }}</td>
-                <td>{{ order.totalPrice }}€</td>
-                <td>{{ order.status }}</td>
-                <td>{{ order.type }}</td>
-                <td>{{ order.orderTimestamp }}</td>
+            <tr v-for="product in orderStore.products" :key="product.id">
+                <td>{{ product.name }}</td>
+                <td>{{ product.makerName }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.price }}€</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.subtotal }}€</td>
+                <td class="text-end">
+                </td>
                 <td class="text-end">
                 <div class="d-flex justify-content-end">
-                    <button class="btn btn-xs btn-light" @click="seeDetails(order)"><i
-                        class="bi bi-xs bi-info-circle"></i>
+                    <button class="btn btn-xs btn-light" @click="seeProduct(product)"><i>Mais info</i>
                     </button>
                 </div>
                 </td>

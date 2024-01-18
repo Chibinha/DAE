@@ -22,7 +22,6 @@ const seeDetails = (order) => {
         <th>Id Encomenda</th>
         <th>Custo Total</th>
         <th>Status</th>
-        <th>Type</th>
         <th>Data de Encomenda</th>
         <th></th>
       </tr>
@@ -32,7 +31,6 @@ const seeDetails = (order) => {
         <td>{{ order.id }}</td>
         <td>{{ order.totalPrice }}€</td>
         <td>{{ order.status }}</td>
-        <td>{{ order.type }}</td>
         <td>{{ order.orderTimestamp }}</td>
         <td class="text-end">
           <div class="d-flex justify-content-end">

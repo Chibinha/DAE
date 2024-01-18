@@ -44,6 +44,8 @@ public class OrderBean {
         List<PhysicalProduct> physicalProducts = new ArrayList<>();
         double totalPrice = 0;
 
+        Order order = new Order(totalPrice, lineOperator, client, physicalProducts);
+
         // Retrieve PhysicalProducts for each product ID
         for (Map.Entry<Long, Integer> entry : products.entrySet()) {
             Long productId = entry.getKey();
@@ -58,12 +60,14 @@ public class OrderBean {
 
             // Add PhysicalProducts to the list
             for (int i = 0; i < quantity; i++) {
+                PhysicalProduct productToAdd = productPhysicalProducts.get(i);
                 physicalProducts.add(productPhysicalProducts.get(i));
+                productToAdd.setOrder(order);
                 totalPrice += productPhysicalProducts.get(i).getProduct().getPrice();
             }
         }
-
-        Order order = new Order("order", totalPrice, lineOperator, client, physicalProducts);
+        order.setPhysicalProducts(physicalProducts);
+        order.setTotalPrice(totalPrice);
         entityManager.persist(order);
     }
 

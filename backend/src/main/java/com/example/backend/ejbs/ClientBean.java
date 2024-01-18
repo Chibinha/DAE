@@ -15,6 +15,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintViolationException;
 import org.hibernate.Hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -89,11 +90,16 @@ public class ClientBean {
         return null;
     }
 
-    public List<PhysicalProduct> getClientOrderProducts(String username, long index) {
+    public List<Product> getClientOrderProducts(String username, long index) {
         Client client = this.find(username);
         if(client != null)
         {
-            return entityManager.find(Order.class, index).getPhysicalProducts();
+            List<PhysicalProduct> physical = entityManager.find(Order.class, index).getPhysicalProducts();
+            List<Product> products = new ArrayList<Product>();
+            for(PhysicalProduct product : physical){
+                products.add(product.getProduct());
+            }
+            return products;
         }
         return null;
     }

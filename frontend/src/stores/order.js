@@ -8,10 +8,11 @@ export const useOrderStore = defineStore('order', () => {
     const orders = ref([])
     const order = ref([])
     const products = ref([])
+    const userType = userStore.userType;
 
     async function loadOrders() {
         try {
-            const response = await axios.get(`client/${userStore.username}/orders`);
+            const response = await axios.get(`${userType}/${userStore.username}/orders`);
             orders.value = response.data;
             return orders.value;
         } catch (error) {
@@ -21,9 +22,11 @@ export const useOrderStore = defineStore('order', () => {
         }
     }
 
+    
+
     async function loadOrder(id) {
         try {
-            const response = await axios.get(`client/${userStore.username}/orders/` + id)
+            const response = await axios.get(`${userType}/${userStore.username}/orders/` + id)
             order.value = response.data
             return order.value
         }
@@ -34,20 +37,35 @@ export const useOrderStore = defineStore('order', () => {
 
     async function loadProducts(id) {
         try {
-            const response = await axios.get(`client/${userStore.username}/orders/${id}/products`)
-            products.value = response.data
-            return order.value
-        }
-        catch (error) {
-            throw error
+            const response = await axios.get(`${userType}/${userStore.username}/orders/${id}/products`);
+            const productsData = response.data;
+            const productQuantityMap = {}; //Cria mapa para obter a quantidade
+    
+            productsData.forEach(product => {
+                const productId = product.id;
+
+                if (productQuantityMap[productId]) {
+                    productQuantityMap[productId].quantity++;
+                    productQuantityMap[productId].subtotal = product.price * productQuantityMap[productId].quantity;
+                } else {
+                    // Se já estiver no mapa adiciona o produto com quantidade 1
+                    product.quantity = 1;
+                    productQuantityMap[productId] = product;
+                    productQuantityMap[productId].subtotal = product.price;
+                }
+            });
+            products.value = Object.values(productQuantityMap);
+        } catch (error) {
+            console.error('Error loading products:', error);
         }
     }
-    
+        
     return {
         loadOrders,
         loadOrder,
         loadProducts,
         orders,
-        order
+        order,
+        products,
     }
 })

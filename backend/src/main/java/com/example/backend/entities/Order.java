@@ -20,8 +20,6 @@ public class Order implements Serializable {
     private long id;
 
     @NotNull
-    private String type;
-    @NotNull
     private String status;
     @Column(name = "total_price")
     private double totalPrice;
@@ -49,8 +47,7 @@ public class Order implements Serializable {
         this.physicalProducts = new ArrayList<>();
     }
 
-    public Order(String type, double totalPrice, LineOperator lineOperator, Client client, List<PhysicalProduct> physicalProducts) {
-        this.type = type;
+    public Order(double totalPrice, LineOperator lineOperator, Client client, List<PhysicalProduct> physicalProducts) {
         this.status = "created";
         this.totalPrice = totalPrice;
         this.client = client;
@@ -65,14 +62,6 @@ public class Order implements Serializable {
 
     public void setId(long idOrder) {
         this.id = idOrder;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String orderType) {
-        this.type = orderType;
     }
 
     public LineOperator getLineOperator() {
