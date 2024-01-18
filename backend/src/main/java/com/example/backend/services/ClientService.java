@@ -18,6 +18,7 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.faces.context.ExternalContext;
 import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -76,6 +77,7 @@ public class ClientService {
 
     @GET
     @Path("{username}/orders")
+    @Transactional
     public Response getClientOrders(@PathParam("username") String username) {
         if(username.equals("anonymous"))
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
@@ -96,10 +98,26 @@ public class ClientService {
 
     @GET
     @Path("{username}/orders/{index}")
-    public Response getClientOrders(@PathParam("username") String username, @PathParam("index") int index) {
-        var client = clientBean.getClientOrders(username);
-        var orders = client.getOrders();
-        return Response.ok(dtoConverter.orderToDTO(orders.get(index))).build();
+    @Transactional
+    public Response getClientOrder(@PathParam("username") String username, @PathParam("index") long index) {
+        if(username.equals("anonymous"))
+            return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
+        else
+        {
+            return Response.ok(dtoConverter.orderToDTO(clientBean.getClientOrder(username ,index))).build();
+        }
+    }
+
+    @GET
+    @Path("{username}/orders/{index}/products")
+    @Transactional
+    public Response getClientOrderProducts(@PathParam("username") String username, @PathParam("index") long index) {
+        if(username.equals("anonymous"))
+            return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
+        else
+        {
+            return Response.ok(dtoConverter.physicalProductToDTOList(clientBean.getClientOrderProducts(username ,index))).build();
+        }
     }
 
 //    @GET

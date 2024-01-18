@@ -24,34 +24,77 @@ const loadOrder = async () => {
   }
 }
 
+const loadProducts = async () => {
+  try {
+    await orderStore.loadProducts(props.id)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 onMounted(() => {
     loadOrder()
+    loadProducts()
 })
 
 </script>
 
 <template> 
-      <form class="row g-3 needs-validation" novalidate @submit.prevent="save">
-        <h3 class="mt-5 mb-3">Encomenda #{{ orderStore.orderId }}</h3>
+
+      <form class="row g-3" >
+        <h3 class="mt-5 mb-3">Encomenda #{{ orderStore.order.id }}</h3>
         <hr>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Custo Total</th>
+                <th>Estado</th>
+                <th>Tipo</th>
+                <th>Data de Encomenda</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <td>{{ orderStore.order.totalPrice }}€</td>
+                <td>{{ orderStore.order.status }}</td>
+                <td>{{ orderStore.order.type }}</td>
+                <td>{{ orderStore.order.orderTimestamp }}</td>
+            </tbody>
+        </table>
 
-        <div class="mb-3">
-            <label for="inputName" class="form-label">Estado</label>
-            <input type="text" class="form-control" id="inputName" required v-model="orderStore.status">
-        </div>
-        <div class="mb-3">
-            <label for="inputName" class="form-label">Data</label>
-            <input type="text" class="form-control" id="inputName" required v-model="orderStore.date">
-        </div>
+        <h5 class="mt-5 mb-3">Produtos Encomendados:</h5>
 
-        <!-- <product-table
-            :products="getProducts">
-        </product-table> -->
 
-        <div class="mb-3">
-            <label for="inputName" class="form-label">Status</label>
-            <input type="text" class="form-control" id="inputName" required v-model="orderStore.total">
-        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id Encomenda</th>
+                <th>Custo Total</th>
+                <th>Status</th>
+                <th>Type</th>
+                <th>Data de Encomenda</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="order in orders" :key="order.idOrder">
+                <td>{{ order.id }}</td>
+                <td>{{ order.totalPrice }}€</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.type }}</td>
+                <td>{{ order.orderTimestamp }}</td>
+                <td class="text-end">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-xs btn-light" @click="seeDetails(order)"><i
+                        class="bi bi-xs bi-info-circle"></i>
+                    </button>
+                </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h5 class="mt-5 mb-3">Observações:</h5>
 
         <!-- <h5 v-if="totalAlertas == 0">Não tem Alertas </h5>
         <alerts-table v-else

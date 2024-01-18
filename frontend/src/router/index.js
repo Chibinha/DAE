@@ -27,10 +27,10 @@ const router = createRouter({
       component: Orders
     },    
     {
-      path: '/client/orders/:index',
+      path: '/client/orders/:id',
       name: 'Order',
       component: Order,
-      props: route => ({ index: parseInt(route.params.id) })
+      props: route => ({ id: parseInt(route.params.id) })
     }, 
     {
       path: '/cart',
