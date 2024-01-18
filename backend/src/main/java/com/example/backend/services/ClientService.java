@@ -13,6 +13,8 @@ import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
+import com.example.backend.exceptions.MyIllegalArgumentException;
+import com.example.backend.exceptions.NotAuthorizedException;
 import com.example.backend.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
@@ -61,7 +63,7 @@ public class ClientService {
     @GET
     @Path("/{username}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-    public Response get(@PathParam("username") String username) {
+    public Response get(@PathParam("username") String username) throws MyEntityNotFoundException {
 //        var principal = securityContext.getUserPrincipal();
 //        if(!principal.getName().equals(username)) {
 //            return Response.status(Response.Status.FORBIDDEN).build();
@@ -78,7 +80,7 @@ public class ClientService {
     @GET
     @Path("{username}/orders")
     @Transactional
-    public Response getClientOrders(@PathParam("username") String username) {
+    public Response getClientOrders(@PathParam("username") String username) throws MyEntityNotFoundException {
         if(username.equals("anonymous"))
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
@@ -99,7 +101,7 @@ public class ClientService {
     @GET
     @Path("{username}/orders/{index}")
     @Transactional
-    public Response getClientOrder(@PathParam("username") String username, @PathParam("index") long index) {
+    public Response getClientOrder(@PathParam("username") String username, @PathParam("index") Long index) throws MyEntityNotFoundException, NotAuthorizedException {
         if(username.equals("anonymous"))
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
@@ -111,12 +113,24 @@ public class ClientService {
     @GET
     @Path("{username}/orders/{index}/products")
     @Transactional
-    public Response getClientOrderProducts(@PathParam("username") String username, @PathParam("index") long index) {
+    public Response getClientOrderProducts(@PathParam("username") String username, @PathParam("index") Long index) throws MyEntityNotFoundException, NotAuthorizedException {
         if(username.equals("anonymous"))
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
         {
             return Response.ok(dtoConverter.productToDTOList(clientBean.getClientOrderProducts(username ,index))).build();
+        }
+    }
+
+    @GET
+    @Path("{username}/orders/{index}/observations")
+    @Transactional
+    public Response getClientOrderObservations(@PathParam("username") String username, @PathParam("index") Long index) throws MyEntityNotFoundException {
+        if(username.equals("anonymous"))
+            return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
+        else
+        {
+            return Response.ok(dtoConverter.observationToDTOList(clientBean.getClientOrderObservations(username ,index))).build();
         }
     }
 

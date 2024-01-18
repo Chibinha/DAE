@@ -22,7 +22,7 @@ const seeDetails = (order) => {
         <th>Id Encomenda</th>
         <th>Custo Total</th>
         <th>Status</th>
-        <th>Data de Encomenda</th>
+        <th>Encomendado a:</th>
         <th></th>
       </tr>
     </thead>

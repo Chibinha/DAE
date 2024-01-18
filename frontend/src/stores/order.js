@@ -8,12 +8,16 @@ export const useOrderStore = defineStore('order', () => {
     const orders = ref([])
     const order = ref([])
     const products = ref([])
+    const observations = ref([])
     const userType = userStore.userType;
 
     async function loadOrders() {
         try {
             const response = await axios.get(`${userType}/${userStore.username}/orders`);
             orders.value = response.data;
+            orders.value.forEach((order, index) => {
+                order.orderTimestamp = formatTimestamp(order.orderTimestamp)
+              });
             return orders.value;
         } catch (error) {
             console.error('Error loading orders:', error);
@@ -22,12 +26,11 @@ export const useOrderStore = defineStore('order', () => {
         }
     }
 
-    
-
     async function loadOrder(id) {
         try {
             const response = await axios.get(`${userType}/${userStore.username}/orders/` + id)
             order.value = response.data
+            order.value.orderTimestamp = formatTimestamp(order.value.orderTimestamp)
             return order.value
         }
         catch (error) {
@@ -59,13 +62,38 @@ export const useOrderStore = defineStore('order', () => {
             console.error('Error loading products:', error);
         }
     }
-        
+
+    async function loadObservations(id) {
+        try 
+        {
+            const response = await axios.get(`${userType}/${userStore.username}/orders/${id}/observations`);
+            observations.value = response.data
+            observations.value = response.data;
+            observations.value.forEach((observation, index) => {
+                observation.timestamp = formatTimestamp(observation.timestamp)
+              });
+            return orders.value;
+            return observations.value
+        }
+        catch (error) {
+            throw error
+        }
+    }
+
+    function formatTimestamp(timestamp) 
+    {
+        return timestamp.substring(0, 16).replace("T", ' - ')
+    }
+
     return {
         loadOrders,
         loadOrder,
         loadProducts,
+        loadObservations,
+        formatTimestamp,
         orders,
         order,
         products,
+        observations,
     }
 })

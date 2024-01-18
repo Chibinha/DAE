@@ -41,13 +41,11 @@ public class Observation implements Serializable {
     public Observation() {
     }
 
-    public Observation(String type, String value, String unit, Sensor sensor) {
-        this.type = type;
+    public Observation(String value, Sensor sensor, Order order) {
         this.value = value;
-        this.unit = unit;
         this.timestamp = new Timestamp(System.currentTimeMillis());
         this.sensor = sensor;
-        this.order = null;
+        this.order = order;
         this.myPackage = null;
     }
 
