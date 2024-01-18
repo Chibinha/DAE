@@ -1,47 +1,37 @@
 package com.example.backend.dtos;
 
-import com.example.backend.entities.Client;
-import com.example.backend.entities.LineOperator;
-import com.example.backend.entities.PhysicalProduct;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-
-import javax.sound.sampled.Line;
-import java.io.Serial;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class OrderDTO implements Serializable {
-    private long idOrder;
-    private String orderType;
+    private long id;
+    private String status;
+    private double totalPrice;
     private String lineOperator;
-    private Map<Long, Integer> productQuantities;
+    private List<PhysicalProductDTO> physicalProducts;
     public String client;
+    private Timestamp orderTimestamp;
     public OrderDTO() {
-        this.productQuantities = new HashMap<>();
+        this.physicalProducts = new ArrayList<>();
     }
 
-    public OrderDTO(String orderType, String lineOperator, String client, Map<Long, Integer> productQuantities) {
-        this.orderType = orderType;
+    public OrderDTO(long id, String status, double totalPrice, String lineOperator, String client, Timestamp orderTimestamp, List<PhysicalProductDTO> physicalProducts) {
+        this.id = id;
+        this.status = status;
+        this.totalPrice = totalPrice;
         this.lineOperator = lineOperator;
         this.client = client;
-        this.productQuantities = productQuantities;
+        this.physicalProducts = physicalProducts;
+        this.orderTimestamp = orderTimestamp;
     }
 
-    public long getIdOrder() {
-        return idOrder;
+    public long getId() {
+        return id;
     }
 
-    public void setIdOrder(long idOrder) {
-        this.idOrder = idOrder;
-    }
-
-    public String getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getLineOperator() {
@@ -52,20 +42,39 @@ public class OrderDTO implements Serializable {
         this.lineOperator = lineOperator;
     }
 
-    public Map<Long, Integer> getProductQuantities() {
-        return productQuantities;
-    }
-
-    public void setProductQuantities(Map<Long, Integer> productQuantities) {
-        this.productQuantities = productQuantities;
-    }
-
-
     public String getClient() {
         return client;
     }
 
     public void setClient(String client) {
         this.client = client;
+    }
+
+    public List<PhysicalProductDTO> getPhysicalProducts() {
+        return physicalProducts;
+    }
+
+    public void setPhysicalProducts(List<PhysicalProductDTO> physicalProducts) {
+        this.physicalProducts = physicalProducts;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Timestamp getOrderTimestamp() {
+        return orderTimestamp;
     }
 }

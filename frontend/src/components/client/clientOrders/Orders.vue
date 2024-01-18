@@ -7,13 +7,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const orderStore = useOrderStore()
 
-const props = defineProps({
-  orders: {
-    type: Array,
-    default: () => [],
-  },
-})
-
 
 const loadOrders = async () => {
   try {
@@ -23,20 +16,12 @@ const loadOrders = async () => {
   }
 }
 
-const totalOrders = computed(() =>
-  orderStore.totalOrders
-)
-
 const seeDetails = (order) => {
-  router.push({ name: 'Order', params: { id: order.idOrder } })
+  router.push({ name: 'Order', params: { id: order.id } })
 }
 
-// const newOrder = () => {
-//   router.push({ name: 'NewOrder' })
-// }
-
 onMounted(() => {
-    loadOrders()
+    loadOrders()    
 })
 
 </script>
@@ -47,7 +32,7 @@ onMounted(() => {
       <h3 class="mt-4">Encomendas</h3>
     </div>
     <div class="mx-2 total-filtro">
-      <h5 class="mt-4">Total: {{ totalOrders }}</h5>
+      <h5 class="mt-4">Total: {{ orderStore.orders.length }}</h5>
     </div>
   </div>
   <hr>
@@ -55,11 +40,10 @@ onMounted(() => {
         <div class="mx-2 mt-2">
     </div>
   </div>
-  <h5 v-if="totalOrders == 0">Não tem encomendas </h5>
+  <h5 v-if="orderStore.orders == 0">Não tem encomendas </h5>
   <order-table v-else
-   :orders="getOrders"
-   @edit="seeDetails"
-   >
+   :orders= orderStore.orders
+   @details="seeDetails">
   </order-table>
 </template>
 

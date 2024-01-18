@@ -120,6 +120,14 @@ const clickMenuOption = () => {
               </router-link>
             </li>
 
+            <li v-show="!userStore.user" class="nav-item">
+              <router-link class="nav-link" :class="{ active: $route.name === 'maker/products' }" :to="{ name: 'maker/products' }"
+                @click="clickMenuOption">
+                <i class="bi bi-circle"></i>
+                maker/products
+              </router-link>
+            </li>
+
           </ul>
 
           <div class="d-block d-md-none">

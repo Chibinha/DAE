@@ -7,30 +7,25 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Entity
-@Table(
-        name = "orders",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"idOrder"})
-)
+@Table(name = "orders")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllOrders",
-                query = "SELECT o FROM Order o ORDER BY o.idOrder"
+                query = "SELECT o FROM Order o ORDER BY o.id"
         )
 })
 public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idOrder;
+    private long id;
 
     @NotNull
-    @Column(name = "orderType")
-    private String orderType;
+    private String status;
+    @Column(name = "total_price")
+    private double totalPrice;
 
-    @ElementCollection
-    @CollectionTable(name = "order_product_quantities", joinColumns = @JoinColumn(name = "order_id"))
-    @MapKeyColumn(name = "product_id")
-    @Column(name = "productQuantities")
-    private Map<Long, Integer> productQuantities = new HashMap<>();
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    private List<PhysicalProduct> physicalProducts;
 
     @ManyToOne
     @JoinColumn(name = "client")
@@ -48,32 +43,25 @@ public class Order implements Serializable {
     private Timestamp orderTimestamp;
 
     public Order() {
-        this.productQuantities = new HashMap<>();
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
+        this.physicalProducts = new ArrayList<>();
     }
 
-    public Order(String orderType, LineOperator lineOperator,Client client) {
-        this.orderType = orderType;
+    public Order(double totalPrice, LineOperator lineOperator, Client client, List<PhysicalProduct> physicalProducts) {
+        this.status = "created";
+        this.totalPrice = totalPrice;
         this.client = client;
         this.lineOperator = lineOperator;
-        this.productQuantities = new HashMap<>();
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
+        this.physicalProducts = physicalProducts;
     }
 
-    public long getIdOrder() {
-        return idOrder;
+    public long getId() {
+        return id;
     }
 
-    public void setIdOrder(long idOrder) {
-        this.idOrder = idOrder;
-    }
-
-    public String getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
+    public void setId(long idOrder) {
+        this.id = idOrder;
     }
 
     public LineOperator getLineOperator() {
@@ -100,29 +88,27 @@ public class Order implements Serializable {
         this.orderTimestamp = orderTimestamp;
     }
 
-    public void addProductQuantity(PhysicalProduct physicalProduct, int quantity) {
-        if (physicalProduct != null) {
-
-            Long productId = physicalProduct.getId();
-
-            if (productQuantities.containsKey(productId)) {
-                int existingQuantity = productQuantities.get(productId);
-                productQuantities.put(productId, existingQuantity + quantity);
-            } else {
-                productQuantities.put(productId, quantity);
-            }
-        }
+    public List<PhysicalProduct> getPhysicalProducts() {
+        return physicalProducts;
     }
 
-    public void removeProductQuantity(Long productId) {
-        this.productQuantities.remove(productId);
+    public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
+        this.physicalProducts = physicalProducts;
     }
 
-    public Map<Long, Integer> getProducts() {
-        return productQuantities;
+    public String getStatus() {
+        return status;
     }
 
-    public void setProductQuantities(Map<Long, Integer> productQuantities) {
-        this.productQuantities = productQuantities;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

@@ -14,7 +14,7 @@ public class OrderService {
     private OrderBean orderBean;
     private final DTOConverter dtoConverter = new DTOConverter();
 
-    public void createOrder(String orderType, String lineOperatorUsername, String clientUsername, Map<Long, Integer> productQuantities) throws MyConstraintViolationException, MyEntityNotFoundException {
-        orderBean.create(orderType, lineOperatorUsername, clientUsername, productQuantities);
-    }
+//    public void createOrder(String orderType, String lineOperatorUsername, String clientUsername, Map<Long, Integer> productQuantities) throws MyConstraintViolationException, MyEntityNotFoundException {
+//        orderBean.create(orderType, lineOperatorUsername, clientUsername, productQuantities);
+//    }
 }

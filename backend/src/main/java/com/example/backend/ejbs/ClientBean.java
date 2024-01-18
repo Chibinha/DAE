@@ -2,6 +2,7 @@ package com.example.backend.ejbs;
 
 import com.example.backend.entities.Client;
 import com.example.backend.entities.Order;
+import com.example.backend.entities.PhysicalProduct;
 import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
@@ -14,6 +15,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintViolationException;
 import org.hibernate.Hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -75,6 +77,29 @@ public class ClientBean {
         {
             Hibernate.initialize(client.getOrders());
             return this.find(username);
+        }
+        return null;
+    }
+
+    public Order getClientOrder(String username, long index) {
+        Client client = this.find(username);
+        if(client != null)
+        {
+            return entityManager.find(Order.class, index);
+        }
+        return null;
+    }
+
+    public List<Product> getClientOrderProducts(String username, long index) {
+        Client client = this.find(username);
+        if(client != null)
+        {
+            List<PhysicalProduct> physical = entityManager.find(Order.class, index).getPhysicalProducts();
+            List<Product> products = new ArrayList<Product>();
+            for(PhysicalProduct product : physical){
+                products.add(product.getProduct());
+            }
+            return products;
         }
         return null;
     }

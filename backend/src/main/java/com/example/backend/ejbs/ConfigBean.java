@@ -54,8 +54,8 @@ public class ConfigBean {
 
             //#region Products/PhysicalProducts
             productBean.create("Pizza", 10, "Pizza de queijo", 0.5, "Queijo", "maker1");
-            productBean.create("Hamburger", 5, "Hamburger de carne", 0.5, "Carne", "maker2");
-            productBean.create("Coca-Cola", 1, "Coca-Cola", 0.5, "Coca-Cola", "maker3");
+            productBean.create("Hamburger", 5, "Hamburger de carne", 0.5, "Carne", "maker1");
+            productBean.create("Coca-Cola", 1, "Coca-Cola", 0.5, "Coca-Cola", "maker1");
 
             physicalProductBean.create("123456781", 1);
             physicalProductBean.create("187654322", 1);
@@ -86,12 +86,15 @@ public class ConfigBean {
 
             //#region Orders
             HashMap<Long, Integer> order1 = new HashMap<Long, Integer>();
-            order1.put(1L, 2);
-            order1.put(2L,3);
+            HashMap<Long, Integer> order2 = new HashMap<Long, Integer>();
+            order1.put(1L, 1);
+            order1.put(2L,1);
             order1.put(3L, 1);
-            orderBean.create("Primária", "marco", "bruno", order1);
-            orderBean.create("Secundária", "marco", "bruno", order1);
-            orderBean.create("Terciária", "marco", "bruno", order1);
+            order2.put(1L, 2);
+            order2.put(3L,1);
+            orderBean.create("joao", "diogo", order1);
+            orderBean.create("bruno", "marco", order1);
+            orderBean.create("joao", "marco", order2);
             //orderBean.getAllProductsForOrder(1);
             //#endregion
         } catch (Exception e) {

@@ -7,11 +7,11 @@ const props = defineProps({
   },
 })
 
-// const emit = defineEmits(['edit', 'delete'])
+const emit = defineEmits(['details'])
 
-// const editClick = (transaction) => {
-//   emit('edit', transaction)
-// }
+const seeDetails = (order) => {
+  emit('details', order)
+}
 
 </script>
 
@@ -19,21 +19,23 @@ const props = defineProps({
     <table class="table">
     <thead>
       <tr>
-        <th>Id</th>
+        <th>Id Encomenda</th>
         <th>Custo Total</th>
+        <th>Status</th>
         <th>Data de Encomenda</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="order in orders" :key="order.idOrder">
-        <td>{{ order.idOrder }}</td>
-        <td>{{ order.price }}</td>
-        <td>{{ order.date }}</td>
+        <td>{{ order.id }}</td>
+        <td>{{ order.totalPrice }}€</td>
+        <td>{{ order.status }}</td>
+        <td>{{ order.orderTimestamp }}</td>
         <td class="text-end">
           <div class="d-flex justify-content-end">
-            <button class="btn btn-xs btn-light" @click="detailsClick(order)"><i
-                class="bi bi-xs bi-pencil"></i>
+            <button class="btn btn-xs btn-light" @click="seeDetails(order)"><i
+                class="bi bi-xs bi-info-circle"></i>
             </button>
           </div>
         </td>
