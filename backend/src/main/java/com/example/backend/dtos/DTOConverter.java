@@ -169,4 +169,5 @@ public class DTOConverter {
         return alerts.stream().map(this::alertToDTO).collect(Collectors.toList());
     }
     //#endregion
+
 }

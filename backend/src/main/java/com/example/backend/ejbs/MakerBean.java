@@ -1,6 +1,7 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.dtos.PhysicalProductDTO;
+import com.example.backend.dtos.ProductDTO;
 import com.example.backend.entities.*;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
@@ -21,7 +22,7 @@ public class MakerBean {
     @EJB
     private PhysicalProductBean physicalProductBean;
     private Hasher hasher;
-//
+    //
 //    public boolean exists(String username) throws MyEntityNotFoundException {
 //        Query query = entityManager.createQuery("SELECT COUNT(m) FROM Maker m WHERE m.username = :username");
 //        query.setParameter("username", username);
@@ -34,21 +35,11 @@ public class MakerBean {
 //
 //    // CRUD
     // Create
-    public void create(String username, String password, String name, String email) throws MyEntityNotFoundException, MyConstraintViolationException, MyEntityNotFoundException {
-            if (this.find(username) == null) {
-                try {
-                    hasher = new Hasher();
-                    Maker maker = new Maker(username, hasher.hash(password), name, email);
-                    entityManager.persist(maker);
-                    entityManager.flush(); // when using Hibernate, to force it to throw a ContraintViolationException, as in the JPA specification
-                    entityManager.persist(maker);
-                } catch (ConstraintViolationException e) {
-                    throw new MyConstraintViolationException(e);
-                }
-            } else {
-                throw new MyEntityNotFoundException(" ERROR -  The username [" + username + "] is already in use!!!");
-            }
-        }
+    public void create(String username, String password, String name, String email) {
+        hasher = new Hasher();
+        Maker maker = new Maker(username, hasher.hash(password), name, email);
+        entityManager.persist(maker);
+    }
 
     // Read
     public List<Maker> getAll() {
@@ -136,5 +127,9 @@ public class MakerBean {
         return entityManager.createNamedQuery("getUserAlerts", Alert.class)
                 .setParameter("user", user)
                 .getResultList();
+    }
+
+    public long updateProduct(long productId, ProductDTO productDTO) throws MyEntityNotFoundException {
+        return productBean.update(productId, productDTO);
     }
 }

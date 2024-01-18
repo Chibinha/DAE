@@ -56,6 +56,7 @@ public class ConfigBean {
             productBean.create("Pizza", 10, "Pizza de queijo", 0.5, "Queijo", "maker1");
             productBean.create("Hamburger", 5, "Hamburger de carne", 0.5, "Carne", "maker1");
             productBean.create("Coca-Cola", 1, "Coca-Cola", 0.5, "Coca-Cola", "maker1");
+            productBean.create("Batatas", 3, "Batatas", 0.7, "Batatas", "maker2");
 
             physicalProductBean.create("123456781", 1);
             physicalProductBean.create("187654322", 1);
@@ -79,7 +80,6 @@ public class ConfigBean {
             observationBean.create("type5", "value5", "unit5", 3);
             observationBean.create("type6", "value6", "unit6", 3);
             //#endregion
-
 
             //#region Packages
             //#endregion

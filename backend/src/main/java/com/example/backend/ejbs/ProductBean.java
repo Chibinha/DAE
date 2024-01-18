@@ -56,7 +56,7 @@ public class ProductBean {
     }
 
     // Update
-    public void update(long id, ProductDTO productDTO) throws MyEntityNotFoundException {
+    public long update(long id, ProductDTO productDTO) throws MyEntityNotFoundException {
         Product product = find(id);
 
         if (productDTO.getName() != null) {
@@ -72,6 +72,7 @@ public class ProductBean {
             product.setIngredients(productDTO.getIngredients());
         }
         entityManager.merge(product);
+        return product.getId();
     }
 
     // Delete

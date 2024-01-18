@@ -27,4 +27,13 @@ public class UserBean {
         return user != null && user.getPassword().equals(hasher.hash(password));
     }
 
+    public boolean updatePassword(String username, String oldPassword, String newPassword) {
+        var user = find(username);
+        if (!user.getPassword().equals(hasher.hash(oldPassword)))
+            return false;
+
+        user.setPassword(hasher.hash(newPassword));
+        return true;
+    }
+
 }

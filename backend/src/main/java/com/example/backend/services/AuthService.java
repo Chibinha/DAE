@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.dtos.NewPasswordDTO;
 import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -13,6 +14,8 @@ import com.example.backend.dtos.UserDTO;
 import com.example.backend.ejbs.UserBean;
 import com.example.backend.security.Authenticated;
 import com.example.backend.security.TokenIssuer;
+
+import java.security.Principal;
 
 @Path("auth")
 @Produces({MediaType.APPLICATION_JSON})
@@ -35,6 +38,16 @@ public class AuthService {
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
+    @POST
+    @Authenticated
+    @Path("/set-password")
+    public Response setPassword(@Valid NewPasswordDTO passwordDTO) {
+        Principal principal = securityContext.getUserPrincipal();
+        if (userBean.updatePassword(principal.getName(), passwordDTO.getOldPassword(), passwordDTO.getNewPassword()))
+            return Response.ok().build();
+        else
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
 
     @GET
     @Authenticated
