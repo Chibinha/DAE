@@ -10,6 +10,7 @@ import ProductCRUD from "../components/productCRUD/productCRUD.vue"
 import PhysicalProductCRUD from "../components/productCRUD/PhysicalProductCRUD.vue"
 import Alerts from "../components/alerts/Alerts.vue"
 import MakerProducts from "../components/maker/Products.vue"
+import ProductDetails from "../components/maker/ProductDetails.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +54,12 @@ const router = createRouter({
       path: '/maker/products',
       name: 'maker/products',
       component: MakerProducts
+    },
+    {
+      path: '/maker/products/:productId',
+      name: 'product-details',
+      component: ProductDetails,
+      props: true,
     },
     {
       path: '/alerts',

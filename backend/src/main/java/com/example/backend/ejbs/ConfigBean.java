@@ -57,12 +57,15 @@ public class ConfigBean {
             productBean.create("Hamburger", 5, "Hamburger de carne", 0.5, "Carne", "maker1");
             productBean.create("Coca-Cola", 1, "Coca-Cola", 0.5, "Coca-Cola", "maker1");
 
-            physicalProductBean.create("123456781", 1);
-            physicalProductBean.create("187654322", 1);
-            physicalProductBean.create("287654321", 2);
-            physicalProductBean.create("223456782", 2);
-            physicalProductBean.create("323456781", 3);
-            physicalProductBean.create("387654322", 3);
+            physicalProductBean.create(1);
+            physicalProductBean.create(1);
+            physicalProductBean.create(1);
+            physicalProductBean.create(2);
+            physicalProductBean.create(2);
+            physicalProductBean.create(2);
+            physicalProductBean.create(3);
+            physicalProductBean.create(3);
+            physicalProductBean.create(3);
             //#endregion
 
             //#region Sensors
