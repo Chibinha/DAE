@@ -148,6 +148,7 @@ public class DTOConverter {
                 order.getTotalPrice(),
                 order.getLineOperator().getUsername(),
                 order.getClient().getUsername(),
+                order.getOrderTimestamp(),
                 physicalProductToDTOList(order.getPhysicalProducts())
         );
     }

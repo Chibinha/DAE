@@ -86,10 +86,15 @@ public class ConfigBean {
 
             //#region Orders
             HashMap<Long, Integer> order1 = new HashMap<Long, Integer>();
+            HashMap<Long, Integer> order2 = new HashMap<Long, Integer>();
             order1.put(1L, 1);
             order1.put(2L,1);
             order1.put(3L, 1);
+            order2.put(1L, 2);
+            order2.put(3L,1);
             orderBean.create("joao", "diogo", order1);
+            orderBean.create("bruno", "marco", order1);
+            orderBean.create("joao", "marco", order2);
             //orderBean.getAllProductsForOrder(1);
             //#endregion
         } catch (Exception e) {

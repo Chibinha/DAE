@@ -1,6 +1,7 @@
 package com.example.backend.dtos;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class OrderDTO implements Serializable {
@@ -11,11 +12,12 @@ public class OrderDTO implements Serializable {
     private String lineOperator;
     private List<PhysicalProductDTO> physicalProducts;
     public String client;
+    private Timestamp orderTimestamp;
     public OrderDTO() {
         this.physicalProducts = new ArrayList<>();
     }
 
-    public OrderDTO(long id, String type, String status, double totalPrice, String lineOperator, String client, List<PhysicalProductDTO> physicalProducts) {
+    public OrderDTO(long id, String type, String status, double totalPrice, String lineOperator, String client, Timestamp orderTimestamp, List<PhysicalProductDTO> physicalProducts) {
         this.id = id;
         this.type = type;
         this.status = status;
@@ -23,6 +25,7 @@ public class OrderDTO implements Serializable {
         this.lineOperator = lineOperator;
         this.client = client;
         this.physicalProducts = physicalProducts;
+        this.orderTimestamp = orderTimestamp;
     }
 
     public long getId() {
@@ -79,5 +82,9 @@ public class OrderDTO implements Serializable {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Timestamp getOrderTimestamp() {
+        return orderTimestamp;
     }
 }
