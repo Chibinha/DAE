@@ -28,10 +28,10 @@ public class PhysicalProductBean {
 
     // CRUD
     // Create
-    public long create(String serialNumber, long productId) throws MyEntityNotFoundException{
+    public long create(long productId) throws MyEntityNotFoundException{
         Product product = productBean.find(productId);
 
-        PhysicalProduct physicalProduct = new PhysicalProduct(product, serialNumber);
+        PhysicalProduct physicalProduct = new PhysicalProduct(product);
         entityManager.persist(physicalProduct);
 
         find(physicalProduct.getId());
@@ -54,13 +54,11 @@ public class PhysicalProductBean {
     }
 
     // Update
-    public void update(long id, String serialNumber) throws MyEntityNotFoundException {
+    public long update(long id) throws MyEntityNotFoundException {
         PhysicalProduct physicalProduct = find(id);
-        if (serialNumber != null) {
-            physicalProduct.setSerialNumber(serialNumber);
-        }
 
         entityManager.merge(physicalProduct);
+        return physicalProduct.getId();
     }
     // Delete
     public void delete(long id) throws MyEntityNotFoundException {

@@ -1,12 +1,15 @@
 <script setup>
-import { ref, onMounted, defineProps, defineEmits } from 'vue';
+import { ref, onMounted, defineProps, defineEmits, inject } from 'vue';
 
 // Import axios from your setup or import it as needed
-import axios from 'axios';
+const axios = inject('axios');
 
 // Define props to receive makerUsername and productId
 const { makerUsername, productId, isCreating } = defineProps(['makerUsername', 'productId', 'isCreating']);
 const emits = defineEmits();
+console.log(makerUsername);
+console.log(productId);
+console.log(isCreating);
 
 
 // Data properties for the form
@@ -15,27 +18,25 @@ const productPrice = ref(0);
 const productDescription = ref('');
 const productWeight = ref(0);
 const productIngredients = ref('');
-const productInStock = ref(0);
 
 // Method to submit the form (create/modify product)
 const submitForm = () => {
   const formData = {
-    name: productName.value,
+    name: productName.value || null,
     price: productPrice.value,
-    description: productDescription.value,
+    description: productDescription.value || null,
     weight: productWeight.value,
-    ingredients: productIngredients.value,
-    inStock: productInStock.value,
-    makerName: makerUsername,
+    ingredients: productIngredients.value || null,
   };
 
-  if (isCreating.value) {
+  if (isCreating) {
     // Creating a new product
+    console.log('Creating a new product');
     axios.post(`maker/${makerUsername}/products`, formData)
       .then(response => {
-        alert(response.data);
-        // Reset form fields after successful creation
+        console.log('Product created:', response.data);
         resetForm();
+        emits('close');
       })
       .catch(error => {
         console.error('Error creating product:', error);
@@ -44,9 +45,8 @@ const submitForm = () => {
     // Modifying an existing product
     axios.put(`maker/${makerUsername}/products/${productId}`, formData)
       .then(response => {
-        alert(response.data);
-        // Reset form fields after successful modification
         resetForm();
+        emits('close');
       })
       .catch(error => {
         console.error('Error modifying product:', error);
@@ -61,7 +61,6 @@ const resetForm = () => {
   productDescription.value = '';
   productWeight.value = 0;
   productIngredients.value = '';
-  productInStock.value = 0;
 };
 
 // You can add more methods and data properties as needed
@@ -73,18 +72,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="card">
     <h2>{{ isCreating ? 'Create Product' : 'Modify Product' }}</h2>
+    <br>
 
     <form @submit.prevent="submitForm">
       <div class="mb-3">
         <label for="productName" class="form-label">Product Name:</label>
-        <input v-model="productName" type="text" class="form-control" id="productName" required />
+        <input v-model="productName" type="text" class="form-control" id="productName" />
       </div>
 
       <div class="mb-3">
         <label for="productPrice" class="form-label">Product Price:</label>
-        <input v-model="productPrice" type="number" class="form-control" id="productPrice" required />
+        <input v-model="productPrice" type="number" class="form-control" id="productPrice" />
       </div>
 
       <div class="mb-3">
@@ -102,12 +102,7 @@ onMounted(() => {
         <input v-model="productIngredients" type="text" class="form-control" id="productIngredients" />
       </div>
 
-      <div class="mb-3">
-        <label for="productInStock" class="form-label">In Stock:</label>
-        <input v-model="productInStock" type="number" class="form-control" id="productInStock" required />
-      </div>
-
-      <button type="submit" class="btn btn-primary">{{ isCreating ? 'Create' : 'Modify' }} Product</button>
+      <button type="submit" class="btn btn-primary m-2">{{ isCreating ? 'Create' : 'Modify' }} Product</button>
       <button type="button" class="btn btn-danger" v-if="!isCreating" @click="deleteProduct">Delete Product</button>
     </form>
   </div>

@@ -3,13 +3,11 @@ package com.example.backend.ejbs;
 import com.example.backend.dtos.PhysicalProductDTO;
 import com.example.backend.dtos.ProductDTO;
 import com.example.backend.entities.*;
-import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.security.Hasher;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
-import jakarta.validation.ConstraintViolationException;
 
 import java.util.List;
 
@@ -22,18 +20,8 @@ public class MakerBean {
     @EJB
     private PhysicalProductBean physicalProductBean;
     private Hasher hasher;
-//
-//    public boolean exists(String username) throws MyEntityNotFoundException {
-//        Query query = entityManager.createQuery("SELECT COUNT(m) FROM Maker m WHERE m.username = :username");
-//        query.setParameter("username", username);
-//        if ((long) query.getSingleResult() > 0L) {
-//            return true;
-//        } else {
-//            throw new MyEntityNotFoundException("Maker with username " + username + " not found");
-//        }
-//    }
-//
-//    // CRUD
+
+    //#region CRUD
     // Create
     public void create(String username, String password, String name, String email) {
         hasher = new Hasher();
@@ -78,20 +66,49 @@ public class MakerBean {
         Maker maker = find(username);
         entityManager.remove(maker);
     }
+    //#endregion
 
-    // Own Products
+    //#region Products
+
+    // Create Own Product
+    public long createProduct(String name, double price, String description, double weight, String ingredients, String makerUsername ) throws MyEntityNotFoundException {
+        long id = productBean.create(name, price, description, weight, ingredients, makerUsername);
+        productBean.exists(id);
+        return id;
+    }
+
+    // Update Own Product
+    public long updateProduct(long productId, ProductDTO productDTO) throws MyEntityNotFoundException {
+        return productBean.update(productId, productDTO);
+    }
+
+    // Get Own Products
     public List<Product> getProducts(String username) throws MyEntityNotFoundException {
         var maker = find(username);
         return entityManager.createNamedQuery("getMakerProducts", Product.class)
                 .setParameter("username", maker.getUsername())
                 .getResultList();
     }
+    //#endregion
 
-    public List<PhysicalProduct> getPhysicalProducts(String username) throws MyEntityNotFoundException {
-        var maker = find(username);
-        return entityManager.createNamedQuery("getMakerPhysicalProducts", PhysicalProduct.class)
-                .setParameter("username", maker.getUsername())
-                .getResultList();
+    //#region PhysicalProducts
+    // Create PhysicalProduct
+    public long createPhysicalProduct(long productId) throws MyEntityNotFoundException {
+        long id = physicalProductBean.create(productId);
+        physicalProductBean.exists(id);
+        return id;
+    }
+
+    //createPhysicalProductList
+    public void createPhysicalProductList(long productId, int amount) throws MyEntityNotFoundException {
+        for (int i = 0; i < amount; i++) {
+            physicalProductBean.create(productId);
+        }
+    }
+
+    // Update PhysicalProduct
+    public long updatePhysicalProduct(long physicalProductId) throws MyEntityNotFoundException {
+        return physicalProductBean.update(physicalProductId);
     }
 
     //get physical products for specific product
@@ -103,25 +120,15 @@ public class MakerBean {
                 .getResultList();
     }
 
-    public long createProduct(String name, double price, String description, double weight, String ingredients, String makerUsername ) throws MyEntityNotFoundException {
-        long id = productBean.create(name, price, description, weight, ingredients, makerUsername);
-        productBean.exists(id);
-        return id;
+    public List<PhysicalProduct> getAllPhysicalProducts(String username) throws MyEntityNotFoundException {
+        var maker = find(username);
+        return entityManager.createNamedQuery("getMakerPhysicalProducts", PhysicalProduct.class)
+                .setParameter("username", maker.getUsername())
+                .getResultList();
     }
+    //#endregion
 
-    public long createPhysicalProduct(String serialNumber, long productId) throws MyEntityNotFoundException {
-        long id = physicalProductBean.create(serialNumber, productId);
-        physicalProductBean.exists(id);
-        return id;
-    }
-
-    //createPhysicalProductList
-    public void createPhysicalProductList(List<PhysicalProductDTO> physicalProductList) throws MyEntityNotFoundException {
-        for (PhysicalProductDTO physicalProductDTO : physicalProductList) {
-            createPhysicalProduct(physicalProductDTO.getSerialNumber(), physicalProductDTO.getProductId());
-        }
-    }
-
+    //#region Alerts
     public List<Alert> getAlerts(String username) throws MyEntityNotFoundException {
         var user = find(username);
         return entityManager.createNamedQuery("getUserAlerts", Alert.class)
@@ -129,7 +136,8 @@ public class MakerBean {
                 .getResultList();
     }
 
-    public long updateProduct(long productId, ProductDTO productDTO) throws MyEntityNotFoundException {
-        return productBean.update(productId, productDTO);
+    public void deletePhysicalProduct(long physicalProductId) throws MyEntityNotFoundException {
+        physicalProductBean.delete(physicalProductId);
     }
+    //#endregion
 }

@@ -27,7 +27,6 @@ public class PhysicalProductService {
     @Path("/")
     public Response create(PhysicalProductDTO physicalProductDTO) throws MyEntityNotFoundException {
          long id = physicalProductBean.create(
-                physicalProductDTO.getSerialNumber(),
                 physicalProductDTO.getProductId()
         );
         if (id < 1) {
@@ -53,16 +52,12 @@ public class PhysicalProductService {
     // Update
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") long id, String serialNumber) throws MyEntityNotFoundException {
-        physicalProductBean.update(id, serialNumber);
+    public Response update(@PathParam("id") long id) throws MyEntityNotFoundException {
+        physicalProductBean.update(id);
 
         PhysicalProduct physicalProduct = physicalProductBean.find(id);
         if (physicalProduct == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Physical product with id [" + id + "] not found.").build();
-        }
-
-        if (!physicalProduct.getSerialNumber().equals(serialNumber)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Physical product with id [" + id + "] not updated.").build();
         }
         return Response.status(Response.Status.OK).entity(dtoConverter.physicalProductToDTO(physicalProduct)).build();
     }
