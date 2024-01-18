@@ -32,6 +32,14 @@ const loadProducts = async () => {
   }
 }
 
+const loadObservations = async () => {
+  try {
+    await orderStore.loadObservations(props.id)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 // const seeProduct = (product) => {
 //   router.push({ name: 'Product', params: { id: product.id } })
 // }
@@ -39,6 +47,7 @@ const loadProducts = async () => {
 onMounted(() => {
     loadOrder()
     loadProducts()
+    loadObservations()
 })
 
 </script>
@@ -51,17 +60,17 @@ onMounted(() => {
         <table class="table">
             <thead>
             <tr>
-                <th>Custo Total</th>
-                <th>Estado</th>
-                <th>Data de Encomenda</th>
+              <th>Encomendado a:</th>
+              <th>Custo Total</th>
+              <th>Estado</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
+                <td>{{ orderStore.order.orderTimestamp }}</td>
                 <td>{{ orderStore.order.totalPrice }}€</td>
                 <td>{{ orderStore.order.status }}</td>
-                <td>{{ orderStore.order.orderTimestamp }}</td>
-            </tbody>
+              </tbody>
         </table>
 
         <h5 class="mt-5 mb-3">Produtos Encomendados:</h5>
@@ -98,11 +107,23 @@ onMounted(() => {
         </table>
 
         <h5 class="mt-5 mb-3">Observações:</h5>
-
-        <!-- <h5 v-if="totalAlertas == 0">Não tem Alertas </h5>
-        <alerts-table v-else
-            :alerts="getAlerts">
-        </alerts-table> -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Data</th>
+                <th>Observação</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="observation in orderStore.observations" :key="observation.id">
+                <td>{{ observation.timestamp }}</td>
+                <td>O sensor {{ observation.sensorId }} que mede {{ observation.type }} registou um/uma {{ observation.type }} de {{ observation.value}}{{ observation.unit }} </td>
+                <td class="text-end">
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </form>
 </template>
 

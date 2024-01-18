@@ -1,6 +1,7 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.entities.Observation;
+import com.example.backend.entities.Order;
 import com.example.backend.entities.Sensor;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.websocket.WebsocketService;
@@ -16,6 +17,8 @@ public class ObservationBean {
     private EntityManager entityManager;
     @EJB
     private SensorBean sensorBean;
+    @EJB
+    private OrderBean orderBean;
 
 
     public boolean exists(long id) {
@@ -26,10 +29,11 @@ public class ObservationBean {
 
     // CRUD
     // Create
-    public long create(String type, String value, String unit, long sensorId) throws MyEntityNotFoundException {
+    public long create(String value, long sensorId, long orderId) throws MyEntityNotFoundException {
         Sensor sensor = sensorBean.find(sensorId);
+        Order order = orderBean.find(orderId);
 
-        Observation observation = new Observation(type, value, unit, sensor);
+        Observation observation = new Observation(value, sensor, order);
         entityManager.persist(observation);
 
         find(observation.getId());

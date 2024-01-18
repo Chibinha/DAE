@@ -20,23 +20,33 @@ public class Sensor implements Serializable {
     private long id;
     private String name;
     private String type;
+    private String unit;
 
     @OneToMany(mappedBy = "sensor")
     private List<Observation> observations;
 
-    // needs to change to @ManyToMany after Order is created
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @ManyToMany
+    @JoinTable(
+            name = "sensors_orders",
+            joinColumns = @JoinColumn(name = "sensor_id"),
+            inverseJoinColumns = {
+                    @JoinColumn(name = "order_id"),
+
+            }
+    )
+    private List<Order> orders;
 
     public Sensor() {
         this.observations = new ArrayList<>();
+        this.orders = new ArrayList<>();
     }
 
-    public Sensor(String name, String type) {
+    public Sensor(String name, String type, String unit) {
         this.name = name;
         this.type = type;
+        this.unit = unit;
         this.observations = new ArrayList<>();
+        this.orders = new ArrayList<>();
     }
 
     public long getId() {
@@ -71,11 +81,19 @@ public class Sensor implements Serializable {
         this.observations = observations;
     }
 
-    public Order getOrder() {
-        return order;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

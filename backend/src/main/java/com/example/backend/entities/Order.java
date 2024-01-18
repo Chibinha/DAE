@@ -27,6 +27,9 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<PhysicalProduct> physicalProducts;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    private List<Observation> observations;
+
     @ManyToOne
     @JoinColumn(name = "client")
     @NotNull
@@ -37,6 +40,9 @@ public class Order implements Serializable {
     @NotNull
     public LineOperator lineOperator;
 
+    @ManyToMany(mappedBy = "orders")
+    private List<Sensor> sensors;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "orderTimestamp")
     @NotNull
@@ -45,6 +51,8 @@ public class Order implements Serializable {
     public Order() {
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
         this.physicalProducts = new ArrayList<>();
+        this.observations = new ArrayList<>();
+        this.sensors = new ArrayList<>();
     }
 
     public Order(double totalPrice, LineOperator lineOperator, Client client, List<PhysicalProduct> physicalProducts) {
@@ -54,6 +62,8 @@ public class Order implements Serializable {
         this.lineOperator = lineOperator;
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
         this.physicalProducts = physicalProducts;
+        this.observations = new ArrayList<>();
+        this.sensors = new ArrayList<>();
     }
 
     public long getId() {
@@ -94,6 +104,22 @@ public class Order implements Serializable {
 
     public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
         this.physicalProducts = physicalProducts;
+    }
+
+    public List<Observation> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(List<Observation> observations) {
+        this.observations = observations;
+    }
+
+    public List<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(List<Sensor> sensors) {
+        this.sensors = sensors;
     }
 
     public String getStatus() {
