@@ -11,6 +11,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.hibernate.Hibernate;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Stateless
@@ -62,6 +63,9 @@ public class ProductBean {
         if (productDTO.getName() != null) {
             product.setName(productDTO.getName());
         }
+        if (productDTO.getPrice() != 0) {
+            product.setPrice(productDTO.getPrice());
+        }
         if (productDTO.getDescription() != null) {
             product.setDescription(productDTO.getDescription());
         }
@@ -71,6 +75,9 @@ public class ProductBean {
         if (productDTO.getIngredients() != null) {
             product.setIngredients(productDTO.getIngredients());
         }
+        //set updated time
+        product.setUpdateTimestamp(new Timestamp(System.currentTimeMillis()));
+
         entityManager.merge(product);
         return product.getId();
     }

@@ -108,12 +108,9 @@
   },
   "keyToStringList": {
     "DatabaseDriversLRU": [
-      "postgresql"
     ]
   }
 }]]></component>
-  <component name="SharedIndexes">
-    <attachedChunks>
       <set>
         <option value="jdk-17.0.9-temurin-17.0.9-249ae16d76d6-579202fe" />
       </set>

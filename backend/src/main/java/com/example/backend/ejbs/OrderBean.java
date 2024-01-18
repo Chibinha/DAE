@@ -46,6 +46,8 @@ public class OrderBean {
         List<PhysicalProduct> physicalProducts = new ArrayList<>();
         double totalPrice = 0;
 
+        Order order = new Order(totalPrice, lineOperator, client, physicalProducts);
+
         // Retrieve PhysicalProducts for each product ID
         for (Map.Entry<Long, Integer> entry : products.entrySet()) {
             Long productId = entry.getKey();
@@ -60,12 +62,47 @@ public class OrderBean {
 
             // Add PhysicalProducts to the list
             for (int i = 0; i < quantity; i++) {
+                PhysicalProduct productToAdd = productPhysicalProducts.get(i);
                 physicalProducts.add(productPhysicalProducts.get(i));
+                productToAdd.setOrder(order);
                 totalPrice += productPhysicalProducts.get(i).getProduct().getPrice();
             }
         }
+        order.setPhysicalProducts(physicalProducts);
+        order.setTotalPrice(totalPrice);
+        entityManager.persist(order);
+    }
 
-        Order order = new Order("order", totalPrice, lineOperator, client, physicalProducts);
+    public void update(String usernameClient, String usernameLineOp, Map<Long, Integer> products) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+        Client client = clientBean.find(usernameClient);
+        LineOperator lineOperator = lineOperatorBean.find(usernameLineOp);
+        List<PhysicalProduct> physicalProducts = new ArrayList<>();
+        double totalPrice = 0;
+
+        Order order = new Order(totalPrice, lineOperator, client, physicalProducts);
+
+        // Retrieve PhysicalProducts for each product ID
+        for (Map.Entry<Long, Integer> entry : products.entrySet()) {
+            Long productId = entry.getKey();
+            Integer quantity = entry.getValue();
+
+            // Retrieve PhysicalProducts for the product ID
+            List<PhysicalProduct> productPhysicalProducts = productBean.getListPhysicalProducts(productId);
+
+            if (productPhysicalProducts == null || productPhysicalProducts.isEmpty()) {
+                throw new MyEntityNotFoundException("Physical products not found for product ID: " + productId);
+            }
+
+            // Add PhysicalProducts to the list
+            for (int i = 0; i < quantity; i++) {
+                PhysicalProduct productToAdd = productPhysicalProducts.get(i);
+                physicalProducts.add(productPhysicalProducts.get(i));
+                productToAdd.setOrder(order);
+                totalPrice += productPhysicalProducts.get(i).getProduct().getPrice();
+            }
+        }
+        order.setPhysicalProducts(physicalProducts);
+        order.setTotalPrice(totalPrice);
         entityManager.persist(order);
     }
 

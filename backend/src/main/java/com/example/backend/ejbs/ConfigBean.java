@@ -58,27 +58,21 @@ public class ConfigBean {
             productBean.create("Coca-Cola", 1, "Coca-Cola", 0.5, "Coca-Cola", "maker1");
             productBean.create("Batatas", 3, "Batatas", 0.7, "Batatas", "maker2");
 
-            physicalProductBean.create("123456781", 1);
-            physicalProductBean.create("187654322", 1);
-            physicalProductBean.create("287654321", 2);
-            physicalProductBean.create("223456782", 2);
-            physicalProductBean.create("323456781", 3);
-            physicalProductBean.create("387654322", 3);
+            physicalProductBean.create(1);
+            physicalProductBean.create(1);
+            physicalProductBean.create(1);
+            physicalProductBean.create(2);
+            physicalProductBean.create(2);
+            physicalProductBean.create(2);
+            physicalProductBean.create(3);
+            physicalProductBean.create(3);
+            physicalProductBean.create(3);
             //#endregion
 
             //#region Sensors
-            sensorBean.create("sensor1", "type1");
-            sensorBean.create("sensor2", "type2");
-            sensorBean.create("sensor3", "type3");
-            //#endregion
-
-            //#region Observations
-            observationBean.create("type1", "value1", "unit1", 1);
-            observationBean.create("type2", "value2", "unit2", 1);
-            observationBean.create("type3", "value3", "unit3", 2);
-            observationBean.create("type4", "value4", "unit4", 2);
-            observationBean.create("type5", "value5", "unit5", 3);
-            observationBean.create("type6", "value6", "unit6", 3);
+            sensorBean.create("LT324", "Velocidade", "cm/s");
+            sensorBean.create("RN324E", "Humidade","PPMw");
+            sensorBean.create("TMPS234", "Temperatura", "ºC");
             //#endregion
 
             //#region Packages
@@ -86,11 +80,26 @@ public class ConfigBean {
 
             //#region Orders
             HashMap<Long, Integer> order1 = new HashMap<Long, Integer>();
+            HashMap<Long, Integer> order2 = new HashMap<Long, Integer>();
             order1.put(1L, 1);
             order1.put(2L,1);
             order1.put(3L, 1);
+            order2.put(1L, 2);
+            order2.put(3L,1);
             orderBean.create("joao", "diogo", order1);
+            orderBean.create("bruno", "marco", order1);
+            orderBean.create("joao", "marco", order2);
             //orderBean.getAllProductsForOrder(1);
+            //#endregion
+
+            //#region Observations
+            observationBean.create("20", 1, 3);
+            observationBean.create("10",  1, 2);
+            observationBean.create("40",  2, 1);
+            observationBean.create("342",  2,2);
+            observationBean.create("23",  3,3);
+            observationBean.create("45",  3,1);
+
             //#endregion
         } catch (Exception e) {
             logger.severe(e.getClass().getCanonicalName() + e.getMessage());

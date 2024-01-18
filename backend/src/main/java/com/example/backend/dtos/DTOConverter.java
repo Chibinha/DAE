@@ -70,7 +70,6 @@ public class DTOConverter {
                 physicalProduct.getId(),
                 physicalProduct.getProduct().getId(),
                 physicalProduct.getProduct().getName(),
-                physicalProduct.getSerialNumber(),
                 physicalProduct.getStockTimestamp()
         );
     }
@@ -96,12 +95,12 @@ public class DTOConverter {
     public ObservationDTO observationToDTO(Observation observation) {
         return new ObservationDTO(
                 observation.getId(),
-                observation.getType(),
+                observation.getSensor().getType(),
                 observation.getValue(),
-                observation.getUnit(),
+                observation.getSensor().getUnit(),
                 observation.getTimestamp(),
-                observation.getSensor().getId(),
-                observation.getMyPackage().getId(),
+                observation.getSensor().getName(),
+                0,
                 observation.getOrder().getId()
         );
     }
@@ -117,7 +116,7 @@ public class DTOConverter {
                 transportationPackage.getId(),
                 transportationPackage.getPackageType(),
                 transportationPackage.getMaterial(),
-                transportationPackage.getOrder().getId()
+                transportationPackage.getCurrentOrder().getId()
         );
     }
     public List<TransportationPackageDTO> transportationPackageToDTOList(List<TransportationPackage> transportationPackages) {
@@ -143,11 +142,11 @@ public class DTOConverter {
     public OrderDTO orderToDTO(Order order) {
         return new OrderDTO(
                 order.getId(),
-                order.getType(),
                 order.getStatus(),
                 order.getTotalPrice(),
                 order.getLineOperator().getUsername(),
                 order.getClient().getUsername(),
+                order.getOrderTimestamp(),
                 physicalProductToDTOList(order.getPhysicalProducts())
         );
     }

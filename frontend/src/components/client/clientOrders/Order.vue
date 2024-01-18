@@ -1,159 +1,130 @@
 <script setup>
-// import TransactionDetail from './TransactionDetail.vue'
+import { useOrderStore } from '../../../stores/order'
+// import ProductTable from './ProductTable.vue'
+// import AlertTable from './AlertTable.vue'
+// import { useProductStore } from '../../../stores/product'
+// import { useUserStore } from '../../../stores/user'
 
-// import { useTransactionStore } from '../../stores/transaction'
-// import { useCategoryStore } from '../../stores/category'
-// import { useUserStore } from '../../stores/user'
+import { onMounted } from 'vue'
 
-// import { ref, inject, computed, watch, onMounted } from 'vue'
-// import { useRouter, onBeforeRouteLeave } from 'vue-router'
-// import { useToast } from 'vue-toast-notification'
+const orderStore = useOrderStore()
 
-// const transactionStore = useTransactionStore()
-// const categoryStore = useCategoryStore()
-// const userStore = useUserStore()
+const props = defineProps({
+  id: {
+    type: Number,
+    default: null
+  }
+})
 
-// const router = useRouter()
-// const toast = useToast()
-// const axios = inject('axios')
+const loadOrder = async () => {
+  try {
+    await orderStore.loadOrder(props.id)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
+const loadProducts = async () => {
+  try {
+    await orderStore.loadProducts(props.id)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-// const newTransaction = () => {
-//   return {
-//     id: null,
-//     vcard: userStore.userType == 'A' ? null : userStore.userId,
-//     value: null,
-//     type: userStore.userType == 'A' ? 'C' : 'D',
-//     payment_type: null,
-//     payment_reference: null,
-//     pair_vcard: null,
-//     description: null,
-//     category_id: null,
-//     custom_options: null,
-//     custom_data: null,
-//     confirmation_code: null
-//   }
+const loadObservations = async () => {
+  try {
+    await orderStore.loadObservations(props.id)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// const seeProduct = (product) => {
+//   router.push({ name: 'Product', params: { id: product.id } })
 // }
 
-// const transaction = ref(newTransaction())
-// const errors = ref(null)
-// const confirmationLeaveDialog = ref(null)
-// // String with the JSON representation after loading the category (new or edit)
-// let originalValueStr = ''
+onMounted(() => {
+    loadOrder()
+    loadProducts()
+    loadObservations()
+})
 
-// const loadTransaction = async (id) => {
-//   originalValueStr = ''
-//   errors.value = null
-//   if (!id || id < 0) {
-//     transaction.value = newTransaction()
-//     originalValueStr = JSON.stringify(transaction.value)
-//   } else {
-//     try {
-//       const response = await axios.get('transactions/' + id)
-//       transaction.value = response.data.data
-//       originalValueStr = JSON.stringify(transaction.value)
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-// }
-
-// const save = async () => {
-//   errors.value = null
-//   if (operation.value == 'insert') {
-//     try {
-//         transaction.value = await transactionStore.insertTransaction(transaction.value)
-//         originalValueStr = JSON.stringify(transaction.value)
-//         toast.success('Transaction #' + transaction.value.id + ' was created successfully.')
-//         router.back()
-//     } catch (error) {
-//         console.log(error)
-//         if (error.response.status == 422) {
-//         errors.value = error.response.data.errors
-//         toast.error('Transaction was not created due to validation errors!')
-//         } else {
-//         toast.error('Transaction was not created due to unknown server error!')
-//         }
-//     }
-//   } else {
-//     try {
-//         transaction.value = await transactionStore.updateTransaction(transaction.value)
-//         originalValueStr = JSON.stringify(transaction.value)
-//         toast.success('Transaction #' + transaction.value.id + ' was updated successfully.')
-//         router.back()
-//     } catch (error) {
-//         console.log(error)
-//         if (error.response.status == 422) {
-//         errors.value = error.response.data.errors
-//         toast.error('Transaction #' + props.id + ' was not updated due to validation errors!')
-//         } else {
-//         toast.error('Transaction #' + props.id + ' was not updated due to unknown server error!')
-//         }
-//     }
-//   }
-// }  
-
-// const cancel = () => {
-//   originalValueStr = JSON.stringify(transaction.value)
-//   router.back()
-// }
-
-// const props = defineProps({
-//   id: {
-//     type: Number,
-//     default: null
-//   }
-// })
-
-// const operation = computed(() => {
-//   return (!props.id || props.id < 0) ? 'insert' : 'update'
-// })
-
-
-// watch(
-//   () => props.id,
-//   (newValue) => {
-//     loadTransaction(newValue)
-//   },
-//   {
-//     immediate: true
-//   }
-// )
-
-// const categories = ref([])
-
-// const loadCategories = async () => {
-//     await categoryStore.loadCategories()
-//     categories.value = categoryStore.getCategoriesByFilter()
-// }
-
-// onMounted(() => {
-//     loadCategories()
-// })
-
-
-// let nextCallBack = null
-// const leaveConfirmed = () => {
-//   if (nextCallBack) {
-//     nextCallBack()
-//   }
-// }
-
-// onBeforeRouteLeave((to, from, next) => {
-//   nextCallBack = null
-//   let newValueStr = JSON.stringify(transaction.value)
-//   if (originalValueStr != newValueStr) {
-//     // Some value has changed - only leave after confirmation
-//     nextCallBack = next
-//     confirmationLeaveDialog.value.show()
-//   } else {
-//     // No value has changed, so we can leave the component without confirming
-//     next()
-//   }
-//})
 </script>
 
-<template>
+<template> 
+
+      <form class="row g-3" >
+        <h3 class="mt-5 mb-3">Encomenda #{{ orderStore.order.id }}</h3>
+        <hr>
+        <table class="table">
+            <thead>
+            <tr>
+              <th>Encomendado a:</th>
+              <th>Custo Total</th>
+              <th>Estado</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <td>{{ orderStore.order.orderTimestamp }}</td>
+                <td>{{ orderStore.order.totalPrice }}€</td>
+                <td>{{ orderStore.order.status }}</td>
+              </tbody>
+        </table>
+
+        <h5 class="mt-5 mb-3">Produtos Encomendados:</h5>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Fabricante</th>
+                <th>Descrição</th>
+                <th>Preço Un.</th>
+                <th>Quantidade</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="product in orderStore.products" :key="product.id">
+                <td>{{ product.name }}</td>
+                <td>{{ product.makerName }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.price }}€</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.subtotal }}€</td>
+                <td class="text-end">
+                </td>
+                <td class="text-end">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-xs btn-light" @click="seeProduct(product)"><i>Mais info</i>
+                    </button>
+                </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h5 class="mt-5 mb-3">Observações:</h5>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Data</th>
+                <th>Observação</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="observation in orderStore.observations" :key="observation.id">
+                <td>{{ observation.timestamp }}</td>
+                <td>O sensor {{ observation.sensorId }} que mede {{ observation.type }} registou um/uma {{ observation.type }} de {{ observation.value}}{{ observation.unit }} </td>
+                <td class="text-end">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
 </template>
 
 <style scoped></style>

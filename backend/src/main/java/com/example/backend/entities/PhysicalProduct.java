@@ -9,10 +9,7 @@ import java.sql.Timestamp;
 // in stock since
 
 @Entity
-@Table(
-        name = "physical_product",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"id", "serial_number"})
-)
+@Table(name = "physical_product")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllPhysicalProducts",
@@ -31,9 +28,6 @@ public class PhysicalProduct implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "serial_number")
-    @NotNull
-    private String serialNumber;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -52,9 +46,8 @@ public class PhysicalProduct implements Serializable {
     public PhysicalProduct() {
     }
 
-    public PhysicalProduct(Product product, String serialNumber) {
+    public PhysicalProduct(Product product) {
         this.product = product;
-        this.serialNumber = serialNumber;
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
         this.product.addPhysicalProduct(this);
         this.order = null;
@@ -74,14 +67,6 @@ public class PhysicalProduct implements Serializable {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public String getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
     }
 
     public Order getOrder() {

@@ -23,8 +23,8 @@ public class TransportationPackageBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-//    @EJB
-//    private OrderBean orderBean;
+    @EJB
+    private OrderBean orderBean;
 
     public boolean exists(long id) {
         Query query = entityManager.createQuery(
@@ -78,7 +78,7 @@ public class TransportationPackageBean {
         if(transportationPackage == null)
             return;
         else {
-            //order.addTransportationPackage(transportationPackage);
+            order.addTransportationPackage(transportationPackage);
         }
     }
 
@@ -90,7 +90,7 @@ public class TransportationPackageBean {
         if(transportationPackage == null)
             return;
         else {
-            //order.removeTransportationPackage(transportationPackage);
+            order.removeTransportationPackage(transportationPackage);
         }
     }
 

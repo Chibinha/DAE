@@ -24,6 +24,7 @@ public abstract class Package implements Serializable {
     protected int packageType;
     protected String material;
 
+
     public Package() {
     }
 
