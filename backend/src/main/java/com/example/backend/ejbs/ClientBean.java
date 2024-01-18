@@ -1,9 +1,7 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.entities.*;
-import com.example.backend.exceptions.MyConstraintViolationException;
-import com.example.backend.exceptions.MyEntityExistsException;
-import com.example.backend.exceptions.MyEntityNotFoundException;
+import com.example.backend.exceptions.*;
 import com.example.backend.security.Hasher;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -82,19 +80,26 @@ public class ClientBean {
         return this.find(username);
     }
 
-    public Order getClientOrder(String username, Long index) throws MyEntityNotFoundException {
-        find(username);
-        return entityManager.find(Order.class, index);
+    public Order getClientOrder(String username, Long index) throws MyEntityNotFoundException, NotAuthorizedException {
+        Order order = entityManager.find(Order.class, index);
+        if(find(username).getUsername().equals(order.getClient().getUsername()))
+            return entityManager.find(Order.class, index);
+        else
+            throw new NotAuthorizedException("This client doesn't have any orders with the id " + index);
     }
 
-    public List<Product> getClientOrderProducts(String username, Long index) throws MyEntityNotFoundException {
-        find(username);
-        List<PhysicalProduct> physical = entityManager.find(Order.class, index).getPhysicalProducts();;
-        List<Product> products = new ArrayList<Product>();
-        for(PhysicalProduct product : physical){
-            products.add(product.getProduct());
+    public List<Product> getClientOrderProducts(String username, Long index) throws MyEntityNotFoundException, NotAuthorizedException {
+        Order order = entityManager.find(Order.class, index);
+        if(find(username).getUsername().equals(order.getClient().getUsername())) {
+            List<PhysicalProduct> physical = entityManager.find(Order.class, index).getPhysicalProducts();
+            List<Product> products = new ArrayList<Product>();
+            for (PhysicalProduct product : physical) {
+                products.add(product.getProduct());
+            }
+            return products;
         }
-        return products;
+        else
+            throw new NotAuthorizedException("This client doesn't have any orders with the id " + index);
     }
 
     public List<Observation> getClientOrderObservations(String username, Long index) throws MyEntityNotFoundException {

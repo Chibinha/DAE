@@ -13,6 +13,8 @@ import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
+import com.example.backend.exceptions.MyIllegalArgumentException;
+import com.example.backend.exceptions.NotAuthorizedException;
 import com.example.backend.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
@@ -99,7 +101,7 @@ public class ClientService {
     @GET
     @Path("{username}/orders/{index}")
     @Transactional
-    public Response getClientOrder(@PathParam("username") String username, @PathParam("index") Long index) throws MyEntityNotFoundException {
+    public Response getClientOrder(@PathParam("username") String username, @PathParam("index") Long index) throws MyEntityNotFoundException, NotAuthorizedException {
         if(username.equals("anonymous"))
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
@@ -111,7 +113,7 @@ public class ClientService {
     @GET
     @Path("{username}/orders/{index}/products")
     @Transactional
-    public Response getClientOrderProducts(@PathParam("username") String username, @PathParam("index") Long index) throws MyEntityNotFoundException {
+    public Response getClientOrderProducts(@PathParam("username") String username, @PathParam("index") Long index) throws MyEntityNotFoundException, NotAuthorizedException {
         if(username.equals("anonymous"))
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else

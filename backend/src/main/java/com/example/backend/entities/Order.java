@@ -43,6 +43,9 @@ public class Order implements Serializable {
     @ManyToMany(mappedBy = "orders")
     private List<Sensor> sensors;
 
+    @ManyToMany(mappedBy = "orders")
+    private List<TransportationPackage> packages;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "orderTimestamp")
     @NotNull
@@ -53,6 +56,7 @@ public class Order implements Serializable {
         this.physicalProducts = new ArrayList<>();
         this.observations = new ArrayList<>();
         this.sensors = new ArrayList<>();
+        this.packages = new ArrayList<>();
     }
 
     public Order(double totalPrice, LineOperator lineOperator, Client client, List<PhysicalProduct> physicalProducts) {
@@ -64,6 +68,7 @@ public class Order implements Serializable {
         this.physicalProducts = physicalProducts;
         this.observations = new ArrayList<>();
         this.sensors = new ArrayList<>();
+        this.packages = new ArrayList<>();
     }
 
     public long getId() {
@@ -136,5 +141,20 @@ public class Order implements Serializable {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public List<TransportationPackage> getPackages() {
+        return packages;
+    }
+
+    public void setPackages(List<TransportationPackage> packages) {
+        this.packages = packages;
+    }
+
+    public void removeTransportationPackage(TransportationPackage transportationPackage) {
+
+    }
+
+    public void addTransportationPackage(TransportationPackage transportationPackage) {
     }
 }

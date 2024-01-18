@@ -117,7 +117,7 @@ public class DTOConverter {
                 transportationPackage.getId(),
                 transportationPackage.getPackageType(),
                 transportationPackage.getMaterial(),
-                transportationPackage.getOrder().getId()
+                transportationPackage.getCurrentOrder().getId()
         );
     }
     public List<TransportationPackageDTO> transportationPackageToDTOList(List<TransportationPackage> transportationPackages) {
