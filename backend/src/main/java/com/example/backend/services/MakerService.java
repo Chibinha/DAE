@@ -75,6 +75,16 @@ public class MakerService {
         return Response.status(Response.Status.CREATED).entity("Product with id [" + id + "] created.").build();
     }
 
+    @PUT
+    @Path("/products/{productId}")
+    public Response updateProduct(@PathParam("productId") long productId, ProductDTO productDTO) throws MyEntityNotFoundException {
+        long id = makerBean.updateProduct(productId, productDTO);
+        if (id < 1) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Product with id [" + id + "] not updated.").build();
+        }
+        return Response.status(Response.Status.CREATED).entity("Product with id [" + id + "] updated.").build();
+    }
+
     //Create new physical product
     @POST
     @Path("/physicalproducts")

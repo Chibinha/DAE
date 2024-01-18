@@ -1,6 +1,7 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.dtos.PhysicalProductDTO;
+import com.example.backend.dtos.ProductDTO;
 import com.example.backend.entities.*;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
@@ -126,5 +127,9 @@ public class MakerBean {
         return entityManager.createNamedQuery("getUserAlerts", Alert.class)
                 .setParameter("user", user)
                 .getResultList();
+    }
+
+    public long updateProduct(long productId, ProductDTO productDTO) throws MyEntityNotFoundException {
+        return productBean.update(productId, productDTO);
     }
 }
