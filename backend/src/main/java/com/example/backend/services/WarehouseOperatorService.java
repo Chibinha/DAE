@@ -3,8 +3,10 @@ package com.example.backend.services;
 import com.example.backend.dtos.DTOConverter;
 import com.example.backend.dtos.OrderDTO;
 import com.example.backend.dtos.WarehouseOperatorDTO;
+import com.example.backend.ejbs.UserBean;
 import com.example.backend.ejbs.WarehouseOperatorBean;
 import com.example.backend.ejbs.OrderBean;
+import com.example.backend.entities.Alert;
 import com.example.backend.entities.WarehouseOperator;
 import com.example.backend.exceptions.*;
 import com.example.backend.exceptions.NotAuthorizedException;
@@ -28,6 +30,8 @@ public class WarehouseOperatorService {
     private WarehouseOperatorBean warehouseOperatorBean;
     @EJB
     private OrderBean orderBean;
+    @EJB
+    private UserBean userBean;
     private final DTOConverter dtoConverter = new DTOConverter();
 
     private ExternalContext securityContext;
@@ -164,6 +168,13 @@ public class WarehouseOperatorService {
         {
             return Response.ok(dtoConverter.observationToDTOList(warehouseOperatorBean.getLineOperatorOrderObservations(username ,index))).build();
         }
+    }
+
+    @GET
+    @Path("{username}/alerts")
+    public Response getAlerts(@PathParam("username") String username) throws MyEntityNotFoundException {
+        List<Alert> alerts = userBean.getAlerts(username);
+        return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
 
 //    @GET

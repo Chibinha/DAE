@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -16,12 +19,15 @@ public class User extends Versionable {
     private String password;
     @NotNull
     private String name;
+    @OneToMany(mappedBy = "username", cascade = CascadeType.REMOVE)
+    private List<Alert> alerts;
 
     @Email
     @NotNull
     private String email;
 
     public User() {
+        this.alerts = new ArrayList<Alert>();
     }
 
     public User(String username, String password, String name, String email) {
@@ -29,6 +35,7 @@ public class User extends Versionable {
         this.password = password;
         this.name = name;
         this.email = email;
+        this.alerts = new ArrayList<Alert>();
     }
 
     public String getUsername() {
@@ -61,5 +68,13 @@ public class User extends Versionable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Alert> getAlerts() {
+        return alerts;
+    }
+
+    public void setAlerts(List<Alert> alerts) {
+        this.alerts = alerts;
     }
 }

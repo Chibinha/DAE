@@ -79,7 +79,7 @@
                         Product ID: <input v-model="updateForm.id" type="number">
                         <button @click="remove">Delete Product</button>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
