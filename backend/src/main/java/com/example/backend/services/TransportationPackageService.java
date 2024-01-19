@@ -24,35 +24,35 @@ public class TransportationPackageService {
     @EJB
     private TransportationPackageBean transportationPackageBean;
     private final DTOConverter dtoConverter = new DTOConverter();
-    @GET // means: to call this endpoint, we need to use the HTTP GET method
-    @Path("/")
-    public List<TransportationPackageDTO> getAllTransportationPackages() {
-        return dtoConverter.transportationPackageToDTOList(transportationPackageBean.getAll());
-    }
-
-    @POST
-    @Path("/")
-    public Response createNewTransportationPackage(TransportationPackageDTO transportationPackageDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
-        transportationPackageBean.create(
-                transportationPackageDTO.getId(), transportationPackageDTO.getPackageType(), transportationPackageDTO.getMaterial(), transportationPackageDTO.getOrderId()
-        );
-        TransportationPackage newTransportationPackage = transportationPackageBean.find(transportationPackageDTO.getId());
-        if (newTransportationPackage == null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        return Response.status(Response.Status.CREATED).entity(dtoConverter.transportationPackageToDTO(newTransportationPackage)).build();
-    }
-
-    @GET
-    @Path("{id}")
-    public Response getTransportationPackageDetails(@PathParam("id") long id) throws MyEntityNotFoundException {
-        TransportationPackage transportationPackage = transportationPackageBean.find(id);
-        if (transportationPackage != null) {
-            return Response.ok(dtoConverter.transportationPackageToDTO(transportationPackage)).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("ERROR_FINDING_TRANSPORTATION_PACKAGE")
-                .build();
-    }
+//    @GET // means: to call this endpoint, we need to use the HTTP GET method
+//    @Path("/")
+//    public List<TransportationPackageDTO> getAllTransportationPackages() {
+//        return dtoConverter.transportationPackageToDTOList(transportationPackageBean.getAll());
+//    }
+//
+//    @POST
+//    @Path("/")
+//    public Response createNewTransportationPackage(TransportationPackageDTO transportationPackageDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
+//        transportationPackageBean.create(
+//                transportationPackageDTO.getId(), transportationPackageDTO.getPackageType(), transportationPackageDTO.getMaterial(), transportationPackageDTO.getOrderId()
+//        );
+//        TransportationPackage newTransportationPackage = transportationPackageBean.find(transportationPackageDTO.getId());
+//        if (newTransportationPackage == null)
+//            return Response.status(Response.Status.BAD_REQUEST).build();
+//        return Response.status(Response.Status.CREATED).entity(dtoConverter.transportationPackageToDTO(newTransportationPackage)).build();
+//    }
+//
+//    @GET
+//    @Path("{id}")
+//    public Response getTransportationPackageDetails(@PathParam("id") long id) throws MyEntityNotFoundException {
+//        TransportationPackage transportationPackage = transportationPackageBean.find(id);
+//        if (transportationPackage != null) {
+//            return Response.ok(dtoConverter.transportationPackageToDTO(transportationPackage)).build();
+//        }
+//        return Response.status(Response.Status.NOT_FOUND)
+//                .entity("ERROR_FINDING_TRANSPORTATION_PACKAGE")
+//                .build();
+//    }
 
 //    @GET
 //    @Path("{id}/order")
