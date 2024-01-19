@@ -4,6 +4,7 @@ import com.example.backend.dtos.CustomerDTO;
 import com.example.backend.dtos.DTOConverter;
 import com.example.backend.ejbs.AlertBean;
 import com.example.backend.ejbs.CustomerBean;
+import com.example.backend.ejbs.UserBean;
 import com.example.backend.entities.Alert;
 import com.example.backend.entities.Customer;
 import com.example.backend.exceptions.MyConstraintViolationException;
@@ -31,6 +32,8 @@ public class CustomerService {
     private CustomerBean customerBean;
     @EJB
     private AlertBean alertBean;
+    @EJB
+    private UserBean userBean;
     private final DTOConverter dtoConverter = new DTOConverter();
     private ExternalContext securityContext;
 
@@ -125,6 +128,13 @@ public class CustomerService {
         {
             return Response.ok(dtoConverter.observationToDTOList(customerBean.getClientOrderObservations(username ,index))).build();
         }
+    }
+
+    @GET
+    @Path("{username}/alerts")
+    public Response getAlerts(@PathParam("username") String username) throws MyEntityNotFoundException {
+        List<Alert> alerts = userBean.getAlerts(username);
+        return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
 
 //    @GET

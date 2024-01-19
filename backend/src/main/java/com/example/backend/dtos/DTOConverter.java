@@ -19,9 +19,9 @@ public class DTOConverter {
     // Manufacturer
     public ManufacturerDTO makerToDTO(Manufacturer manufacturer) {
         return new ManufacturerDTO(
-                manufacturer.getUsername(),
-                manufacturer.getName(),
-                manufacturer.getEmail()
+            manufacturer.getUsername(),
+            manufacturer.getName(),
+            manufacturer.getEmail()
         );
     }
     public List<ManufacturerDTO> makerToDTOList(List<Manufacturer> manufacturers) {
@@ -31,10 +31,10 @@ public class DTOConverter {
     // Customer
     public CustomerDTO clientToDTO(Customer customer) {
         return new CustomerDTO(
-                customer.getUsername(),
-                customer.getPassword(),
-                customer.getName(),
-                customer.getEmail()
+            customer.getUsername(),
+            customer.getPassword(),
+            customer.getName(),
+            customer.getEmail()
         );
     }
     public List<CustomerDTO> clientToDTOList(List<Customer> customers) {
@@ -44,10 +44,10 @@ public class DTOConverter {
     // Line Operator
     public WarehouseOperatorDTO lineOperatorToDTO(WarehouseOperator warehouseOperator) {
         return new WarehouseOperatorDTO(
-                warehouseOperator.getUsername(),
-                warehouseOperator.getPassword(),
-                warehouseOperator.getName(),
-                warehouseOperator.getEmail()
+            warehouseOperator.getUsername(),
+            warehouseOperator.getPassword(),
+            warehouseOperator.getName(),
+            warehouseOperator.getEmail()
         );
     }
     public List<WarehouseOperatorDTO> lineOperatorToDTOList(List<WarehouseOperator> warehouseOperators) {
@@ -59,14 +59,14 @@ public class DTOConverter {
     // Product
     public ProductDTO productToDTO(Product product) {
         return new ProductDTO(
-                product.getId(),
-                product.getName(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getWeight(),
-                product.getIngredients(),
-                product.getInStock(),
-                product.getMaker().getUsername()
+            product.getId(),
+            product.getName(),
+            product.getPrice(),
+            product.getDescription(),
+            product.getWeight(),
+            product.getIngredients(),
+            product.getInStock(),
+            product.getMaker().getUsername()
         );
     }
     public List<ProductDTO> productToDTOList(List<Product> products) {
@@ -76,11 +76,11 @@ public class DTOConverter {
     // InventoryItem
     public InventoryItemDTO physicalProductToDTO(InventoryItem inventoryItem) {
         return new InventoryItemDTO(
-                inventoryItem.getId(),
-                inventoryItem.getProduct().getId(),
-                inventoryItem.getProduct().getName(),
-                inventoryItem.getProduct().getMaker().getUsername(),
-                inventoryItem.getStockTimestamp()
+            inventoryItem.getId(),
+            inventoryItem.getProduct().getId(),
+            inventoryItem.getProduct().getName(),
+            inventoryItem.getProduct().getMaker().getUsername(),
+            inventoryItem.getStockTimestamp()
         );
     }
     public List<InventoryItemDTO> physicalProductToDTOList(List<InventoryItem> inventoryItems) {
@@ -105,13 +105,13 @@ public class DTOConverter {
     // Observation
     public ObservationDTO observationToDTO(Observation observation) {
         return new ObservationDTO(
-                observation.getId(),
-                observation.getSensor().getType(),
-                observation.getValue(),
-                observation.getSensor().getUnit(),
-                observation.getTimestamp(),
-                observation.getSensor().getName(),
-                observation.getSensor().getCurrentPackage().getId());
+            observation.getId(),
+            observation.getSensor().getType(),
+            observation.getValue(),
+            observation.getSensor().getUnit(),
+            observation.getTimestamp(),
+            observation.getSensor().getName(),
+            observation.getSensor().getCurrentPackage().getId());
     }
     public List<ObservationDTO> observationToDTOList(List<Observation> observations) {
         return observations.stream().map(this::observationToDTO).collect(Collectors.toList());
@@ -135,9 +135,9 @@ public class DTOConverter {
     // Product Package
     public ProductPackageDTO productPackageToDTO(ProductPackage productPackage) {
         return new ProductPackageDTO(
-                productPackage.getPackageType(),
-                productPackage.getMaterial(),
-                productPackage.getCurrentPhysicalProduct().getId()
+            productPackage.getPackageType(),
+            productPackage.getMaterial(),
+            productPackage.getCurrentPhysicalProduct().getId()
         );
     }
     public List<ProductPackageDTO> productPackageToDTOList(List<ProductPackage> productPackages) {
@@ -149,13 +149,13 @@ public class DTOConverter {
     // Order
     public OrderDTO orderToDTO(Order order) {
         return new OrderDTO(
-                order.getId(),
-                order.getStatus(),
-                order.getTotalPrice(),
-                order.getLineOperator().getUsername(),
-                order.getClient().getUsername(),
-                order.getOrderTimestamp(),
-                physicalProductToDTOList(order.getPhysicalProducts())
+            order.getId(),
+            order.getStatus(),
+            order.getTotalPrice(),
+            order.getLineOperator().getUsername(),
+            order.getClient().getUsername(),
+            order.getOrderTimestamp(),
+            physicalProductToDTOList(order.getPhysicalProducts())
         );
     }
     public List<OrderDTO> orderToDTOList(List<Order> orders) {
@@ -167,9 +167,9 @@ public class DTOConverter {
     // Alert
     public AlertDTO alertToDTO(Alert alert) {
         return new AlertDTO(
-                alert.getUser().getUsername(),
-                alert.getDescription(),
-                alert.getTimestamp()
+            alert.getUser().getUsername(),
+            alert.getDescription(),
+            alert.getTimestamp()
         );
     }
     public List<AlertDTO> alertToDTOList(List<Alert> alerts) {

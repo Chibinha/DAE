@@ -28,6 +28,8 @@ public class WarehouseOperatorService {
     private WarehouseOperatorBean warehouseOperatorBean;
     @EJB
     private OrderBean orderBean;
+    @EJB
+    private UserBean userBean;
     private final DTOConverter dtoConverter = new DTOConverter();
 
     private ExternalContext securityContext;
@@ -187,6 +189,13 @@ public class WarehouseOperatorService {
         {
             return Response.ok(dtoConverter.observationToDTOList(warehouseOperatorBean.getLineOperatorOrderObservations(username ,index))).build();
         }
+    }
+
+    @GET
+    @Path("{username}/alerts")
+    public Response getAlerts(@PathParam("username") String username) throws MyEntityNotFoundException {
+        List<Alert> alerts = userBean.getAlerts(username);
+        return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
 
 //    @GET

@@ -1,4 +1,4 @@
-# Intelligent Package Management Platform
+# Smart Packages Platform
 
 ## Objective
 
