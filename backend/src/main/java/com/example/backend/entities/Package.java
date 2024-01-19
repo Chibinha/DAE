@@ -84,4 +84,10 @@ public abstract class Package implements Serializable {
     public void setObservations(List<Observation> observations) {
         this.observations = observations;
     }
+
+    public void addSensor(Sensor sensor) {
+        if (!sensors.contains(sensor)) {
+            sensors.add(sensor);
+        }
+    }
 }

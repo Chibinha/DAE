@@ -15,15 +15,26 @@ const userStore = useUserStore()
 const emit = defineEmits(['login'])
 
 const login = async () => {
-    if (await userStore.login(credentials.value)) {
-        toast.success('User ' + userStore.user.name + ' has entered the application.')
-        emit('login')
-        router.back()
-    } else {
-        credentials.value.password = ''
-        toast.error('User credentials are invalid!')
+    try {
+        await userStore.login(credentials.value)
+        console.log('User store:', userStore.user)
+        console.log('isAuthenticated:', await userStore.isAuthenticated())
+
+        if (await userStore.isAuthenticated()) { //
+            console.log('User ' + userStore.user.username + ' has entered the application.')
+            toast.success('User ' + userStore.user.username + ' has entered the application.')
+            emit('login')
+            router.back()
+        } else {
+            credentials.value.password = ''
+            toast.error('User credentials are invalid!')
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        // Handle other error scenarios if needed
     }
-}
+};
+
 </script>
 
 
