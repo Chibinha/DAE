@@ -9,7 +9,7 @@ const orderStore = useOrderStore()
 
 const props = defineProps({
   id: {
-    type: Number,
+    type: String,
     default: null
   }
 })
@@ -51,8 +51,7 @@ onMounted(async () => {
 })
 const formatTimestamp = (timestamp) => {
   const date = new Date(timestamp);
-  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}.${date.getMilliseconds().toString().padStart(3, '0')}`;
-  return formattedDate;
+  return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
 };
 </script>
 
@@ -70,7 +69,7 @@ const formatTimestamp = (timestamp) => {
         </tr>
       </thead>
       <tbody>
-        <td>{{ orderStore.order.orderTimestamp }}</td>
+        <td>{{ formatTimestamp(orderStore.order.orderTimestamp) }}</td>
         <td>{{ orderStore.order.totalPrice }}€</td>
         <td>{{ orderStore.order.status }}</td>
       </tbody>

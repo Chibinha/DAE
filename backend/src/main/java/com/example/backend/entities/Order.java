@@ -27,9 +27,6 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<InventoryItem> inventoryItems;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
-    private List<Observation> observations;
-
     @ManyToOne
     @JoinColumn(name = "customer")
     @NotNull
@@ -51,7 +48,6 @@ public class Order implements Serializable {
     public Order() {
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
         this.inventoryItems = new ArrayList<>();
-        this.observations = new ArrayList<>();
         this.packages = new ArrayList<>();
     }
 
@@ -62,7 +58,6 @@ public class Order implements Serializable {
         this.warehouseOperator = warehouseOperator;
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
         this.inventoryItems = inventoryItems;
-        this.observations = new ArrayList<>();
         this.packages = new ArrayList<>();
     }
 
@@ -106,14 +101,6 @@ public class Order implements Serializable {
         this.inventoryItems = inventoryItems;
     }
 
-    public List<Observation> getObservations() {
-        return observations;
-    }
-
-    public void setObservations(List<Observation> observations) {
-        this.observations = observations;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -134,6 +121,12 @@ public class Order implements Serializable {
         return packages;
     }
 
+    public Package getCurrentPackage() {
+        if(!packages.isEmpty())
+            return packages.get(packages.size() - 1);
+        return null;
+    }
+
     public void setPackages(List<TransportPackage> packages) {
         this.packages = packages;
     }
@@ -147,4 +140,9 @@ public class Order implements Serializable {
         if(order!= null)
             this.packages.remove(order);
     }
+
+    public List<Observation> getObservations() {
+        return this.getCurrentPackage().getAllObservations();
+    }
+
 }
