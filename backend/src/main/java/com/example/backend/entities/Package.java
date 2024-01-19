@@ -1,5 +1,7 @@
 package com.example.backend.entities;
 
+import com.example.backend.entities.Observation;
+import com.example.backend.entities.Sensor;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -8,18 +10,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
+@Table(name = "packages")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllPackages",
                 query = "SELECT p FROM Package p ORDER BY p.id" // JPQL
         )
 })
-@Table(
-        name = "packages",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"id"})
-)
 public abstract class Package implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
     protected int packageType;
     protected String material;
@@ -37,8 +37,7 @@ public abstract class Package implements Serializable {
         this.observations = new ArrayList<>();
     }
 
-    public Package(long id, int tipoEmbalagem, String material) {
-        this.id = id;
+    public Package(int tipoEmbalagem, String material) {
         this.packageType = tipoEmbalagem;
         this.material = material;
         this.sensors = new LinkedList<>();
@@ -83,5 +82,11 @@ public abstract class Package implements Serializable {
 
     public void setObservations(List<Observation> observations) {
         this.observations = observations;
+    }
+
+    public void addSensor(Sensor sensor) {
+        if (!sensors.contains(sensor)) {
+            sensors.add(sensor);
+        }
     }
 }

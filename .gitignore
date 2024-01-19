@@ -4,10 +4,8 @@ target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea
-.idea/
-backend/.idea
-backend/.idea/
+.idea/workspace.xml
+backend/.idea/workspace.xml
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml

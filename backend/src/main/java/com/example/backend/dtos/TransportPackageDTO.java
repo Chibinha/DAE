@@ -1,18 +1,14 @@
 package com.example.backend.dtos;
 
-import java.util.LinkedList;
-import java.util.List;
-
-public class TransportationPackageDTO {
+public class TransportPackageDTO {
     protected long id;
     protected int packageType;
     protected String material;
     protected long order_id;
 
-    public TransportationPackageDTO() {}
+    public TransportPackageDTO() {}
 
-    public TransportationPackageDTO(long id, int packageType, String material, long order_id) {
-        this.id = id;
+    public TransportPackageDTO(int packageType, String material, long order_id) {
         this.packageType = packageType;
         this.material = material;
         this.order_id = order_id;

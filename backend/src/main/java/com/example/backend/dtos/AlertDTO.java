@@ -1,11 +1,6 @@
 package com.example.backend.dtos;
 
-import com.example.backend.entities.User;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-
 import java.sql.Timestamp;
-import java.util.Calendar;
 
 public class AlertDTO {
     public String username;

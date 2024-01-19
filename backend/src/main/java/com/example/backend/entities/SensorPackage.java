@@ -1,5 +1,7 @@
 package com.example.backend.entities;
 
+import com.example.backend.entities.Package;
+import com.example.backend.entities.Sensor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 

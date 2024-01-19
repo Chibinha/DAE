@@ -9,23 +9,23 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllClients",
-                query = "SELECT c FROM Client c ORDER BY c.name" // JPQL
+                query = "SELECT c FROM Customer c ORDER BY c.name" // JPQL
         )
 })
-public class Client extends User {
-    @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
+public class Customer extends User {
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
     private List<Order> orders;
 
-//    @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
+//    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
 //    private List<Alert> alerts;
 
-    public Client(String username, String password, String name, String email) {
+    public Customer(String username, String password, String name, String email) {
         super(username, password, name, email);
         this.orders = new ArrayList<Order>();
 //        this.alerts = new ArrayList<Alert>();
     }
 
-    public Client() {
+    public Customer() {
         this.orders = new ArrayList<Order>();
 //        this.alerts = new ArrayList<Alert>();
     }

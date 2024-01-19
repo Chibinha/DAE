@@ -3,17 +3,17 @@ package com.example.backend.dtos;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class PhysicalProductDTO implements Serializable {
+public class InventoryItemDTO implements Serializable {
     private long id;
     private long productId;
     private String productName;
     private String makerUsername;
     private Timestamp stockTimestamp;
 
-    public PhysicalProductDTO() {
+    public InventoryItemDTO() {
     }
 
-    public PhysicalProductDTO(long id, long productId, String productName, String makerUsername, Timestamp stockTimestamp) {
+    public InventoryItemDTO(long id, long productId, String productName, String makerUsername, Timestamp stockTimestamp) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;

@@ -1,9 +1,9 @@
-package com.example.backend.services;
+package com.example.backend.services.unused;
 
 import com.example.backend.dtos.DTOConverter;
-import com.example.backend.entities.PhysicalProduct;
-import com.example.backend.dtos.PhysicalProductDTO;
-import com.example.backend.ejbs.PhysicalProductBean;
+import com.example.backend.entities.InventoryItem;
+import com.example.backend.dtos.InventoryItemDTO;
+import com.example.backend.ejbs.InventoryItemBean;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
@@ -11,23 +11,22 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Path("/physicalProducts")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-public class PhysicalProductService {
+public class InventoryItemService {
     @EJB
-    private PhysicalProductBean physicalProductBean;
+    private InventoryItemBean inventoryItemBean;
     private final DTOConverter dtoConverter = new DTOConverter();
 
     // CRUD
     // Create
     @POST
     @Path("/")
-    public Response create(PhysicalProductDTO physicalProductDTO) throws MyEntityNotFoundException {
-         long id = physicalProductBean.create(
-                physicalProductDTO.getProductId()
+    public Response create(InventoryItemDTO inventoryItemDTO) throws MyEntityNotFoundException {
+         long id = inventoryItemBean.create(
+                inventoryItemDTO.getProductId()
         );
         if (id < 1) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Physical product with id [" + id + "] not created.").build();
@@ -38,37 +37,37 @@ public class PhysicalProductService {
     // Read
     @GET
     @Path("/")
-    public List<PhysicalProductDTO> getAll() {
-        return dtoConverter.physicalProductToDTOList(physicalProductBean.getAll());
+    public List<InventoryItemDTO> getAll() {
+        return dtoConverter.physicalProductToDTOList(inventoryItemBean.getAll());
     }
 
     // Find
     @GET
     @Path("/{id}")
-    public PhysicalProductDTO find(@PathParam("id") long id) throws MyEntityNotFoundException {
-        return dtoConverter.physicalProductToDTO(physicalProductBean.find(id));
+    public InventoryItemDTO find(@PathParam("id") long id) throws MyEntityNotFoundException {
+        return dtoConverter.physicalProductToDTO(inventoryItemBean.find(id));
     }
 
     // Update
     @PUT
     @Path("/{id}")
     public Response update(@PathParam("id") long id) throws MyEntityNotFoundException {
-        physicalProductBean.update(id);
+        inventoryItemBean.update(id);
 
-        PhysicalProduct physicalProduct = physicalProductBean.find(id);
-        if (physicalProduct == null) {
+        InventoryItem inventoryItem = inventoryItemBean.find(id);
+        if (inventoryItem == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Physical product with id [" + id + "] not found.").build();
         }
-        return Response.status(Response.Status.OK).entity(dtoConverter.physicalProductToDTO(physicalProduct)).build();
+        return Response.status(Response.Status.OK).entity(dtoConverter.physicalProductToDTO(inventoryItem)).build();
     }
 
     // Delete
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id") long id) throws MyEntityNotFoundException {
-        physicalProductBean.delete(id);
+        inventoryItemBean.delete(id);
 
-        if (physicalProductBean.exists(id)) {
+        if (inventoryItemBean.exists(id)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Physical product with id [" + id + "] not deleted.").build();
         }
         return Response.status(Response.Status.OK).entity("Physical product with id [" + id + "] deleted.").build();

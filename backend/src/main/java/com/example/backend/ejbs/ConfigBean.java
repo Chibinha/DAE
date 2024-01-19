@@ -12,15 +12,15 @@ import java.util.logging.Logger;
 @Startup
 public class ConfigBean {
     @EJB
-    private MakerBean makerBean;
+    private ManufacturerBean manufacturerBean;
     @EJB
-    private ClientBean clientBean;
+    private CustomerBean customerBean;
     @EJB
-    private LineOperatorBean lineOperatorBean;
+    private WarehouseOperatorBean warehouseOperatorBean;
     @EJB
     private ProductBean productBean;
     @EJB
-    private PhysicalProductBean physicalProductBean;
+    private InventoryItemBean inventoryItemBean;
     @EJB
     private SensorBean sensorBean;
     @EJB
@@ -30,9 +30,11 @@ public class ConfigBean {
     @EJB
     private ProductPackageBean productPackageBean;
     @EJB
-    private TransportationPackageBean transportationPackageBean;
+    private TransportPackageBean transportPackageBean;
     @EJB
     private OrderBean orderBean;
+    @EJB
+    private AlertBean alertBean;
 
 
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
@@ -41,20 +43,16 @@ public class ConfigBean {
     public void populateDB() {
         try {
             //#region Users
-            makerBean.create("maker1", "123", "maker1", "maker1@mail.pt");
-            makerBean.create("maker2", "123", "maker2", "maker2@mail.pt");
-            makerBean.create("maker3", "123", "maker3", "maker3@mail.pt");
+            manufacturerBean.create("maker1", "123", "maker1", "maker1@mail.pt");
+            manufacturerBean.create("maker2", "123", "maker2", "maker2@mail.pt");
+            manufacturerBean.create("maker3", "123", "maker3", "maker3@mail.pt");
 
-            clientBean.create("joao", "123", "joao", "joao@mail.com");
-            clientBean.create("bruno", "123", "bruno", "bruno@mail.com");
+            customerBean.create("joao", "123", "joao", "joao@mail.com");
+            customerBean.create("bruno", "123", "bruno", "bruno@mail.com");
 
-            lineOperatorBean.create("diogo", "123", "diogo", "diogo@mail.com");
-            lineOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
+            warehouseOperatorBean.create("diogo", "123", "diogo", "diogo@mail.com");
+            warehouseOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
             //#endregion
-
-//            transportationPackageBean.create(1, "Papel");
-//            transportationPackageBean.create(1, "Plastico");
-//            transportationPackageBean.create(3, "Metal");
 
             //#region Products/PhysicalProducts
             productBean.create("Pizza", 10, "Pizza de queijo", 0.5, "Queijo", "maker1");
@@ -62,16 +60,16 @@ public class ConfigBean {
             productBean.create("Coca-Cola", 1, "Coca-Cola", 0.5, "Coca-Cola", "maker1");
             productBean.create("Batatas", 3, "Batatas", 0.7, "Batatas", "maker2");
 
-            physicalProductBean.create(1);
-            physicalProductBean.create(1);
-            physicalProductBean.create(1);
-            physicalProductBean.create(2);
-            physicalProductBean.create(2);
-            physicalProductBean.create(2);
-            physicalProductBean.create(3);
-            physicalProductBean.create(3);
-            physicalProductBean.create(3);
-            physicalProductBean.create(4);
+            inventoryItemBean.create(1);
+            inventoryItemBean.create(1);
+            inventoryItemBean.create(1);
+            inventoryItemBean.create(2);
+            inventoryItemBean.create(2);
+            inventoryItemBean.create(2);
+            inventoryItemBean.create(3);
+            inventoryItemBean.create(3);
+            inventoryItemBean.create(3);
+            inventoryItemBean.create(4);
             //#endregion
 
             //#region Sensors
@@ -80,7 +78,14 @@ public class ConfigBean {
             sensorBean.create("TMPS234", "Temperatura", "ºC");
             //#endregion
 
-            //#region Packages
+            //#region ProductPackages/TransportPackage
+            transportPackageBean.create(1, "Papel");
+            transportPackageBean.create(1, "Plastico");
+            transportPackageBean.create(3, "Metal");
+
+            productPackageBean.create(1, "Papel");
+            productPackageBean.create(1, "Plastico");
+            productPackageBean.create(3, "Metal");
             //#endregion
 
             //#region Orders
@@ -105,6 +110,11 @@ public class ConfigBean {
             observationBean.create("23",  3,3);
             observationBean.create("45",  3,1);
 
+            //#endregion
+
+            //#region Alerts
+            alertBean.create("joao", "Embalagem aberta");
+            alertBean.create("bruno", "Temperatura elevada");
             //#endregion
         } catch (Exception e) {
             logger.severe(e.getClass().getCanonicalName() + e.getMessage());

@@ -2,15 +2,15 @@ package com.example.backend.dtos;
 
 import java.io.Serializable;
 
-public class MakerDTO implements Serializable {
+public class ManufacturerDTO implements Serializable {
     private String username;
     private String name;
     private String email;
 
-    public MakerDTO() {
+    public ManufacturerDTO() {
     }
 
-    public MakerDTO(String username, String name, String email) {
+    public ManufacturerDTO(String username, String name, String email) {
         this.username = username;
         this.name = name;
         this.email = email;

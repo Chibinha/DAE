@@ -1,18 +1,12 @@
-package com.example.backend.services;
+package com.example.backend.services.unused;
 
 import com.example.backend.dtos.DTOConverter;
-import com.example.backend.dtos.LineOperatorDTO;
-import com.example.backend.dtos.OrderDTO;
-import com.example.backend.dtos.ProductDTO;
-import com.example.backend.ejbs.LineOperatorBean;
+import com.example.backend.dtos.WarehouseOperatorDTO;
+import com.example.backend.ejbs.WarehouseOperatorBean;
 import com.example.backend.ejbs.OrderBean;
-import com.example.backend.entities.LineOperator;
-import com.example.backend.entities.Order;
-import com.example.backend.entities.Product;
+import com.example.backend.entities.WarehouseOperator;
 import com.example.backend.exceptions.*;
 import com.example.backend.exceptions.NotAuthorizedException;
-import com.example.backend.security.Authenticated;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.faces.context.ExternalContext;
 import jakarta.transaction.Transactional;
@@ -21,17 +15,16 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Path("lineOperator") // relative url web path for this service
 @Produces({MediaType.APPLICATION_JSON}) // injects header “Content-Type: application/json”
 @Consumes({MediaType.APPLICATION_JSON}) // injects header “Accept: application/json”
 //@Authenticated
-//@RolesAllowed({"LineOperator"})
-public class LineOperatorService {
+//@RolesAllowed({"WarehouseOperator"})
+public class WarehouseOperatorService {
 
     @EJB
-    private LineOperatorBean lineOperatorBean;
+    private WarehouseOperatorBean warehouseOperatorBean;
     @EJB
     private OrderBean orderBean;
     private final DTOConverter dtoConverter = new DTOConverter();
@@ -39,22 +32,22 @@ public class LineOperatorService {
     private ExternalContext securityContext;
 
     @GET // means: to call this endpoint, we need to use the HTTP GET method
-    @Path("/all") // means: the relative url path is “/api/lineOperator/”
-    public List<LineOperatorDTO> getAll() {
-        return dtoConverter.lineOperatorToDTOList(lineOperatorBean.getAll());
+    @Path("/all") // means: the relative url path is “/api/warehouseOperator/”
+    public List<WarehouseOperatorDTO> getAll() {
+        return dtoConverter.lineOperatorToDTOList(warehouseOperatorBean.getAll());
     }
 
     @POST
     @Path("/")
-    public Response createNewLineOperator (LineOperatorDTO lineOperatorDTO) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
-        lineOperatorBean.create(
-                lineOperatorDTO.getUsername(),
-                lineOperatorDTO.getPassword(),
-                lineOperatorDTO.getName(),
-                lineOperatorDTO.getEmail()
+    public Response createNewLineOperator (WarehouseOperatorDTO warehouseOperatorDTO) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
+        warehouseOperatorBean.create(
+                warehouseOperatorDTO.getUsername(),
+                warehouseOperatorDTO.getPassword(),
+                warehouseOperatorDTO.getName(),
+                warehouseOperatorDTO.getEmail()
         );
-        LineOperator lineOperator = lineOperatorBean.find(lineOperatorDTO.getUsername());
-        return Response.status(Response.Status.CREATED).entity(dtoConverter.lineOperatorToDTO(lineOperator)).build();
+        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(warehouseOperatorDTO.getUsername());
+        return Response.status(Response.Status.CREATED).entity(dtoConverter.lineOperatorToDTO(warehouseOperator)).build();
     }
 
     @GET
@@ -65,7 +58,7 @@ public class LineOperatorService {
 //        if(!principal.getName().equals(username)) {
 //            return Response.status(Response.Status.FORBIDDEN).build();
 //        }
-        var lineOperator = lineOperatorBean.find(username);
+        var lineOperator = warehouseOperatorBean.find(username);
         if (lineOperator == null) {
             var errorMsg = "Line Operator '%s' not found.".formatted(username);
             var status = Response.Status.NOT_FOUND;
@@ -76,30 +69,30 @@ public class LineOperatorService {
     @PUT
     @Path("{username}/")
     @Transactional
-    public Response updateLineOperator(@PathParam("username") String username, LineOperatorDTO lineOperatorDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
-        lineOperatorBean.update(lineOperatorDTO.getUsername(),lineOperatorDTO.getPassword(), lineOperatorDTO.getName(), lineOperatorDTO.getEmail());
+    public Response updateLineOperator(@PathParam("username") String username, WarehouseOperatorDTO warehouseOperatorDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
+        warehouseOperatorBean.update(warehouseOperatorDTO.getUsername(), warehouseOperatorDTO.getPassword(), warehouseOperatorDTO.getName(), warehouseOperatorDTO.getEmail());
         boolean notUpdated = false;
         String notUpdatedFields = "";
         // check if fields changed with the update
-        LineOperator lineOperator = lineOperatorBean.find(username);
-        if(!lineOperatorDTO.getUsername().equals(lineOperator.getUsername()) && lineOperatorBean.exists(lineOperatorDTO.getUsername()))
+        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
+        if(!warehouseOperatorDTO.getUsername().equals(warehouseOperator.getUsername()) && warehouseOperatorBean.exists(warehouseOperatorDTO.getUsername()))
         {
             throw new MyIllegalArgumentException("Nome de utilizador já está em uso. Nome de utilizador é unico");
         }
 
-        if(lineOperatorDTO.getUsername() != null && !lineOperatorDTO.getUsername().equals(lineOperator.getUsername())) {
+        if(warehouseOperatorDTO.getUsername() != null && !warehouseOperatorDTO.getUsername().equals(warehouseOperator.getUsername())) {
             notUpdated = true;
             notUpdatedFields += "username, ";
         }
-        if(lineOperatorDTO.getPassword() != null && !lineOperatorDTO.getPassword().equals(lineOperator.getPassword())) {
+        if(warehouseOperatorDTO.getPassword() != null && !warehouseOperatorDTO.getPassword().equals(warehouseOperator.getPassword())) {
             notUpdated = true;
             notUpdatedFields += "password, ";
         }
-        if(lineOperatorDTO.getName() != null && !lineOperatorDTO.getName().equals(lineOperator.getName())) {
+        if(warehouseOperatorDTO.getName() != null && !warehouseOperatorDTO.getName().equals(warehouseOperator.getName())) {
             notUpdated = true;
             notUpdatedFields += "name, ";
         }
-        if(lineOperatorDTO.getEmail() != null && !lineOperatorDTO.getEmail().equals(lineOperator.getEmail())) {
+        if(warehouseOperatorDTO.getEmail() != null && !warehouseOperatorDTO.getEmail().equals(warehouseOperator.getEmail())) {
             notUpdated = true;
             notUpdatedFields += "email, ";
         }
@@ -118,7 +111,7 @@ public class LineOperatorService {
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
         {
-            var lineOperator = lineOperatorBean.getLineOperatorOrders(username);
+            var lineOperator = warehouseOperatorBean.getLineOperatorOrders(username);
             return Response.ok(dtoConverter.orderToDTOList(lineOperator.getOrders())).build();
         }
     }
@@ -131,7 +124,7 @@ public class LineOperatorService {
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
         {
-            return Response.ok(dtoConverter.orderToDTO(lineOperatorBean.getLineOperatorOrder(username,index))).build();
+            return Response.ok(dtoConverter.orderToDTO(warehouseOperatorBean.getLineOperatorOrder(username,index))).build();
         }
     }
 
@@ -143,25 +136,25 @@ public class LineOperatorService {
 //        boolean notUpdated = false;
 //        String notUpdatedFields = "";
 //        // check if fields changed with the update
-//        LineOperator lineOperator = lineOperatorBean.find(username);
-//        if(!lineOperatorDTO.getUsername().equals(lineOperator.getUsername()) && lineOperatorBean.exists(lineOperatorDTO.getUsername()))
+//        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
+//        if(!lineOperatorDTO.getUsername().equals(warehouseOperator.getUsername()) && warehouseOperatorBean.exists(lineOperatorDTO.getUsername()))
 //        {
 //            throw new MyIllegalArgumentException("Nome de utilizador já está em uso. Nome de utilizador é unico");
 //        }
 //
-//        if(lineOperatorDTO.getUsername() != null && !lineOperatorDTO.getUsername().equals(lineOperator.getUsername())) {
+//        if(lineOperatorDTO.getUsername() != null && !lineOperatorDTO.getUsername().equals(warehouseOperator.getUsername())) {
 //            notUpdated = true;
 //            notUpdatedFields += "username, ";
 //        }
-//        if(lineOperatorDTO.getPassword() != null && !lineOperatorDTO.getPassword().equals(lineOperator.getPassword())) {
+//        if(lineOperatorDTO.getPassword() != null && !lineOperatorDTO.getPassword().equals(warehouseOperator.getPassword())) {
 //            notUpdated = true;
 //            notUpdatedFields += "password, ";
 //        }
-//        if(lineOperatorDTO.getName() != null && !lineOperatorDTO.getName().equals(lineOperator.getName())) {
+//        if(lineOperatorDTO.getName() != null && !lineOperatorDTO.getName().equals(warehouseOperator.getName())) {
 //            notUpdated = true;
 //            notUpdatedFields += "name, ";
 //        }
-//        if(lineOperatorDTO.getEmail() != null && !lineOperatorDTO.getEmail().equals(lineOperator.getEmail())) {
+//        if(lineOperatorDTO.getEmail() != null && !lineOperatorDTO.getEmail().equals(warehouseOperator.getEmail())) {
 //            notUpdated = true;
 //            notUpdatedFields += "email, ";
 //        }
@@ -180,7 +173,7 @@ public class LineOperatorService {
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
         {
-            return Response.ok(dtoConverter.productToDTOList(lineOperatorBean.getLineOperatorOrderProducts(username ,index))).build();
+            return Response.ok(dtoConverter.productToDTOList(warehouseOperatorBean.getLineOperatorOrderProducts(username ,index))).build();
         }
     }
 
@@ -192,15 +185,15 @@ public class LineOperatorService {
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
         {
-            return Response.ok(dtoConverter.observationToDTOList(lineOperatorBean.getLineOperatorOrderObservations(username ,index))).build();
+            return Response.ok(dtoConverter.observationToDTOList(warehouseOperatorBean.getLineOperatorOrderObservations(username ,index))).build();
         }
     }
 
 //    @GET
 //    @Path("{username}/alerts")
 //    public Response getLineOperatorAlerts(@PathParam("username") String username) {
-//        var lineOperator = lineOperatorBean.getLineOperatorAlerts(username);
-//        var dtos = toDTOsAlert(lineOperator.getAlerts());
+//        var warehouseOperator = warehouseOperatorBean.getLineOperatorAlerts(username);
+//        var dtos = toDTOsAlert(warehouseOperator.getAlerts());
 //        return Response.ok(dtos).build();
 //    }
 

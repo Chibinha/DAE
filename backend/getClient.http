@@ -6,7 +6,7 @@ Accept: application/json
 { "username": "joao", "password": "123" }
 
 
-### GET ALL clients
-GET http://localhost:8080/academics/api/client/all
+### GET ALL customers
+GET http://localhost:8080/academics/api/customer/all
 Accept: application/json
 Authorization: Bearer <token>

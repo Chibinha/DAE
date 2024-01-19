@@ -1,7 +1,6 @@
 package com.example.backend.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,44 +13,49 @@ import java.util.List;
                 query = "SELECT p FROM ProductPackage p ORDER BY p.id" // JPQL
         )
 })
-public class ProductPackage extends Package implements Serializable{
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @NotNull
-    private PhysicalProduct product;
-
-    //physical product
+public class ProductPackage extends Package implements Serializable {
     @ManyToMany
     @JoinTable(
-            name = "product_package_physical_product",
+            name = "packages_orders",
             joinColumns = @JoinColumn(name = "product_package_id"),
-            inverseJoinColumns = @JoinColumn(name = "physical_product_id")
+            inverseJoinColumns = {
+                    @JoinColumn(name = "productPackage_id"),
+
+            }
     )
-    private List<PhysicalProduct> physicalProducts;
+    private List<InventoryItem> inventoryItems;
 
     public ProductPackage() {
-        this.physicalProducts = new ArrayList<>();
+        this.inventoryItems = new ArrayList<>();
     }
 
-    public ProductPackage(long id, int packageType, String material, PhysicalProduct product) {
-        super(id, packageType, material);
-        this.product = product;
-        this.physicalProducts = new ArrayList<>();
+    public ProductPackage(int packageType, String material) {
+        super(packageType, material);
+        //this.product = product;
+        this.inventoryItems = new ArrayList<>();
     }
 
-    public PhysicalProduct getProduct() {
-        return product;
+    public InventoryItem getCurrentPhysicalProduct() {
+        if (!inventoryItems.isEmpty())
+            return inventoryItems.get(inventoryItems.size() - 1);
+        return null;
     }
 
-    public void setProduct(PhysicalProduct product) {
-        this.product = product;
+    public List<InventoryItem> getPhysicalProducts() {
+        return inventoryItems;
     }
 
-    public List<PhysicalProduct> getPhysicalProducts() {
-        return physicalProducts;
+    public void setPhysicalProducts(List<InventoryItem> inventoryItems) {
+        this.inventoryItems = inventoryItems;
     }
 
-    public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
-        this.physicalProducts = physicalProducts;
+    public void addPhysicalProduct(InventoryItem inventoryItem) {
+        if (inventoryItem != null)
+            this.inventoryItems.add(inventoryItem);
+    }
+
+    public void removePhysicalProduct(InventoryItem inventoryItem) {
+        if (inventoryItem != null)
+            this.inventoryItems.remove(inventoryItem);
     }
 }

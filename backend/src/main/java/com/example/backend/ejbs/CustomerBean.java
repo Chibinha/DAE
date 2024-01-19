@@ -1,6 +1,10 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.entities.*;
+import com.example.backend.entities.InventoryItem;
+import com.example.backend.entities.Product;
+import com.example.backend.entities.Observation;
+import com.example.backend.entities.Customer;
 import com.example.backend.exceptions.*;
 import com.example.backend.security.Hasher;
 import jakarta.ejb.Stateless;
@@ -14,22 +18,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
-public class ClientBean {
+public class CustomerBean {
 
     @PersistenceContext
     private EntityManager entityManager;
     private Hasher hasher;
 
-    public Client find(String username) throws MyEntityNotFoundException {
-        Client client = entityManager.find(Client.class, username);
-        if (client == null) {
-            throw new MyEntityNotFoundException(" - Client " + username +" not found");
+    public Customer find(String username) throws MyEntityNotFoundException {
+        Customer customer = entityManager.find(Customer.class, username);
+        if (customer == null) {
+            throw new MyEntityNotFoundException(" - Customer " + username +" not found");
         }
-        return client;
+        return customer;
     }
 
     public Boolean exists(String username) {
-       return entityManager.find(Client.class, username) == null;
+        if (entityManager.find(Customer.class, username) == null)
+            return true;
+        else
+            return false;
     }
 
     public void create(String username, String password, String name, String email) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
@@ -38,10 +45,10 @@ public class ClientBean {
         {
             try {
                 hasher = new Hasher();
-                Client client = new Client(username, hasher.hash(password), name, email);
-                entityManager.persist(client);
+                Customer customer = new Customer(username, hasher.hash(password), name, email);
+                entityManager.persist(customer);
                 entityManager.flush(); // when using Hibernate, to force it to throw a ContraintViolationException, as in the JPA specification
-                entityManager.persist(client);
+                entityManager.persist(customer);
             }
             catch (ConstraintViolationException e) {
                 throw new MyConstraintViolationException(e);
@@ -53,30 +60,30 @@ public class ClientBean {
     }
 
     public void update(String username, String password, String name, String email) {
-        Client client = entityManager.find(Client.class, username);
-        if (client == null) {
+        Customer customer = entityManager.find(Customer.class, username);
+        if (customer == null) {
             System.err.println("ERROR_CLIENT_NOT_FOUND: " + username);
             return;
         }
-        entityManager.lock(client, LockModeType.OPTIMISTIC);
-        client.setPassword(password);
-        client.setName(name);
-        client.setEmail(email);
+        entityManager.lock(customer, LockModeType.OPTIMISTIC);
+        customer.setPassword(password);
+        customer.setName(name);
+        customer.setEmail(email);
     }
 
     public void delete(String username) throws MyEntityNotFoundException{
         entityManager.remove(find(username));
     }
 
-    public List<Client> getAllClients() {
-        return entityManager.createNamedQuery("getAllClients", Client.class).getResultList();
+    public List<Customer> getAllClients() {
+        return entityManager.createNamedQuery("getAllClients", Customer.class).getResultList();
     }
 
 
 
-    public Client getClientOrders(String username) throws MyEntityNotFoundException {
-        Client client = find(username);
-        Hibernate.initialize(client.getOrders());
+    public Customer getClientOrders(String username) throws MyEntityNotFoundException {
+        Customer customer = find(username);
+        Hibernate.initialize(customer.getOrders());
         return this.find(username);
     }
 
@@ -85,21 +92,21 @@ public class ClientBean {
         if(find(username).getUsername().equals(order.getClient().getUsername()))
             return entityManager.find(Order.class, index);
         else
-            throw new NotAuthorizedException("This client doesn't have any orders with the id " + index);
+            throw new NotAuthorizedException("This customer doesn't have any orders with the id " + index);
     }
 
     public List<Product> getClientOrderProducts(String username, Long index) throws MyEntityNotFoundException, NotAuthorizedException {
         Order order = entityManager.find(Order.class, index);
         if(find(username).getUsername().equals(order.getClient().getUsername())) {
-            List<PhysicalProduct> physical = entityManager.find(Order.class, index).getPhysicalProducts();
+            List<InventoryItem> physical = entityManager.find(Order.class, index).getPhysicalProducts();
             List<Product> products = new ArrayList<Product>();
-            for (PhysicalProduct product : physical) {
+            for (InventoryItem product : physical) {
                 products.add(product.getProduct());
             }
             return products;
         }
         else
-            throw new NotAuthorizedException("This client doesn't have any orders with the id " + index);
+            throw new NotAuthorizedException("This customer doesn't have any orders with the id " + index);
     }
 
     public List<Observation> getClientOrderObservations(String username, Long index) throws MyEntityNotFoundException {
@@ -107,11 +114,11 @@ public class ClientBean {
         return entityManager.find(Order.class, index).getObservations();
     }
 
-//    public Client getClientAlerts(String username) {
-//        Client client = this.find(username);
-//        if(client != null)
+//    public Customer getClientAlerts(String username) {
+//        Customer customer = this.find(username);
+//        if(customer != null)
 //        {
-//            Hibernate.initialize(client.getAlerts());
+//            Hibernate.initialize(customer.getAlerts());
 //            return this.find(username);
 //        }
 //        return null;
