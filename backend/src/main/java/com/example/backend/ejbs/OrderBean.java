@@ -3,6 +3,7 @@ package com.example.backend.ejbs;
 import com.example.backend.entities.*;
 import com.example.backend.entities.Package;
 import com.example.backend.exceptions.MyConstraintViolationException;
+
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.EJB;

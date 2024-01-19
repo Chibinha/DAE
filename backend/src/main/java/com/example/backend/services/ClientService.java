@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Path("client") // relative url web path for this service
 @Produces({MediaType.APPLICATION_JSON}) // injects header “Content-Type: application/json”
 @Consumes({MediaType.APPLICATION_JSON}) // injects header “Accept: application/json”
-//@Authenticated
+@Authenticated
 //@RolesAllowed({"Client"})
 public class ClientService {
     @EJB
@@ -96,7 +96,7 @@ public class ClientService {
         List<Alert> alerts = alertBean.getUserAlerts(username);
         return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
-        
+
 
     @GET
     @Path("{username}/orders/{index}")
