@@ -17,6 +17,8 @@ public class PhysicalProductBean {
     private EntityManager entityManager;
     @EJB
     private ProductBean productBean;
+    @EJB
+    private MakerBean makerBean;
 //    @EJB
 //    private OrderBean orderBean;
 
@@ -62,6 +64,8 @@ public class PhysicalProductBean {
     }
     // Delete
     public void delete(long id) throws MyEntityNotFoundException {
+        PhysicalProduct physicalProduct = find(id);
+        physicalProduct.getProduct().removePhysicalProduct(physicalProduct);
         entityManager.remove(find(id));
     }
 }

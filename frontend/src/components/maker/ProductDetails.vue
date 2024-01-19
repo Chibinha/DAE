@@ -36,6 +36,11 @@ const fetchPhysicalProducts = async () => {
         const response = await axios.get(`maker/${makerUsername}/physicalproducts/${props.productId}`);
         physicalProducts.value = response.data;
         physicalProductExists.value = true;
+        // transform the timestamp to a human readable format
+        physicalProducts.value.forEach(physicalProduct => {
+            physicalProduct.stockTimestamp = physicalProduct.stockTimestamp.substring(0, 19).replace('T', ' ');
+
+        });
     } catch (error) {
         physicalProductExists.value = false;
         console.error("Error fetching physical products:", error);
@@ -156,18 +161,18 @@ const deletePhysicalProduct = (physicalProductId) => {
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Product Id</th>
+                                <th>Item Id</th>
                                 <th>Product Name</th>
-                                <th>Stock Timestamp</th>
-                                <th>Actions</th>
+                                <th>Product Id</th>
+                                <th>Added to stock</th>
+                                <th v-if="!onlyDetails">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="physical in physicalProducts" :key="physical.id">
                                 <td>{{ physical.id }}</td>
-                                <td>{{ physical.productId }}</td>
                                 <td>{{ physical.productName }}</td>
+                                <td>{{ physical.productId }}</td>
                                 <td>{{ physical.stockTimestamp }}</td>
                                 <td v-if="!onlyDetails">
                                     <button type="button" class="btn btn-danger"
