@@ -1,65 +1,54 @@
 <script setup>
+//#region consts and imports
+import { ref, inject, onMounted } from 'vue'
+import { useRouter } from 'vue-router';
+import { useUserStore } from "../../stores/user.js"
+
+const userStore = useUserStore()
+const router = useRouter()
+const axios = inject('axios')
+const toast = inject('toast');
+
+const isCartEmpty = ref(true)
+const isCartfinished = ref(false)
+const priceOfProductsList = ref([])
+
+const serverBaseUrl = inject('serverBaseUrl')
+const emit = defineEmits(["removeProduct", "changePrice"]);
+
+const counter = ref(1)
+const product = ref([])
+const totalPrice = ref(0)
+
+//#endregion
+
+
 </script>
 
 
 <template>
-    <div class="mt-3">
-    <h1>Cart</h1>
-    <div class="mt-3">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Qtd.</th>
-                    <th>Livro</th>
-                    <th class="text-end">Preço Un.</th>
-                    <th class="text-end">Subtotal</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>2</td>
-                    <td>Titulo Livro 1</td>
-                    <td class="text-end">10.11 €</td>
-                    <td class="text-end">20.22 €</td>
-                    <td class="text-end" style="width:5rem;">
-                        <button class="btn btn-info">Mais</button>
-                    </td>
-                    <td class="text-end" style="width:5rem;">
-                        <button class="btn btn-secondary">Menos</button>
-                    </td>
-                    <td class="text-end" style="width:6rem;">
-                        <button class="btn btn-danger">Apagar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Titulo Livro 2</td>
-                    <td class="text-end">5.03 €</td>
-                    <td class="text-end">15.09 €</td>
-                    <td class="text-end" style="width:5rem;">
-                        <button class="btn btn-info">Mais</button>
-                    </td>
-                    <td class="text-end" style="width:5rem;">
-                        <button class="btn btn-secondary">Menos</button>
-                    </td>
-                    <td class="text-end" style="width:6rem;">
-                        <button class="btn btn-danger">Apagar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="row mt-4">
-        <div class="col-7">
-            <h2>Total: 35.31 €</h2>
+    <div class="flex-container">
+        <div class="flex-child_medium text-center transform">
+            OLAAA
         </div>
-        <div class="text-end col-5">
-            <button class="btn btn-primary btn-lg">Confirmar Compra</button>
+        <div class="flex-child text-center transform">
+            11€
+        </div>
+        <div class="flex-child_big text-center">
+            <div>
+                Quantidade : {{ counter }}
+            </div>
+            <div class="botoesQuant">
+                <div class="m-2">
+                    <button type="button" class="btn btn-outline-secondary botaoQuant" @click="subtractCounter"><i class="bi-dash"></i></button>
+                </div>
+                <div class="m-2">
+                    <button type="button" class="btn btn-outline-secondary botaoQuant" @click="addToCounter"><i class="bi-plus-lg"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="flex-child">
+            <button type="button" class="btn btn-danger remove" @click="removeProduct(product.id)">Remove Product</button>
         </div>
     </div>
-</div>
-
 </template>

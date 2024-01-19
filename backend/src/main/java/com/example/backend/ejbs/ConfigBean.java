@@ -59,6 +59,8 @@ public class ConfigBean {
             productBean.create("Hamburger", 5, "Hamburger de carne", 0.5, "Carne", "maker1");
             productBean.create("Coca-Cola", 1, "Coca-Cola", 0.5, "Coca-Cola", "maker1");
             productBean.create("Batatas", 3, "Batatas", 0.7, "Batatas", "maker2");
+            productBean.create("Menu Familiar", 15, "Coca-Cola, Pizza de queijo, Hamburger de carne e Batatas", 3, "Various", "maker1");
+            productBean.create("Pão de alho", 2, "Pão de alho", 0.4, "Pão, alho, manteiga e oregaos", "maker2");
 
             inventoryItemBean.create(1);
             inventoryItemBean.create(1);
@@ -70,6 +72,8 @@ public class ConfigBean {
             inventoryItemBean.create(3);
             inventoryItemBean.create(3);
             inventoryItemBean.create(4);
+            inventoryItemBean.create(5);
+            inventoryItemBean.create(5);
             //#endregion
 
             //#region Sensors

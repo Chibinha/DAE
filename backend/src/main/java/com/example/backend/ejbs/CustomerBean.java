@@ -1,5 +1,6 @@
 package com.example.backend.ejbs;
 
+import com.example.backend.dtos.OrderDTO;
 import com.example.backend.entities.*;
 import com.example.backend.entities.InventoryItem;
 import com.example.backend.entities.Product;
@@ -112,6 +113,34 @@ public class CustomerBean {
     public List<Observation> getClientOrderObservations(String username, Long index) throws MyEntityNotFoundException {
         find(username);
         return entityManager.find(Order.class, index).getObservations();
+    }
+
+
+    public Long createNewOrder(String username, OrderDTO orderDTO) throws MyEntityNotFoundException {
+        try {
+            Customer customer = find(username);
+
+            // Create a new Order entity from the OrderDTO
+            Order order = new Order();
+            // Set other properties of the order using orderDTO
+            order.setStatus("created"); // Set an initial status, you can modify this based on your requirements
+            order.setTotalPrice(orderDTO.getTotalPrice()); // Assuming OrderDTO has a totalPrice field
+
+            // Add the order to the customer's orders
+            customer.addOrder(order);
+
+            // Update the customer entity with the new order
+            entityManager.merge(customer);
+
+            // Flush to persist changes to the database
+            entityManager.flush();
+
+            // Return the index or ID of the newly created order
+            return order.getId();
+        } catch (Exception e) {
+            // Handle exceptions and throw appropriate custom exceptions
+            throw new MyEntityNotFoundException("Failed to create a new order for customer " + username);
+        }
     }
 
 //    public Customer getClientAlerts(String username) {

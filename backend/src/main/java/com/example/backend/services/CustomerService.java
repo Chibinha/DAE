@@ -2,6 +2,7 @@ package com.example.backend.services;
 
 import com.example.backend.dtos.CustomerDTO;
 import com.example.backend.dtos.DTOConverter;
+import com.example.backend.dtos.OrderDTO;
 import com.example.backend.ejbs.AlertBean;
 import com.example.backend.ejbs.CustomerBean;
 import com.example.backend.ejbs.UserBean;
@@ -135,6 +136,25 @@ public class CustomerService {
     public Response getAlerts(@PathParam("username") String username) throws MyEntityNotFoundException {
         List<Alert> alerts = userBean.getAlerts(username);
         return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
+    }
+    
+    @POST
+    @Path("{username}/orders")
+    public Response createOrder(@PathParam("username") String username, OrderDTO orderDTO) {
+        try {
+            Long orderId = customerBean.createNewOrder(username, orderDTO);
+            return Response.status(Response.Status.CREATED)
+                .entity("Order created successfully with ID: " + orderId)
+                .build();
+        } catch (MyEntityNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                .entity("Error: " + e.getMessage())
+                .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("Error creating order: " + e.getMessage())
+                .build();
+        }
     }
 
 //    @GET
