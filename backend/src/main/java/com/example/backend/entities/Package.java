@@ -76,11 +76,21 @@ public class Package implements Serializable {
         }
     }
 
+    public Sensor getCurrentSensor() {
+        if(!sensors.isEmpty()) {
+            return sensors.get(sensors.size() - 1);
+        }
+        return null;
+    }
+
     public List<Observation> getAllObservations() {
         List<Observation> observations = new ArrayList<>();
         for(Sensor sensor : sensors )
         {
-            observations.addAll(sensor.getObservations());
+            if(sensor.getCurrentPackage() == this)
+            {
+                observations.addAll(sensor.getObservations());
+            }
         }
         return observations;
     }

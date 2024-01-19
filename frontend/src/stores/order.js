@@ -15,12 +15,15 @@ export const useOrderStore = defineStore('order', () => {
         try {
             userType =  userStore.user.role.toLowerCase()
             const response = await axios.get(`${userType}/${userStore.user.username}/orders`);
+
+            
             orders.value = response.data;
             orders.value.forEach((order, index) => {
                 order.orderTimestamp = formatTimestamp(order.orderTimestamp)
               });
             return orders.value;
         } catch (error) {
+            console.log(userType)
             console.error('Error loading orders:', error);
             clearOrders();
             throw error;

@@ -95,7 +95,7 @@ onBeforeMount(async () => {
             </li>
 
             <div v-show="userStore.user">
-            <li v-show="userStore.user?.role == 'Customer' " class="nav-item">
+            <li v-show="userStore.user?.role == 'Customer' || userStore.user?.role == 'WarehouseOperator'" class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'orders' }" :to="{ name: 'orders' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
@@ -103,7 +103,7 @@ onBeforeMount(async () => {
               </router-link>
             </li>
 
-            <li v-show="userStore.user?.role == 'Customer'" class="nav-item">
+            <li v-show="userStore.user?.role == 'Customer' " class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'cart' }" :to="{ name: 'cart' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>

@@ -2,9 +2,12 @@ package com.example.backend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.glassfish.jaxb.runtime.v2.runtime.reflect.Lister;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "orders")
@@ -121,11 +124,14 @@ public class Order implements Serializable {
         return packages;
     }
 
-    public Package getCurrentPackage() {
-        if(!packages.isEmpty())
+    public TransportPackage getCurrentPackage() {
+        if(!packages.isEmpty()) {
             return packages.get(packages.size() - 1);
+        }
         return null;
     }
+
+
 
     public void setPackages(List<TransportPackage> packages) {
         this.packages = packages;

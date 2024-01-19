@@ -1,6 +1,6 @@
 <script setup>
 import OrderTable from './OrderTable.vue'
-import { useOrderStore } from '../../../stores/order'
+import { useOrderStore } from '../../stores/order'
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user';

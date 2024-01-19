@@ -1,6 +1,6 @@
 <script setup>
 import { useUserStore } from '@/stores/user';
-import { useOrderStore } from '../../../stores/order'
+import { useOrderStore } from '../../stores/order'
 
 import { onMounted } from 'vue'
 
@@ -43,7 +43,6 @@ const loadObservations = async () => {
 // }
 
 onMounted(async () => {
-  console.log("Component mounted");
   await userStore.restoreToken();
   loadOrder()
   loadProducts()
