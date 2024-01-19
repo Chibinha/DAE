@@ -11,8 +11,7 @@ public class TransportationPackageDTO {
 
     public TransportationPackageDTO() {}
 
-    public TransportationPackageDTO(long id, int packageType, String material, long order_id) {
-        this.id = id;
+    public TransportationPackageDTO(int packageType, String material, long order_id) {
         this.packageType = packageType;
         this.material = material;
         this.order_id = order_id;

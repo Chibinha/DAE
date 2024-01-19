@@ -24,11 +24,11 @@ public class TransportationPackageService {
     @EJB
     private TransportationPackageBean transportationPackageBean;
     private final DTOConverter dtoConverter = new DTOConverter();
-//    @GET // means: to call this endpoint, we need to use the HTTP GET method
-//    @Path("/")
-//    public List<TransportationPackageDTO> getAllTransportationPackages() {
-//        return dtoConverter.transportationPackageToDTOList(transportationPackageBean.getAll());
-//    }
+    @GET // means: to call this endpoint, we need to use the HTTP GET method
+    @Path("/")
+    public List<TransportationPackageDTO> getAllTransportationPackages() {
+        return dtoConverter.transportationPackageToDTOList(transportationPackageBean.getAll());
+    }
 //
 //    @POST
 //    @Path("/")

@@ -110,7 +110,7 @@ public class OrderBean {
         Sensor sensor = sensorBean.find(sensorId);
         if(sensor.getCurrentPackage() != aPackage)
         {
-            aPackage.addSensor(sensor);
+            //aPackage.addSensor(sensor);
             sensor.addPackage(aPackage);
         }
     }

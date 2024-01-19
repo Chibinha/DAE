@@ -13,15 +13,7 @@ public class ProductPackageDTO {
 
     public ProductPackageDTO() {}
 
-    public ProductPackageDTO(long id, int packageType, String material, long product_id) {
-        this.id = id;
-        this.packageType = packageType;
-        this.material = material;
-        this.product_id = product_id;
-    }
-
-    public ProductPackageDTO(long id, int packageType, String material, long product_id, List<SensorDTO> values) {
-        this.id = id;
+    public ProductPackageDTO(int packageType, String material, long product_id) {
         this.packageType = packageType;
         this.material = material;
         this.product_id = product_id;

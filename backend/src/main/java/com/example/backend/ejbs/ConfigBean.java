@@ -33,6 +33,8 @@ public class ConfigBean {
     private TransportationPackageBean transportationPackageBean;
     @EJB
     private OrderBean orderBean;
+    @EJB
+    private AlertBean alertBean;
 
 
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
@@ -51,10 +53,6 @@ public class ConfigBean {
             lineOperatorBean.create("diogo", "123", "diogo", "diogo@mail.com");
             lineOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
             //#endregion
-
-//            transportationPackageBean.create(1, "Papel");
-//            transportationPackageBean.create(1, "Plastico");
-//            transportationPackageBean.create(3, "Metal");
 
             //#region Products/PhysicalProducts
             productBean.create("Pizza", 10, "Pizza de queijo", 0.5, "Queijo", "maker1");
@@ -80,7 +78,14 @@ public class ConfigBean {
             sensorBean.create("TMPS234", "Temperatura", "ºC");
             //#endregion
 
-            //#region Packages
+            //#region ProductPackages/TransportationPackage
+            transportationPackageBean.create(1, "Papel");
+            transportationPackageBean.create(1, "Plastico");
+            transportationPackageBean.create(3, "Metal");
+
+            productPackageBean.create(1, "Papel");
+            productPackageBean.create(1, "Plastico");
+            productPackageBean.create(3, "Metal");
             //#endregion
 
             //#region Orders
@@ -105,6 +110,11 @@ public class ConfigBean {
             observationBean.create("23",  3,3);
             observationBean.create("45",  3,1);
 
+            //#endregion
+
+            //#region Alerts
+            alertBean.create("joao", "Embalagem aberta");
+            alertBean.create("bruno", "Temperatura elevada");
             //#endregion
         } catch (Exception e) {
             logger.severe(e.getClass().getCanonicalName() + e.getMessage());

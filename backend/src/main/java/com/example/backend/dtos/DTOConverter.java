@@ -114,7 +114,6 @@ public class DTOConverter {
     // Transportation Package
     public TransportationPackageDTO transportationPackageToDTO(TransportationPackage transportationPackage) {
         return new TransportationPackageDTO(
-                transportationPackage.getId(),
                 transportationPackage.getPackageType(),
                 transportationPackage.getMaterial(),
                 transportationPackage.getCurrentOrder().getId()
@@ -127,10 +126,9 @@ public class DTOConverter {
     // Product Package
     public ProductPackageDTO productPackageToDTO(ProductPackage productPackage) {
         return new ProductPackageDTO(
-                productPackage.getId(),
                 productPackage.getPackageType(),
                 productPackage.getMaterial(),
-                productPackage.getProduct().getId()
+                productPackage.getCurrentPhysicalProduct().getId()
         );
     }
     public List<ProductPackageDTO> productPackageToDTOList(List<ProductPackage> productPackages) {

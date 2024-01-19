@@ -1,9 +1,8 @@
 package com.example.backend.ejbs;
 
-import com.example.backend.entities.Order;
-import com.example.backend.entities.PhysicalProduct;
-import com.example.backend.entities.ProductPackage;
-import com.example.backend.entities.TransportationPackage;
+import com.example.backend.dtos.ProductPackageDTO;
+import com.example.backend.dtos.TransportationPackageDTO;
+import com.example.backend.entities.*;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
@@ -33,17 +32,13 @@ public class TransportationPackageBean {
         return (Long) query.getSingleResult() > 0L;
     }
 
-    public TransportationPackage create(long id, int packageType, String material) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
-        TransportationPackage transportationPackage = null;
+    public long create(int packageType, String material) throws MyEntityNotFoundException {
+        TransportationPackage transportationPackage = new TransportationPackage(packageType, material);
+        entityManager.persist(transportationPackage);
 
-        try {
-            transportationPackage = new TransportationPackage(id,packageType, material);
-            entityManager.persist(transportationPackage);
-        } catch (ConstraintViolationException e) {
-            throw new MyConstraintViolationException(e);
-        }
+        find(transportationPackage.getId());
 
-        return transportationPackage;
+        return transportationPackage.getId();
     }
 
     public TransportationPackage find(long id) throws MyEntityNotFoundException {
@@ -58,8 +53,20 @@ public class TransportationPackageBean {
         return entityManager.createNamedQuery("getAllTransportationPackages", TransportationPackage.class).getResultList();
     }
 
+    public long update(long id, TransportationPackageDTO transportationPackageDTO) throws MyEntityNotFoundException {
+        TransportationPackage transportationPackage = find(id);
 
-    // Delete
+        if (transportationPackageDTO.getPackageType() != 0) {
+            transportationPackage.setPackageType(transportationPackageDTO.getPackageType());
+        }
+        if (transportationPackageDTO.getMaterial() != null) {
+            transportationPackage.setMaterial(transportationPackageDTO.getMaterial());
+        }
+
+        entityManager.merge(transportationPackage);
+        return transportationPackage.getId();
+    }
+
     public void delete(long id) throws MyEntityNotFoundException{
         entityManager.remove(find(id));
     }
