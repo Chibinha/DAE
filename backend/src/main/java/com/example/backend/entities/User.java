@@ -19,7 +19,7 @@ public class User extends Versionable {
     private String password;
     @NotNull
     private String name;
-    @OneToMany(mappedBy = "username", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Alert> alerts;
 
     @Email

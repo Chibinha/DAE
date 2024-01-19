@@ -1,8 +1,10 @@
 package com.example.backend.services;
 
 import com.example.backend.dtos.*;
+import com.example.backend.ejbs.UserBean;
 import com.example.backend.ejbs.WarehouseOperatorBean;
 import com.example.backend.ejbs.OrderBean;
+import com.example.backend.entities.Alert;
 import com.example.backend.entities.Order;
 import com.example.backend.entities.TransportPackage;
 import com.example.backend.entities.WarehouseOperator;
