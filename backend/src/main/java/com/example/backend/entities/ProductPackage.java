@@ -15,17 +15,13 @@ import java.util.List;
         )
 })
 public class ProductPackage extends Package implements Serializable{
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @NotNull
-    private PhysicalProduct product;
-
-    //physical product
     @ManyToMany
     @JoinTable(
-            name = "product_package_physical_product",
+            name = "package_physical_product",
             joinColumns = @JoinColumn(name = "product_package_id"),
-            inverseJoinColumns = @JoinColumn(name = "physical_product_id")
+            inverseJoinColumns = {
+                    @JoinColumn(name = "physical_product_id"),
+            }
     )
     private List<PhysicalProduct> physicalProducts;
 
@@ -33,18 +29,16 @@ public class ProductPackage extends Package implements Serializable{
         this.physicalProducts = new ArrayList<>();
     }
 
-    public ProductPackage(long id, int packageType, String material, PhysicalProduct product) {
-        super(id, packageType, material);
-        this.product = product;
+    public ProductPackage(int packageType, String material) {
+        super(packageType, material);
+        //this.product = product;
         this.physicalProducts = new ArrayList<>();
     }
 
-    public PhysicalProduct getProduct() {
-        return product;
-    }
-
-    public void setProduct(PhysicalProduct product) {
-        this.product = product;
+    public PhysicalProduct getCurrentPhysicalProduct() {
+        if(!physicalProducts.isEmpty())
+            return physicalProducts.get(physicalProducts.size() - 1);
+        return null;
     }
 
     public List<PhysicalProduct> getPhysicalProducts() {
@@ -53,5 +47,15 @@ public class ProductPackage extends Package implements Serializable{
 
     public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
         this.physicalProducts = physicalProducts;
+    }
+
+    public void addPhysicalProduct(PhysicalProduct physicalProduct) {
+        if(physicalProduct!= null)
+            this.physicalProducts.add(physicalProduct);
+    }
+
+    public void removePhysicalProduct(PhysicalProduct physicalProduct) {
+        if(physicalProduct!= null)
+            this.physicalProducts.remove(physicalProduct);
     }
 }

@@ -20,6 +20,7 @@ import java.util.List;
 )
 public abstract class Package implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
     protected int packageType;
     protected String material;
@@ -37,8 +38,7 @@ public abstract class Package implements Serializable {
         this.observations = new ArrayList<>();
     }
 
-    public Package(long id, int tipoEmbalagem, String material) {
-        this.id = id;
+    public Package(int tipoEmbalagem, String material) {
         this.packageType = tipoEmbalagem;
         this.material = material;
         this.sensors = new LinkedList<>();

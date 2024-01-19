@@ -18,7 +18,7 @@ public class TransportationPackage extends Package implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "packages_orders",
-            joinColumns = @JoinColumn(name = "package_id"),
+            joinColumns = @JoinColumn(name = "transportation_package_id"),
             inverseJoinColumns = {
                     @JoinColumn(name = "order_id"),
 
@@ -29,8 +29,8 @@ public class TransportationPackage extends Package implements Serializable {
         this.orders = new ArrayList<>();
     }
 
-    public TransportationPackage(long id, int packageType, String material) {
-        super(id, packageType, material);
+    public TransportationPackage(int packageType, String material) {
+        super(packageType, material);
         this.orders = new ArrayList<>();
     }
 
