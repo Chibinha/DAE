@@ -1,1 +1,12 @@
-POST http://localhost:8080/academics/api/login
+### REQUEST JWT TOKEN
+POST http://localhost:8080/academics/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{ "username": "joao", "password": "123" }
+
+
+### GET ALL clients
+GET http://localhost:8080/academics/api/client/all
+Accept: application/json
+Authorization: Bearer <token>

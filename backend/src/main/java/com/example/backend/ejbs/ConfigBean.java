@@ -67,6 +67,7 @@ public class ConfigBean {
             physicalProductBean.create(3);
             physicalProductBean.create(3);
             physicalProductBean.create(3);
+            physicalProductBean.create(4);
             //#endregion
 
             //#region Sensors
