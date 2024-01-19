@@ -1,6 +1,7 @@
 package com.example.backend.entities;
 
 import jakarta.persistence.*;
+import org.glassfish.jaxb.runtime.v2.runtime.reflect.Lister;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,21 +25,12 @@ public class Sensor implements Serializable {
 
     @OneToMany(mappedBy = "sensor")
     private List<Observation> observations;
-
-    @ManyToMany
-    @JoinTable(
-            name = "sensors_orders",
-            joinColumns = @JoinColumn(name = "sensor_id"),
-            inverseJoinColumns = {
-                    @JoinColumn(name = "order_id"),
-
-            }
-    )
-    private List<Order> orders;
+    @ManyToMany(mappedBy = "sensors")
+    private List<Package> packages;
 
     public Sensor() {
         this.observations = new ArrayList<>();
-        this.orders = new ArrayList<>();
+        this.packages = new ArrayList<>();
     }
 
     public Sensor(String name, String type, String unit) {
@@ -46,7 +38,7 @@ public class Sensor implements Serializable {
         this.type = type;
         this.unit = unit;
         this.observations = new ArrayList<>();
-        this.orders = new ArrayList<>();
+        this.packages = new ArrayList<>();
     }
 
     public long getId() {
@@ -81,8 +73,11 @@ public class Sensor implements Serializable {
         this.observations = observations;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public List<Package> getPackages() {
+        return packages;
+    }
+    public void setPackages(List<Package> packages) {
+        this.packages = packages;
     }
 
     public String getUnit() {
@@ -93,7 +88,21 @@ public class Sensor implements Serializable {
         this.unit = unit;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+
+
+    public Package getCurrentPackage() {
+        if(!packages.isEmpty())
+            return packages.get(packages.size() - 1);
+        return null;
+    }
+
+    public void addPackage(Package aPackage) {
+        if(aPackage!= null)
+            this.packages.add(aPackage);
+    }
+
+    public void removePackage(Package aPackage) {
+        if(aPackage!= null)
+            this.packages.remove(aPackage);
     }
 }
