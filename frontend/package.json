@@ -16,8 +16,10 @@
     "bootstrap-icons": "^1.11.2",
     "pinia": "^2.1.7",
     "socket.io-client": "^4.7.4",
+    "toast": "^0.5.4",
     "vue": "^3.3.11",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.2",

@@ -9,8 +9,8 @@ import Order from "../components/client/clientOrders/Order.vue"
 import ProductCRUD from "../components/productCRUD/productCRUD.vue"
 import PhysicalProductCRUD from "../components/productCRUD/PhysicalProductCRUD.vue"
 import Alerts from "../components/alerts/Alerts.vue"
-import MakerProducts from "../components/maker/Products.vue"
-import ProductDetails from "../components/maker/ProductDetails.vue"
+import MakerProducts from "../components/manufacturer/Products.vue"
+import ProductDetails from "../components/manufacturer/ProductDetails.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,7 +31,7 @@ const router = createRouter({
       path: '/client/orders/:id',
       name: 'Order',
       component: Order,
-      props: route => ({ id: parseInt(route.params.id) })
+      props: true,
     }, 
     {
       path: '/cart',

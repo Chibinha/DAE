@@ -22,7 +22,7 @@ bash:
 	docker compose exec webserver bash
 
 logs:
-	docker compose logs -f webserver
+	docker compose logs --since 30s -f webserver
 
 sql:
 	docker compose exec db psql --username ${DB_USER} --password ${DB_NAME}

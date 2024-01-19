@@ -54,28 +54,30 @@
 </template>
 
 <script setup>
-import { ref, inject, onMounted } from 'vue';
-import EditProduct from './EditProduct.vue';
-import ProductDetails from './ProductDetails.vue';
-import { useUserStore } from '@/stores/user';
+import { ref, inject, onMounted } from 'vue'
+import EditProduct from './EditProduct.vue'
+import ProductDetails from './ProductDetails.vue'
+import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore();
-const makerUsername = userStore.username;
 const axios = inject('axios');
+const toast = inject('toast');
 const products = ref([]);
 const expandedProductId = ref(null);
 const showCreateProduct = ref(false);
 
 const fetchProducts = async () => {
   try {
-    const response = await axios.get(`maker/${makerUsername}/products`);
+    const response = await axios.get(`maker/${userStore.user.username}/products`);
     products.value = response.data;
   } catch (error) {
     console.error("Error fetching products:", error);
+    toast.error("Error fetching products!");
   }
 };
 
 onMounted(async () => {
+  await userStore.restoreToken();
   await fetchProducts();
 });
 
@@ -86,5 +88,4 @@ const toggleDetails = (productId) => {
 const createProduct = () => {
   showCreateProduct.value = !showCreateProduct.value;
 };
-
 </script>

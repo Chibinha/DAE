@@ -2,10 +2,8 @@ package com.example.backend.ejbs;
 
 import com.example.backend.entities.Package;
 import jakarta.ejb.Stateless;
-import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.glassfish.jaxb.runtime.v2.runtime.output.Pcdata;
 import org.hibernate.Hibernate;
 
 @Stateless

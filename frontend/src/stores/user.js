@@ -5,16 +5,19 @@ export const useUserStore = defineStore('user', () => {
     const axios = inject('axios')
     const serverBaseUrl = inject('serverBaseUrl')
 
-    const user = ref(null)
-
-    const username = computed(() => user.value?.username ?? 'maker1')
-
-    const userType = computed(() => user.value?.dtype ?? 'client')
+    const user = ref([
+        {
+            username: '',
+            name: '',
+            email: '',
+            role: '',
+        },
+    ])
 
     async function loadUser() {
         try {
-            const response = await axios.get('auth/me')
-            user.value = response.data.data
+            const response = await axios.get('auth/user')
+            user.value = response.data
         } catch (error) {
             clearUser()
             throw error
@@ -31,23 +34,32 @@ export const useUserStore = defineStore('user', () => {
     async function login(credentials) {
         try {
             console.log(credentials)
-            const response = await axios.post('auth/login', credentials)
-            axios.defaults.headers.common.Authorization = "Bearer " + response.data.access_token
-            sessionStorage.setItem('token', response.data.access_token)
-            await loadUser()
-            socket.emit('loggedIn', user.value)
-            return true
-        }
-        catch(error) {
-            clearUser()
-            return false
+            const request = {
+                username: credentials.username,
+                password: credentials.password.trim(),
+            };
+
+            const response = await axios.post('auth/login', request);
+            axios.defaults.headers.common.Authorization = "Bearer " + response.data;
+            sessionStorage.setItem('token', response.data);
+            await loadUser();
+            return true;
+        } catch (error) {
+            clearUser();
+            return false;
         }
     }
 
-    async function logout () {
+    //is authenticated
+    async function isAuthenticated() {
+        if (user.value) {
+            return true
+        }
+        return false
+    }
+
+    async function logout() {
         try {
-            await axios.post('auth/logout')
-            socket.emit('loggedOut', user.value)
             clearUser()
             return true
         } catch (error) {
@@ -56,12 +68,11 @@ export const useUserStore = defineStore('user', () => {
     }
 
 
-    async function restoreToken () {
+    async function restoreToken() {
         let storedToken = sessionStorage.getItem('token')
         if (storedToken) {
             axios.defaults.headers.common.Authorization = "Bearer " + storedToken
             await loadUser()
-            socket.emit('loggedIn', user.value)
             return true
         }
         clearUser()
@@ -70,12 +81,11 @@ export const useUserStore = defineStore('user', () => {
 
     return {
         user,
-        username,
-        userType,
         login,
         logout,
         loadUser,
         clearUser,
         restoreToken,
+        isAuthenticated,
     }
 })

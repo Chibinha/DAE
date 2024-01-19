@@ -1,6 +1,6 @@
 <script setup>
-import { useRouter, RouterLink, RouterView } from "vue-router"
-import { ref, inject } from "vue"
+import { useRouter, RouterLink, RouterView,  } from "vue-router"
+import { ref, inject, onBeforeMount } from 'vue'
 import { useUserStore } from "./stores/user.js"
 
 const router = useRouter()
@@ -11,11 +11,14 @@ const buttonSidebarExpand = ref(null)
 
 const logout = async () => {
   if (await userStore.logout()) {
-    toast.success("User has logged out of the application.")
     clickMenuOption()
+    toast.success("User has logged out of the application.")
     router.push({ name: 'home' })
+
+    console.log("User has logged out of the application.")
   } else {
     toast.error("There was a problem logging out of the application!")
+    console.error("There was a problem logging out of the application!")
   }
 }
 
@@ -24,6 +27,10 @@ const clickMenuOption = () => {
     buttonSidebarExpand.value.click()
   }
 }
+
+onBeforeMount(async () => {
+  await userStore.restoreToken();
+})
 </script>
 
 <template>
@@ -33,6 +40,13 @@ const clickMenuOption = () => {
         <img src="@/assets/logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top" />
         DAE
       </router-link>
+      <router-link v-show="userStore.user" class="nav-link" :class="{ active: $route.name === 'alerts' }" :to="{ name: 'alerts' }"
+                @click="clickMenuOption">
+                <i class="bi bi-circle"></i>
+                <button class="btn btn-primary">
+                  Alerts
+                </button>
+              </router-link>
       <button id="buttonSidebarExpandId" ref="buttonSidebarExpand" class="navbar-toggler" type="button"
         data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
         aria-label="Toggle navigation">
@@ -41,20 +55,20 @@ const clickMenuOption = () => {
 
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav">
-          <li class="nav-item" v-show="!userStore.user">
+          <li v-show="!userStore.user" class="nav-item">
             <router-link class="nav-link" :class="{ active: $route.name === 'login' }" :to="{ name: 'login' }"
               @click="clickMenuOption">
               <i class="bi bi-box-arrow-in-right"></i>
               Login
             </router-link>
           </li>
-          <li class="nav-item dropdown" v-show="userStore.user">
+          <li v-show="userStore.user" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
               <img src="@/assets/avatar-none.png" class="rounded-circle z-depth-0 avatar-img" alt="avatar image"/>
               <span class="avatar-text">{{ userStore.user?.name ?? "Anonymous" }}</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+            <ul v-show="userStore.user" class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
               <li>
                 <a class="dropdown-item" @click.prevent="logout">
                   <i class="bi bi-arrow-right"></i>Logout
@@ -72,7 +86,7 @@ const clickMenuOption = () => {
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
-            <li class="nav-item">
+            <li v-show="!userStore.user || userStore.user?.role == 'Customer'" class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'home' }" :to="{ name: 'home' }"
                 @click="clickMenuOption">
                 <i class="bi bi-house"></i>
@@ -80,7 +94,8 @@ const clickMenuOption = () => {
               </router-link>
             </li>
 
-            <li v-show="!userStore.user" class="nav-item">
+            <div v-show="userStore.user">
+            <li v-show="userStore.user?.role == 'Customer' " class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'orders' }" :to="{ name: 'orders' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
@@ -88,7 +103,7 @@ const clickMenuOption = () => {
               </router-link>
             </li>
 
-            <li v-show="!userStore.user" class="nav-item">
+            <li v-show="userStore.user?.role == 'Customer'" class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'cart' }" :to="{ name: 'cart' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
@@ -96,7 +111,7 @@ const clickMenuOption = () => {
               </router-link>
             </li>
 
-            <li v-show="!userStore.user" class="nav-item">
+            <li v-show="userStore.user?.role == 'Admin'" class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'productCRUD' }" :to="{ name: 'productCRUD' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
@@ -104,7 +119,7 @@ const clickMenuOption = () => {
               </router-link>
             </li>
 
-            <li v-show="!userStore.user" class="nav-item">
+            <li v-show="userStore.user?.role == 'Admin'" class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'physicalProductCRUD' }" :to="{ name: 'physicalProductCRUD' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
@@ -112,21 +127,16 @@ const clickMenuOption = () => {
               </router-link>
             </li>
 
-            <li v-show="!userStore.user" class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'alerts' }" :to="{ name: 'alerts' }"
-                @click="clickMenuOption">
-                <i class="bi bi-circle"></i>
-                alerts
-              </router-link>
-            </li>
+              
 
-            <li v-show="!userStore.user" class="nav-item">
+            <li v-show="userStore.user?.role == 'Manufacturer'" class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'maker/products' }" :to="{ name: 'maker/products' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
                 maker/products
               </router-link>
             </li>
+          </div>
 
           </ul>
 

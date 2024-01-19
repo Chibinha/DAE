@@ -1,41 +1,34 @@
 package com.example.backend.services;
 
-import com.example.backend.dtos.AlertDTO;
-import com.example.backend.dtos.ClientDTO;
+import com.example.backend.dtos.CustomerDTO;
 import com.example.backend.dtos.DTOConverter;
-import com.example.backend.dtos.OrderDTO;
 import com.example.backend.ejbs.AlertBean;
-import com.example.backend.ejbs.ClientBean;
+import com.example.backend.ejbs.CustomerBean;
 import com.example.backend.entities.Alert;
-import com.example.backend.entities.Client;
-import com.example.backend.entities.Order;
-import com.example.backend.entities.Product;
+import com.example.backend.entities.Customer;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
-import com.example.backend.exceptions.MyIllegalArgumentException;
 import com.example.backend.exceptions.NotAuthorizedException;
 import com.example.backend.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.faces.context.ExternalContext;
-import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Path("client") // relative url web path for this service
+@Path("customer") // relative url web path for this service
 @Produces({MediaType.APPLICATION_JSON}) // injects header “Content-Type: application/json”
 @Consumes({MediaType.APPLICATION_JSON}) // injects header “Accept: application/json”
-//@Authenticated
-//@RolesAllowed({"Client"})
-public class ClientService {
+/*@Authenticated
+@RolesAllowed({"Customer"})*/
+public class CustomerService {
     @EJB
-    private ClientBean clientBean;
+    private CustomerBean customerBean;
     @EJB
     private AlertBean alertBean;
     private final DTOConverter dtoConverter = new DTOConverter();
@@ -43,21 +36,21 @@ public class ClientService {
 
     @GET // means: to call this endpoint, we need to use the HTTP GET method
     @Path("/all") // means: the relative url path is “/api/clients/”
-    public List<ClientDTO> getAllClients() {
-        return dtoConverter.clientToDTOList(clientBean.getAllClients());
+    public List<CustomerDTO> getAllClients() {
+        return dtoConverter.clientToDTOList(customerBean.getAllClients());
     }
 
     @POST
     @Path("/")
-    public Response createNewClient (ClientDTO clientDTO) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
-        clientBean.create(
-                clientDTO.getUsername(),
-                clientDTO.getPassword(),
-                clientDTO.getName(),
-                clientDTO.getEmail()
+    public Response createNewClient (CustomerDTO customerDTO) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
+        customerBean.create(
+                customerDTO.getUsername(),
+                customerDTO.getPassword(),
+                customerDTO.getName(),
+                customerDTO.getEmail()
         );
-        Client client = clientBean.find(clientDTO.getUsername());
-        return Response.status(Response.Status.CREATED).entity(dtoConverter.clientToDTO(client)).build();
+        Customer customer = customerBean.find(customerDTO.getUsername());
+        return Response.status(Response.Status.CREATED).entity(dtoConverter.clientToDTO(customer)).build();
     }
 
     @GET
@@ -68,9 +61,9 @@ public class ClientService {
 //        if(!principal.getName().equals(username)) {
 //            return Response.status(Response.Status.FORBIDDEN).build();
 //        }
-        var client = clientBean.find(username);
+        var client = customerBean.find(username);
         if (client == null) {
-            var errorMsg = "Client '%s' not found.".formatted(username);
+            var errorMsg = "Customer '%s' not found.".formatted(username);
             var status = Response.Status.NOT_FOUND;
             return Response.status(status).entity(errorMsg).build();
         }
@@ -85,7 +78,7 @@ public class ClientService {
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
         {
-            var client = clientBean.getClientOrders(username);
+            var client = customerBean.getClientOrders(username);
             return Response.ok(dtoConverter.orderToDTOList(client.getOrders())).build();
         }
     }
@@ -96,7 +89,7 @@ public class ClientService {
         List<Alert> alerts = alertBean.getUserAlerts(username);
         return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
-        
+
 
     @GET
     @Path("{username}/orders/{index}")
@@ -106,7 +99,7 @@ public class ClientService {
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
         {
-            return Response.ok(dtoConverter.orderToDTO(clientBean.getClientOrder(username ,index))).build();
+            return Response.ok(dtoConverter.orderToDTO(customerBean.getClientOrder(username ,index))).build();
         }
     }
 
@@ -118,7 +111,7 @@ public class ClientService {
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
         {
-            return Response.ok(dtoConverter.productToDTOList(clientBean.getClientOrderProducts(username ,index))).build();
+            return Response.ok(dtoConverter.productToDTOList(customerBean.getClientOrderProducts(username ,index))).build();
         }
     }
 
@@ -130,15 +123,15 @@ public class ClientService {
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
         else
         {
-            return Response.ok(dtoConverter.observationToDTOList(clientBean.getClientOrderObservations(username ,index))).build();
+            return Response.ok(dtoConverter.observationToDTOList(customerBean.getClientOrderObservations(username ,index))).build();
         }
     }
 
 //    @GET
 //    @Path("{username}/alerts")
 //    public Response getClientAlerts(@PathParam("username") String username) {
-//        var client = clientBean.getClientAlerts(username);
-//        var dtos = toDTOsAlert(client.getAlerts());
+//        var customer = customerBean.getClientAlerts(username);
+//        var dtos = toDTOsAlert(customer.getAlerts());
 //        return Response.ok(dtos).build();
 //    }
 

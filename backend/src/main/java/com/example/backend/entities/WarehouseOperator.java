@@ -9,19 +9,19 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllLineOperators",
-                query = "SELECT l FROM LineOperator l ORDER BY l.name" // JPQL
+                query = "SELECT l FROM WarehouseOperator l ORDER BY l.name" // JPQL
         )
 })
-public class LineOperator extends User{
-   @OneToMany(mappedBy = "lineOperator", cascade = CascadeType.REMOVE)
+public class WarehouseOperator extends User {
+   @OneToMany(mappedBy = "warehouseOperator", cascade = CascadeType.REMOVE)
    private List<Order> orders;
 
-    public LineOperator(String username, String password, String name, String email) {
+    public WarehouseOperator(String username, String password, String name, String email) {
         super(username, password, name, email);
         this.orders = new ArrayList<Order>();
     }
 
-    public LineOperator() {
+    public WarehouseOperator() {
         this.orders = new ArrayList<Order>();
     }
 

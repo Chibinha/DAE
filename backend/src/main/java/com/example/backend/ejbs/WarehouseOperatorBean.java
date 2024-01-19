@@ -1,6 +1,10 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.entities.*;
+import com.example.backend.entities.InventoryItem;
+import com.example.backend.entities.Product;
+import com.example.backend.entities.Observation;
+import com.example.backend.entities.WarehouseOperator;
 import com.example.backend.exceptions.MyConstraintViolationException;
 import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
@@ -16,22 +20,22 @@ import org.hibernate.Hibernate;
 import java.util.ArrayList;
 import java.util.List;
 @Stateless
-public class LineOperatorBean {
+public class WarehouseOperatorBean {
 
     @PersistenceContext
     private EntityManager entityManager;
     private Hasher hasher;
 
-    public LineOperator find(String username) throws MyEntityNotFoundException {
-        LineOperator lineOperator = entityManager.find(LineOperator.class, username);
-        if (lineOperator == null) {
+    public WarehouseOperator find(String username) throws MyEntityNotFoundException {
+        WarehouseOperator warehouseOperator = entityManager.find(WarehouseOperator.class, username);
+        if (warehouseOperator == null) {
             throw new MyEntityNotFoundException(" - Line Operator " + username +" not found");
         }
-        return lineOperator;
+        return warehouseOperator;
     }
 
     public Boolean exists(String username) {
-        return entityManager.find(LineOperator.class, username) == null;
+        return entityManager.find(WarehouseOperator.class, username) == null;
     }
 
     public void create(String username, String password, String name, String email) throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
@@ -40,10 +44,10 @@ public class LineOperatorBean {
         {
             try {
                 hasher = new Hasher();
-                LineOperator lineOperator = new LineOperator(username, hasher.hash(password), name, email);
-                entityManager.persist(lineOperator);
+                WarehouseOperator warehouseOperator = new WarehouseOperator(username, hasher.hash(password), name, email);
+                entityManager.persist(warehouseOperator);
                 entityManager.flush(); // when using Hibernate, to force it to throw a ContraintViolationException, as in the JPA specification
-                entityManager.persist(lineOperator);
+                entityManager.persist(warehouseOperator);
             }
             catch (ConstraintViolationException e) {
                 throw new MyConstraintViolationException(e);
@@ -55,34 +59,34 @@ public class LineOperatorBean {
     }
 
     //getAll
-    public List<LineOperator> getAll() {
-        return entityManager.createNamedQuery("getAllLineOperators", LineOperator.class).getResultList();
+    public List<WarehouseOperator> getAll() {
+        return entityManager.createNamedQuery("getAllLineOperators", WarehouseOperator.class).getResultList();
     }
 
     public void update(String username, String password, String name, String email) {
-        LineOperator lineOperator = entityManager.find(LineOperator.class, username);
-        if (lineOperator == null) {
+        WarehouseOperator warehouseOperator = entityManager.find(WarehouseOperator.class, username);
+        if (warehouseOperator == null) {
             System.err.println("ERROR_LINEOPERATOR_NOT_FOUND: " + username);
             return;
         }
-        entityManager.lock(lineOperator, LockModeType.OPTIMISTIC);
-        lineOperator.setPassword(password);
-        lineOperator.setName(name);
-        lineOperator.setEmail(email);
+        entityManager.lock(warehouseOperator, LockModeType.OPTIMISTIC);
+        warehouseOperator.setPassword(password);
+        warehouseOperator.setName(name);
+        warehouseOperator.setEmail(email);
     }
 
     public void delete(String username) throws MyEntityNotFoundException{
         entityManager.remove(find(username));
     }
 
-    public List<LineOperator> getAllLineOperators() {
-        return entityManager.createNamedQuery("getAllLineOperators", LineOperator.class).getResultList();
+    public List<WarehouseOperator> getAllLineOperators() {
+        return entityManager.createNamedQuery("getAllLineOperators", WarehouseOperator.class).getResultList();
     }
 
 
-    public LineOperator getLineOperatorOrders(String username) throws MyEntityNotFoundException {
-        LineOperator lineOperator = find(username);
-        Hibernate.initialize(lineOperator.getOrders());
+    public WarehouseOperator getLineOperatorOrders(String username) throws MyEntityNotFoundException {
+        WarehouseOperator warehouseOperator = find(username);
+        Hibernate.initialize(warehouseOperator.getOrders());
         return this.find(username);
     }
 
@@ -97,9 +101,9 @@ public class LineOperatorBean {
     public List<Product> getLineOperatorOrderProducts(String username, Long index) throws MyEntityNotFoundException, NotAuthorizedException {
         Order order = entityManager.find(Order.class, index);
         if(find(username).getUsername().equals(order.getClient().getUsername())) {
-            List<PhysicalProduct> physical = entityManager.find(Order.class, index).getPhysicalProducts();
+            List<InventoryItem> physical = entityManager.find(Order.class, index).getPhysicalProducts();
             List<Product> products = new ArrayList<Product>();
-            for (PhysicalProduct product : physical) {
+            for (InventoryItem product : physical) {
                 products.add(product.getProduct());
             }
             return products;

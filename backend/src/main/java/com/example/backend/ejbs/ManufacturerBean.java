@@ -1,8 +1,10 @@
 package com.example.backend.ejbs;
 
-import com.example.backend.dtos.PhysicalProductDTO;
 import com.example.backend.dtos.ProductDTO;
 import com.example.backend.entities.*;
+import com.example.backend.entities.InventoryItem;
+import com.example.backend.entities.Product;
+import com.example.backend.entities.Manufacturer;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.security.Hasher;
 import jakarta.ejb.EJB;
@@ -12,59 +14,59 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Stateless
-public class MakerBean {
+public class ManufacturerBean {
     @PersistenceContext
     private EntityManager entityManager;
     @EJB
     private ProductBean productBean;
     @EJB
-    private PhysicalProductBean physicalProductBean;
+    private InventoryItemBean inventoryItemBean;
     private Hasher hasher;
 
     //#region CRUD
     // Create
     public void create(String username, String password, String name, String email) {
         hasher = new Hasher();
-        Maker maker = new Maker(username, hasher.hash(password), name, email);
-        entityManager.persist(maker);
+        Manufacturer manufacturer = new Manufacturer(username, hasher.hash(password), name, email);
+        entityManager.persist(manufacturer);
     }
 
     // Read
-    public List<Maker> getAll() {
-        return entityManager.createNamedQuery("getAllMakers", Maker.class).getResultList();
+    public List<Manufacturer> getAll() {
+        return entityManager.createNamedQuery("getAllMakers", Manufacturer.class).getResultList();
     }
 
     // Find
-    public Maker find(String username) throws MyEntityNotFoundException {
-        Maker maker = entityManager.find(Maker.class, username);
-        if (maker == null) {
-            throw new MyEntityNotFoundException("Maker with username " + username + " not found");
+    public Manufacturer find(String username) throws MyEntityNotFoundException {
+        Manufacturer manufacturer = entityManager.find(Manufacturer.class, username);
+        if (manufacturer == null) {
+            throw new MyEntityNotFoundException("Manufacturer with username " + username + " not found");
         }
-        return maker;
+        return manufacturer;
     }
 
     // Update
     public void update(String username, String password, String name, String email) throws MyEntityNotFoundException {
-        Maker maker = find(username);
+        Manufacturer manufacturer = find(username);
 
         if (password != null) {
             hasher = new Hasher();
-            maker.setPassword(hasher.hash(password));
+            manufacturer.setPassword(hasher.hash(password));
         }
         if (name != null) {
-            maker.setName(name);
+            manufacturer.setName(name);
         }
         if (email != null) {
-            maker.setEmail(email);
+            manufacturer.setEmail(email);
         }
 
-        entityManager.merge(maker);
+        entityManager.merge(manufacturer);
     }
 
     // Delete
     public void delete(String username) throws MyEntityNotFoundException {
-        Maker maker = find(username);
-        entityManager.remove(maker);
+        Manufacturer manufacturer = find(username);
+        entityManager.remove(manufacturer);
     }
     //#endregion
 
@@ -92,37 +94,37 @@ public class MakerBean {
     //#endregion
 
     //#region PhysicalProducts
-    // Create PhysicalProduct
+    // Create InventoryItem
     public long createPhysicalProduct(long productId) throws MyEntityNotFoundException {
-        long id = physicalProductBean.create(productId);
-        physicalProductBean.exists(id);
+        long id = inventoryItemBean.create(productId);
+        inventoryItemBean.exists(id);
         return id;
     }
 
     //createPhysicalProductList
     public void createPhysicalProductList(long productId, int amount) throws MyEntityNotFoundException {
         for (int i = 0; i < amount; i++) {
-            physicalProductBean.create(productId);
+            inventoryItemBean.create(productId);
         }
     }
 
-    // Update PhysicalProduct
+    // Update InventoryItem
     public long updatePhysicalProduct(long physicalProductId) throws MyEntityNotFoundException {
-        return physicalProductBean.update(physicalProductId);
+        return inventoryItemBean.update(physicalProductId);
     }
 
     //get physical products for specific product
-    public List<PhysicalProduct> getPhysicalProductsForProduct(String username, long productId) throws MyEntityNotFoundException {
+    public List<InventoryItem> getPhysicalProductsForProduct(String username, long productId) throws MyEntityNotFoundException {
         var maker = find(username);
-        return entityManager.createNamedQuery("getMakerPhysicalProductsForProduct", PhysicalProduct.class)
+        return entityManager.createNamedQuery("getMakerPhysicalProductsForProduct", InventoryItem.class)
                 .setParameter("username", maker.getUsername())
                 .setParameter("productId", productId)
                 .getResultList();
     }
 
-    public List<PhysicalProduct> getAllPhysicalProducts(String username) throws MyEntityNotFoundException {
+    public List<InventoryItem> getAllPhysicalProducts(String username) throws MyEntityNotFoundException {
         var maker = find(username);
-        return entityManager.createNamedQuery("getMakerPhysicalProducts", PhysicalProduct.class)
+        return entityManager.createNamedQuery("getMakerPhysicalProducts", InventoryItem.class)
                 .setParameter("username", maker.getUsername())
                 .getResultList();
     }
@@ -137,7 +139,7 @@ public class MakerBean {
     }
 
     public void deletePhysicalProduct(long physicalProductId) throws MyEntityNotFoundException {
-        physicalProductBean.delete(physicalProductId);
+        inventoryItemBean.delete(physicalProductId);
     }
     //#endregion
 }

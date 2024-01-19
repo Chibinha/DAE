@@ -1,5 +1,7 @@
 package com.example.backend.entities;
 
+import com.example.backend.entities.Observation;
+import com.example.backend.entities.Sensor;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -8,17 +10,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
+@Table(name = "packages")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllPackages",
                 query = "SELECT p FROM Package p ORDER BY p.id" // JPQL
         )
 })
-@Table(
-        name = "packages",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"id"})
-)
-public abstract class Package implements Serializable {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Package implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
@@ -28,21 +28,14 @@ public abstract class Package implements Serializable {
     @ManyToMany(mappedBy = "packages")
     protected List<Sensor> sensors;
 
-    //observations
-    @OneToMany(mappedBy = "myPackage")
-    protected List<Observation> observations;
-
-
     public Package() {
         this.sensors = new LinkedList<>();
-        this.observations = new ArrayList<>();
     }
 
     public Package(int tipoEmbalagem, String material) {
         this.packageType = tipoEmbalagem;
         this.material = material;
         this.sensors = new LinkedList<>();
-        this.observations = new ArrayList<>();
     }
 
     public long getId() {
@@ -77,11 +70,18 @@ public abstract class Package implements Serializable {
         this.sensors = sensors;
     }
 
-    public List<Observation> getObservations() {
-        return observations;
+    public void addSensor(Sensor sensor) {
+        if (!sensors.contains(sensor)) {
+            sensors.add(sensor);
+        }
     }
 
-    public void setObservations(List<Observation> observations) {
-        this.observations = observations;
+    public List<Observation> getAllObservations() {
+        List<Observation> observations = new ArrayList<>();
+        for(Sensor sensor : sensors )
+        {
+            observations.addAll(sensor.getObservations());
+        }
+        return observations;
     }
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllProducts",
@@ -17,7 +17,7 @@ import java.util.List;
         ),
         @NamedQuery(
                 name = "getMakerProducts",
-                query = "SELECT p FROM Product p WHERE p.maker.username = :username ORDER BY p.id"
+                query = "SELECT p FROM Product p WHERE p.manufacturer.username = :username ORDER BY p.id"
         ),
 
 })
@@ -32,13 +32,13 @@ public class Product implements Serializable {
     private double weight;
     private String ingredients;
     @OneToMany(mappedBy = "product")
-    private List<PhysicalProduct> physicalProducts;
+    private List<InventoryItem> inventoryItems;
     private long inStock;
 
     @ManyToOne
     @JoinColumn(name = "maker_id")
     @NotNull
-    private Maker maker;
+    private Manufacturer manufacturer;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_timestamp")
@@ -51,17 +51,17 @@ public class Product implements Serializable {
     private Timestamp updateTimestamp;
 
     public Product() {
-        this.physicalProducts = new ArrayList<>();
+        this.inventoryItems = new ArrayList<>();
     }
 
-    public Product(String name, double price, String description, double weight, String ingredients, Maker maker) {
+    public Product(String name, double price, String description, double weight, String ingredients, Manufacturer manufacturer) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.weight = weight;
         this.ingredients = ingredients;
-        this.maker = maker;
-        this.physicalProducts = new ArrayList<>();
+        this.manufacturer = manufacturer;
+        this.inventoryItems = new ArrayList<>();
         this.inStock = 0;
         this.creationTimestamp = new Timestamp(System.currentTimeMillis());
         this.updateTimestamp = this.creationTimestamp;
@@ -115,31 +115,31 @@ public class Product implements Serializable {
         this.ingredients = ingredients;
     }
 
-    public Maker getMaker() {
-        return maker;
+    public Manufacturer getMaker() {
+        return manufacturer;
     }
 
-    public void setMaker(Maker maker) {
-        this.maker = maker;
+    public void setMaker(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
-    public List<PhysicalProduct> getPhysicalProducts() {
-        return physicalProducts;
+    public List<InventoryItem> getPhysicalProducts() {
+        return inventoryItems;
     }
 
-    public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
-        this.physicalProducts = physicalProducts;
-        this.inStock = physicalProducts.size();
+    public void setPhysicalProducts(List<InventoryItem> inventoryItems) {
+        this.inventoryItems = inventoryItems;
+        this.inStock = inventoryItems.size();
     }
 
-    public void addPhysicalProduct(PhysicalProduct physicalProduct) {
-        this.physicalProducts.add(physicalProduct);
-        this.inStock = physicalProducts.size();
+    public void addPhysicalProduct(InventoryItem inventoryItem) {
+        this.inventoryItems.add(inventoryItem);
+        this.inStock = inventoryItems.size();
     }
 
-    public void removePhysicalProduct(PhysicalProduct physicalProduct) {
-        this.physicalProducts.remove(physicalProduct);
-        this.inStock = physicalProducts.size();
+    public void removePhysicalProduct(InventoryItem inventoryItem) {
+        this.inventoryItems.remove(inventoryItem);
+        this.inStock = inventoryItems.size();
     }
 
     public long getInStock() {

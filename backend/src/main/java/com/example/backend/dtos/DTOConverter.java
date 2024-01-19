@@ -1,48 +1,57 @@
 package com.example.backend.dtos;
 
 import com.example.backend.entities.*;
+import com.example.backend.entities.ProductPackage;
+import com.example.backend.entities.TransportPackage;
+import com.example.backend.entities.InventoryItem;
+import com.example.backend.entities.Product;
+import com.example.backend.entities.Observation;
+import com.example.backend.entities.Sensor;
+import com.example.backend.entities.Customer;
+import com.example.backend.entities.Manufacturer;
+import com.example.backend.entities.WarehouseOperator;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DTOConverter {
     //#region Users
-    // Maker
-    public MakerDTO makerToDTO(Maker maker) {
-        return new MakerDTO(
-                maker.getUsername(),
-                maker.getName(),
-                maker.getEmail()
+    // Manufacturer
+    public ManufacturerDTO makerToDTO(Manufacturer manufacturer) {
+        return new ManufacturerDTO(
+            manufacturer.getUsername(),
+            manufacturer.getName(),
+            manufacturer.getEmail()
         );
     }
-    public List<MakerDTO> makerToDTOList(List<Maker> makers) {
-        return makers.stream().map(this::makerToDTO).collect(Collectors.toList());
+    public List<ManufacturerDTO> makerToDTOList(List<Manufacturer> manufacturers) {
+        return manufacturers.stream().map(this::makerToDTO).collect(Collectors.toList());
     }
 
-    // Client
-    public ClientDTO clientToDTO(Client client) {
-        return new ClientDTO(
-                client.getUsername(),
-                client.getPassword(),
-                client.getName(),
-                client.getEmail()
+    // Customer
+    public CustomerDTO clientToDTO(Customer customer) {
+        return new CustomerDTO(
+            customer.getUsername(),
+            customer.getPassword(),
+            customer.getName(),
+            customer.getEmail()
         );
     }
-    public List<ClientDTO> clientToDTOList(List<Client> clients) {
-        return clients.stream().map(this::clientToDTO).collect(Collectors.toList());
+    public List<CustomerDTO> clientToDTOList(List<Customer> customers) {
+        return customers.stream().map(this::clientToDTO).collect(Collectors.toList());
     }
 
     // Line Operator
-    public LineOperatorDTO lineOperatorToDTO(LineOperator lineOperator) {
-        return new LineOperatorDTO(
-                lineOperator.getUsername(),
-                lineOperator.getPassword(),
-                lineOperator.getName(),
-                lineOperator.getEmail()
+    public WarehouseOperatorDTO lineOperatorToDTO(WarehouseOperator warehouseOperator) {
+        return new WarehouseOperatorDTO(
+            warehouseOperator.getUsername(),
+            warehouseOperator.getPassword(),
+            warehouseOperator.getName(),
+            warehouseOperator.getEmail()
         );
     }
-    public List<LineOperatorDTO> lineOperatorToDTOList(List<LineOperator> lineOperators) {
-        return lineOperators.stream().map(this::lineOperatorToDTO).collect(Collectors.toList());
+    public List<WarehouseOperatorDTO> lineOperatorToDTOList(List<WarehouseOperator> warehouseOperators) {
+        return warehouseOperators.stream().map(this::lineOperatorToDTO).collect(Collectors.toList());
     }
     //#endregion
 
@@ -50,32 +59,32 @@ public class DTOConverter {
     // Product
     public ProductDTO productToDTO(Product product) {
         return new ProductDTO(
-                product.getId(),
-                product.getName(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getWeight(),
-                product.getIngredients(),
-                product.getInStock(),
-                product.getMaker().getUsername()
+            product.getId(),
+            product.getName(),
+            product.getPrice(),
+            product.getDescription(),
+            product.getWeight(),
+            product.getIngredients(),
+            product.getInStock(),
+            product.getMaker().getUsername()
         );
     }
     public List<ProductDTO> productToDTOList(List<Product> products) {
         return products.stream().map(this::productToDTO).collect(Collectors.toList());
     }
 
-    // PhysicalProduct
-    public PhysicalProductDTO physicalProductToDTO(PhysicalProduct physicalProduct) {
-        return new PhysicalProductDTO(
-                physicalProduct.getId(),
-                physicalProduct.getProduct().getId(),
-                physicalProduct.getProduct().getName(),
-                physicalProduct.getProduct().getMaker().getUsername(),
-                physicalProduct.getStockTimestamp()
+    // InventoryItem
+    public InventoryItemDTO physicalProductToDTO(InventoryItem inventoryItem) {
+        return new InventoryItemDTO(
+            inventoryItem.getId(),
+            inventoryItem.getProduct().getId(),
+            inventoryItem.getProduct().getName(),
+            inventoryItem.getProduct().getMaker().getUsername(),
+            inventoryItem.getStockTimestamp()
         );
     }
-    public List<PhysicalProductDTO> physicalProductToDTOList(List<PhysicalProduct> physicalProducts) {
-        return physicalProducts.stream().map(this::physicalProductToDTO).collect(Collectors.toList());
+    public List<InventoryItemDTO> physicalProductToDTOList(List<InventoryItem> inventoryItems) {
+        return inventoryItems.stream().map(this::physicalProductToDTO).collect(Collectors.toList());
     }
     //#endregion
 
@@ -83,9 +92,9 @@ public class DTOConverter {
     // Sensor
     public SensorDTO sensorToDTO(Sensor sensor) {
         return new SensorDTO(
-                sensor.getId(),
-                sensor.getName(),
-                sensor.getType()
+            sensor.getId(),
+            sensor.getName(),
+            sensor.getType()
         );
     }
     public List<SensorDTO> sensorToDTOList(List<Sensor> sensors) {
@@ -95,15 +104,13 @@ public class DTOConverter {
     // Observation
     public ObservationDTO observationToDTO(Observation observation) {
         return new ObservationDTO(
-                observation.getId(),
-                observation.getSensor().getType(),
-                observation.getValue(),
-                observation.getSensor().getUnit(),
-                observation.getTimestamp(),
-                observation.getSensor().getName(),
-                0,
-                observation.getOrder().getId()
-        );
+            observation.getId(),
+            observation.getSensor().getType(),
+            observation.getValue(),
+            observation.getSensor().getUnit(),
+            observation.getTimestamp(),
+            observation.getSensor().getName(),
+            observation.getSensor().getCurrentPackage().getId());
     }
     public List<ObservationDTO> observationToDTOList(List<Observation> observations) {
         return observations.stream().map(this::observationToDTO).collect(Collectors.toList());
@@ -112,23 +119,23 @@ public class DTOConverter {
 
     //#region Packages
     // Transportation Package
-    public TransportationPackageDTO transportationPackageToDTO(TransportationPackage transportationPackage) {
-        return new TransportationPackageDTO(
-                transportationPackage.getPackageType(),
-                transportationPackage.getMaterial(),
-                transportationPackage.getCurrentOrder().getId()
+    public TransportPackageDTO transportationPackageToDTO(TransportPackage transportPackage) {
+        return new TransportPackageDTO(
+            transportPackage.getPackageType(),
+            transportPackage.getMaterial(),
+            transportPackage.getCurrentOrder().getId()
         );
     }
-    public List<TransportationPackageDTO> transportationPackageToDTOList(List<TransportationPackage> transportationPackages) {
-        return transportationPackages.stream().map(this::transportationPackageToDTO).collect(Collectors.toList());
+    public List<TransportPackageDTO> transportationPackageToDTOList(List<TransportPackage> transportPackages) {
+        return transportPackages.stream().map(this::transportationPackageToDTO).collect(Collectors.toList());
     }
 
     // Product Package
     public ProductPackageDTO productPackageToDTO(ProductPackage productPackage) {
         return new ProductPackageDTO(
-                productPackage.getPackageType(),
-                productPackage.getMaterial(),
-                productPackage.getCurrentPhysicalProduct().getId()
+            productPackage.getPackageType(),
+            productPackage.getMaterial(),
+            productPackage.getCurrentPhysicalProduct().getId()
         );
     }
     public List<ProductPackageDTO> productPackageToDTOList(List<ProductPackage> productPackages) {
@@ -140,13 +147,13 @@ public class DTOConverter {
     // Order
     public OrderDTO orderToDTO(Order order) {
         return new OrderDTO(
-                order.getId(),
-                order.getStatus(),
-                order.getTotalPrice(),
-                order.getLineOperator().getUsername(),
-                order.getClient().getUsername(),
-                order.getOrderTimestamp(),
-                physicalProductToDTOList(order.getPhysicalProducts())
+            order.getId(),
+            order.getStatus(),
+            order.getTotalPrice(),
+            order.getLineOperator().getUsername(),
+            order.getClient().getUsername(),
+            order.getOrderTimestamp(),
+            physicalProductToDTOList(order.getPhysicalProducts())
         );
     }
     public List<OrderDTO> orderToDTOList(List<Order> orders) {
@@ -158,13 +165,14 @@ public class DTOConverter {
     // Alert
     public AlertDTO alertToDTO(Alert alert) {
         return new AlertDTO(
-                alert.getUser().getUsername(),
-                alert.getDescription(),
-                alert.getTimestamp()
+            alert.getUser().getUsername(),
+            alert.getDescription(),
+            alert.getTimestamp()
         );
     }
     public List<AlertDTO> alertToDTOList(List<Alert> alerts) {
         return alerts.stream().map(this::alertToDTO).collect(Collectors.toList());
     }
     //#endregion
+
 }

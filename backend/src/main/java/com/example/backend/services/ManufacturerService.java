@@ -1,11 +1,11 @@
 package com.example.backend.services;
 
 import com.example.backend.dtos.DTOConverter;
-import com.example.backend.dtos.PhysicalProductDTO;
+import com.example.backend.dtos.InventoryItemDTO;
 import com.example.backend.dtos.ProductDTO;
-import com.example.backend.ejbs.MakerBean;
+import com.example.backend.ejbs.ManufacturerBean;
 import com.example.backend.entities.Alert;
-import com.example.backend.entities.PhysicalProduct;
+import com.example.backend.entities.InventoryItem;
 import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.EJB;
@@ -16,12 +16,12 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
 
-@Path("maker/{username}")
+@Path("manufacturer/{username}")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-public class MakerService {
+public class ManufacturerService {
     @EJB
-    private MakerBean makerBean;
+    private ManufacturerBean manufacturerBean;
     private final DTOConverter dtoConverter = new DTOConverter();
 
     //#region Products
@@ -29,7 +29,7 @@ public class MakerService {
     @POST
     @Path("/products")
     public Response createProduct(ProductDTO productDTO, @PathParam("username") String username) throws MyEntityNotFoundException {
-        long id = makerBean.createProduct(
+        long id = manufacturerBean.createProduct(
                 productDTO.getName(),
                 productDTO.getPrice(),
                 productDTO.getDescription(),
@@ -47,7 +47,7 @@ public class MakerService {
     @PUT
     @Path("/products/{productId}")
     public Response updateProduct(@PathParam("productId") long productId, ProductDTO productDTO) throws MyEntityNotFoundException {
-        long id = makerBean.updateProduct(productId, productDTO);
+        long id = manufacturerBean.updateProduct(productId, productDTO);
         if (id < 1) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Product with id [" + id + "] not updated.").build();
         }
@@ -58,7 +58,7 @@ public class MakerService {
     @GET
     @Path("/products")
     public List<ProductDTO> getProducts(@PathParam("username") String username) throws MyEntityNotFoundException {
-        List<Product> products = makerBean.getProducts(username);
+        List<Product> products = manufacturerBean.getProducts(username);
         return dtoConverter.productToDTOList(products);
     }
     //#endregion
@@ -69,7 +69,7 @@ public class MakerService {
     @POST
     @Path("/physicalproducts")
     public Response createPhysicalProduct(long productId) throws MyEntityNotFoundException {
-        long id = makerBean.createPhysicalProduct(productId);
+        long id = manufacturerBean.createPhysicalProduct(productId);
 
         if (id < 1) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Physical Product with id [" + id + "] not created.").build();
@@ -81,42 +81,42 @@ public class MakerService {
     @POST
     @Path("/physicalproducts/list")
     public Response createPhysicalProductList(Map<String, Integer> requestData) throws MyEntityNotFoundException {
-        makerBean.createPhysicalProductList(requestData.get("productId"), requestData.get("amount"));
+        manufacturerBean.createPhysicalProductList(requestData.get("productId"), requestData.get("amount"));
         return Response.status(Response.Status.CREATED).entity("Physical Products created.").build();
     }
 
     //update PhyscialProduct
     @PUT
     @Path("/physicalproducts/{physicalProductId}")
-    public Response updatePhysicalProduct(@PathParam("physicalProductId") long physicalProductId, PhysicalProductDTO physicalProductDTO) throws MyEntityNotFoundException {
-        long id = makerBean.updatePhysicalProduct(physicalProductId);
+    public Response updatePhysicalProduct(@PathParam("physicalProductId") long physicalProductId, InventoryItemDTO inventoryItemDTO) throws MyEntityNotFoundException {
+        long id = manufacturerBean.updatePhysicalProduct(physicalProductId);
         if (id < 1) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Physical Product with id [" + id + "] not updated.").build();
         }
         return Response.status(Response.Status.CREATED).entity("Physical Product with id [" + id + "] updated.").build();
     }
 
-    //Delete PhysicalProduct
+    //Delete InventoryItem
     @DELETE
     @Path("/physicalproducts/{physicalProductId}")
     public Response deletePhysicalProduct(@PathParam("physicalProductId") long physicalProductId) throws MyEntityNotFoundException {
-        makerBean.deletePhysicalProduct(physicalProductId);
+        manufacturerBean.deletePhysicalProduct(physicalProductId);
         return Response.status(Response.Status.OK).entity("Physical Product with id [" + physicalProductId + "] deleted.").build();
     }
 
     //Get Own physical products
     @GET
     @Path("/physicalproducts")
-    public List<PhysicalProductDTO> getPhysicalProducts(@PathParam("username") String username) throws MyEntityNotFoundException {
-        List<PhysicalProduct> physicalProducts = makerBean.getAllPhysicalProducts(username);
-        return dtoConverter.physicalProductToDTOList(physicalProducts);
+    public List<InventoryItemDTO> getPhysicalProducts(@PathParam("username") String username) throws MyEntityNotFoundException {
+        List<InventoryItem> inventoryItems = manufacturerBean.getAllPhysicalProducts(username);
+        return dtoConverter.physicalProductToDTOList(inventoryItems);
     }
 
     @GET
     @Path("/physicalproducts/{productId}")
-    public List<PhysicalProductDTO> getPhysicalProductsForProduct(@PathParam("username") String username, @PathParam("productId") long productId) throws MyEntityNotFoundException {
-        List<PhysicalProduct> physicalProducts = makerBean.getPhysicalProductsForProduct(username, productId);
-        return dtoConverter.physicalProductToDTOList(physicalProducts);
+    public List<InventoryItemDTO> getPhysicalProductsForProduct(@PathParam("username") String username, @PathParam("productId") long productId) throws MyEntityNotFoundException {
+        List<InventoryItem> inventoryItems = manufacturerBean.getPhysicalProductsForProduct(username, productId);
+        return dtoConverter.physicalProductToDTOList(inventoryItems);
     }
     //#endregion
 
@@ -126,7 +126,7 @@ public class MakerService {
     @GET
     @Path("/alerts")
     public Response getAlerts(@PathParam("username") String username) throws MyEntityNotFoundException {
-        List<Alert> alerts = makerBean.getAlerts(username);
+        List<Alert> alerts = manufacturerBean.getAlerts(username);
         return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
     //#endregion

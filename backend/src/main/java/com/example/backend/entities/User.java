@@ -1,5 +1,6 @@
 package com.example.backend.entities;
 
+import com.example.backend.entities.Versionable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 
-public class User extends Versionable{
+public class User extends Versionable {
     @Id
     private String username;
     @NotNull
