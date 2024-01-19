@@ -41,9 +41,6 @@ public class Order implements Serializable {
     public LineOperator lineOperator;
 
     @ManyToMany(mappedBy = "orders")
-    private List<Sensor> sensors;
-
-    @ManyToMany(mappedBy = "orders")
     private List<TransportationPackage> packages;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -55,7 +52,6 @@ public class Order implements Serializable {
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
         this.physicalProducts = new ArrayList<>();
         this.observations = new ArrayList<>();
-        this.sensors = new ArrayList<>();
         this.packages = new ArrayList<>();
     }
 
@@ -67,7 +63,6 @@ public class Order implements Serializable {
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
         this.physicalProducts = physicalProducts;
         this.observations = new ArrayList<>();
-        this.sensors = new ArrayList<>();
         this.packages = new ArrayList<>();
     }
 
@@ -119,14 +114,6 @@ public class Order implements Serializable {
         this.observations = observations;
     }
 
-    public List<Sensor> getSensors() {
-        return sensors;
-    }
-
-    public void setSensors(List<Sensor> sensors) {
-        this.sensors = sensors;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -151,10 +138,13 @@ public class Order implements Serializable {
         this.packages = packages;
     }
 
-    public void removeTransportationPackage(TransportationPackage transportationPackage) {
-
+    public void addPackage(TransportationPackage transportationPackage) {
+        if(transportationPackage!= null)
+            this.packages.add(transportationPackage);
     }
 
-    public void addTransportationPackage(TransportationPackage transportationPackage) {
+    public void removePackage(TransportationPackage order) {
+        if(order!= null)
+            this.packages.remove(order);
     }
 }

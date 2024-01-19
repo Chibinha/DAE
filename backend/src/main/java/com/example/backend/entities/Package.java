@@ -24,14 +24,25 @@ public abstract class Package implements Serializable {
     protected int packageType;
     protected String material;
 
+    @ManyToMany(mappedBy = "packages")
+    protected List<Sensor> sensors;
+
+    //observations
+    @OneToMany(mappedBy = "myPackage")
+    protected List<Observation> observations;
+
 
     public Package() {
+        this.sensors = new LinkedList<>();
+        this.observations = new ArrayList<>();
     }
 
     public Package(long id, int tipoEmbalagem, String material) {
         this.id = id;
         this.packageType = tipoEmbalagem;
         this.material = material;
+        this.sensors = new LinkedList<>();
+        this.observations = new ArrayList<>();
     }
 
     public long getId() {
@@ -56,5 +67,21 @@ public abstract class Package implements Serializable {
 
     public void setMaterial(String material) {
         this.material = material;
+    }
+
+    public List<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(List<Sensor> sensors) {
+        this.sensors = sensors;
+    }
+
+    public List<Observation> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(List<Observation> observations) {
+        this.observations = observations;
     }
 }

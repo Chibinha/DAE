@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 // in stock since
 
@@ -38,16 +40,38 @@ public class PhysicalProduct implements Serializable {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @ManyToMany(mappedBy = "physicalProducts")
+    private List<ProductPackage> productPackages;
+
+    // maker
+    @ManyToOne
+    @JoinColumn(name = "maker_id")
+    @NotNull
+    private Maker maker;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "stock_timestamp")
     @NotNull
     private Timestamp stockTimestamp;
 
     public PhysicalProduct() {
+        this.productPackages = new ArrayList<>();
+        this.stockTimestamp = new Timestamp(System.currentTimeMillis());
     }
 
     public PhysicalProduct(Product product) {
         this.product = product;
+        this.productPackages = new ArrayList<>();
+        this.maker = product.getMaker();
+        this.stockTimestamp = new Timestamp(System.currentTimeMillis());
+        this.product.addPhysicalProduct(this);
+        this.order = null;
+    }
+
+    public PhysicalProduct(Product product, List<ProductPackage> productPackages) {
+        this.product = product;
+        this.productPackages = productPackages;
+        this.maker = product.getMaker();
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
         this.product.addPhysicalProduct(this);
         this.order = null;
@@ -75,6 +99,22 @@ public class PhysicalProduct implements Serializable {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public List<ProductPackage> getProductPackages() {
+        return productPackages;
+    }
+
+    public void setProductPackages(List<ProductPackage> productPackages) {
+        this.productPackages = productPackages;
+    }
+
+    public Maker getMaker() {
+        return maker;
+    }
+
+    public void setMaker(Maker maker) {
+        this.maker = maker;
     }
 
     public Timestamp getStockTimestamp() {

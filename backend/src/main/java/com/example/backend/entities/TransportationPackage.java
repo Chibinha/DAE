@@ -29,15 +29,31 @@ public class TransportationPackage extends Package implements Serializable {
         this.orders = new ArrayList<>();
     }
 
-    public TransportationPackage(long id, int packageType, String material, Order order) {
+    public TransportationPackage(long id, int packageType, String material) {
         super(id, packageType, material);
         this.orders = new ArrayList<>();
     }
 
     public Order getCurrentOrder() {
-        return orders.get(orders.size() - 1);
+        if(!orders.isEmpty())
+            return orders.get(orders.size() - 1);
+        return null;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public void addOrder(Order order) {
+        if(order!= null)
+            this.orders.add(order);
+    }
+
+    public void removeOrder(Order order) {
+        if(order!= null)
+            this.orders.remove(order);
     }
 }
