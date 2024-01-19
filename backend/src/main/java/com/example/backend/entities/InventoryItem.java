@@ -40,8 +40,7 @@ public class InventoryItem implements Serializable {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToMany
-    @JoinColumn(name = "package_id")
+    @ManyToMany(mappedBy = "inventoryItems")
     private List<ProductPackage> productPackages;
 
     // manufacturer

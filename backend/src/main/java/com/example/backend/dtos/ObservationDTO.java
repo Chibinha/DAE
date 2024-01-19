@@ -11,12 +11,11 @@ public class ObservationDTO implements Serializable {
     private Timestamp timestamp;
     private String sensorName;
     private long packageId;
-    private long orderId;
 
     public ObservationDTO() {
     }
 
-    public ObservationDTO(long id, String type, String value, String unit, Timestamp timestamp, String sensorName, long packageId, long orderId) {
+    public ObservationDTO(long id, String type, String value, String unit, Timestamp timestamp, String sensorName, long packageId) {
         this.id = id;
         this.type = type;
         this.value = value;
@@ -24,7 +23,6 @@ public class ObservationDTO implements Serializable {
         this.timestamp = timestamp;
         this.sensorName = sensorName;
         this.packageId = packageId;
-        this.orderId = orderId;
     }
 
     public long getId() {
@@ -83,11 +81,4 @@ public class ObservationDTO implements Serializable {
         this.packageId = packageId;
     }
 
-    public long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
-    }
 }

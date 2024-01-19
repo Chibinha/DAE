@@ -11,6 +11,7 @@ import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.exceptions.NotAuthorizedException;
 import com.example.backend.security.Authenticated;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.faces.context.ExternalContext;
 import jakarta.transaction.Transactional;
@@ -23,8 +24,8 @@ import java.util.List;
 @Path("customer") // relative url web path for this service
 @Produces({MediaType.APPLICATION_JSON}) // injects header “Content-Type: application/json”
 @Consumes({MediaType.APPLICATION_JSON}) // injects header “Accept: application/json”
-@Authenticated
-//@RolesAllowed({"Customer"})
+/*@Authenticated
+@RolesAllowed({"Customer"})*/
 public class CustomerService {
     @EJB
     private CustomerBean customerBean;

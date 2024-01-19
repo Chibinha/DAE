@@ -37,20 +37,9 @@ public class Sensor implements Serializable {
     )
     private List<Package> packages;
 
-    @ManyToMany
-    @JoinTable(
-            name = "sensors_orders",
-            joinColumns = @JoinColumn(name = "sensor_id"),
-            inverseJoinColumns = {
-                    @JoinColumn(name = "order_id"),
-
-            }
-    )
-    private List<Order> orders;
 
     public Sensor() {
         this.observations = new ArrayList<>();
-        this.orders = new ArrayList<>();
         this.packages = new ArrayList<>();
     }
 
@@ -59,7 +48,6 @@ public class Sensor implements Serializable {
         this.type = type;
         this.unit = unit;
         this.observations = new ArrayList<>();
-        this.orders = new ArrayList<>();
         this.packages = new ArrayList<>();
     }
 
@@ -95,9 +83,6 @@ public class Sensor implements Serializable {
         this.observations = observations;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
 
     public void setId(long id) {
         this.id = id;

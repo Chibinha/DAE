@@ -103,12 +103,12 @@ public class ConfigBean {
             //#endregion
 
             //#region Observations
-            observationBean.create("20", 1, 3);
-            observationBean.create("10",  1, 2);
-            observationBean.create("40",  2, 1);
-            observationBean.create("342",  2,2);
-            observationBean.create("23",  3,3);
-            observationBean.create("45",  3,1);
+            observationBean.create("20", 1);
+            observationBean.create("10",  1);
+            observationBean.create("40",  2);
+            observationBean.create("342",  2);
+            observationBean.create("23",  3);
+            observationBean.create("45",  3);
 
             //#endregion
 
@@ -116,6 +116,8 @@ public class ConfigBean {
             alertBean.create("joao", "Embalagem aberta");
             alertBean.create("bruno", "Temperatura elevada");
             //#endregion
+
+            orderBean.update(3,3,2, "Sent");
         } catch (Exception e) {
             logger.severe(e.getClass().getCanonicalName() + e.getMessage());
         }

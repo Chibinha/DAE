@@ -1,6 +1,7 @@
-package com.example.backend.services.unused;
+package com.example.backend.services;
 
 import com.example.backend.dtos.DTOConverter;
+import com.example.backend.dtos.OrderDTO;
 import com.example.backend.dtos.WarehouseOperatorDTO;
 import com.example.backend.ejbs.WarehouseOperatorBean;
 import com.example.backend.ejbs.OrderBean;
@@ -128,42 +129,18 @@ public class WarehouseOperatorService {
         }
     }
 
-//    @PUT
-//    @Path("{username}/orders/{index}")
-//    @Transactional
-//    public Response updateLineOperatorOrder(@PathParam("username") String username, @PathParam("index") long index, OrderDTO orderDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
-//        orderBean.update(orderDTO.);
-//        boolean notUpdated = false;
-//        String notUpdatedFields = "";
-//        // check if fields changed with the update
-//        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
-//        if(!lineOperatorDTO.getUsername().equals(warehouseOperator.getUsername()) && warehouseOperatorBean.exists(lineOperatorDTO.getUsername()))
-//        {
-//            throw new MyIllegalArgumentException("Nome de utilizador já está em uso. Nome de utilizador é unico");
-//        }
-//
-//        if(lineOperatorDTO.getUsername() != null && !lineOperatorDTO.getUsername().equals(warehouseOperator.getUsername())) {
-//            notUpdated = true;
-//            notUpdatedFields += "username, ";
-//        }
-//        if(lineOperatorDTO.getPassword() != null && !lineOperatorDTO.getPassword().equals(warehouseOperator.getPassword())) {
-//            notUpdated = true;
-//            notUpdatedFields += "password, ";
-//        }
-//        if(lineOperatorDTO.getName() != null && !lineOperatorDTO.getName().equals(warehouseOperator.getName())) {
-//            notUpdated = true;
-//            notUpdatedFields += "name, ";
-//        }
-//        if(lineOperatorDTO.getEmail() != null && !lineOperatorDTO.getEmail().equals(warehouseOperator.getEmail())) {
-//            notUpdated = true;
-//            notUpdatedFields += "email, ";
-//        }
-//
-//        if (notUpdated) {
-//            return Response.status(Response.Status.BAD_REQUEST).entity("Line Operator  [" + username + "] did not update. Fields not updated: " + notUpdatedFields).build();
-//        }
-//        return Response.ok().build();
-//    }
+    @PUT
+    @Path("{username}/orders/{index}")
+    @Transactional
+    public Response updateLineOperatorOrder(@PathParam("username") String username, @PathParam("index") long index, OrderDTO orderDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
+        //orderBean.update(index, orderDTO.getPackages(). ,orderDTO.getStatus());
+        boolean notUpdated = false;
+        String notUpdatedFields = "";
+        // check if fields changed with the update
+        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
+
+        return Response.ok().build();
+    }
 
     @GET
     @Path("{username}/orders/{index}/products")

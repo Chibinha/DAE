@@ -8,27 +8,26 @@ import jakarta.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "package_order")
+@Table(name = "packages_orders")
 public class PackageOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "package_id")
-    private Package orderPackage;
+    @JoinColumn(name = "transportation_package_id")
+    private TransportPackage orderPackage;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "associationDate")
-    @NotNull
+    @Column(name = "associationDate", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp associationDate;
 
 
-    public PackageOrder(Package orderPackage, Order order, Timestamp associationDate) {
+    public PackageOrder(TransportPackage orderPackage, Order order, Timestamp associationDate) {
         this.orderPackage = orderPackage;
         this.order = order;
         this.associationDate = associationDate;
@@ -49,7 +48,7 @@ public class PackageOrder {
         return orderPackage;
     }
 
-    public void setOrderPackage(Package orderPackage) {
+    public void setOrderPackage(TransportPackage orderPackage) {
         this.orderPackage = orderPackage;
     }
 

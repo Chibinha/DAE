@@ -55,14 +55,14 @@ onBeforeMount(async () => {
 
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav">
-          <li class="nav-item" v-show="!userStore.user">
+          <li v-show="!userStore.user" class="nav-item">
             <router-link class="nav-link" :class="{ active: $route.name === 'login' }" :to="{ name: 'login' }"
               @click="clickMenuOption">
               <i class="bi bi-box-arrow-in-right"></i>
               Login
             </router-link>
           </li>
-          <li class="nav-item dropdown">
+          <li v-show="userStore.user" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
               <img src="@/assets/avatar-none.png" class="rounded-circle z-depth-0 avatar-img" alt="avatar image"/>
