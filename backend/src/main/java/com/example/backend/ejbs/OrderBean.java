@@ -1,9 +1,7 @@
 package com.example.backend.ejbs;
 
-import com.example.backend.entities.Client;
-import com.example.backend.entities.LineOperator;
-import com.example.backend.entities.Order;
-import com.example.backend.entities.PhysicalProduct;
+import com.example.backend.entities.*;
+import com.example.backend.entities.Package;
 import com.example.backend.exceptions.MyConstraintViolationException;
 
 import com.example.backend.exceptions.MyEntityExistsException;
@@ -15,12 +13,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.Hibernate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import static javax.security.auth.callback.ConfirmationCallback.OK;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Stateless
 public class OrderBean {
@@ -30,6 +25,13 @@ public class OrderBean {
     private ClientBean clientBean;
     @EJB
     private LineOperatorBean lineOperatorBean;
+    @EJB
+    private TransportationPackageBean transportationPackageBean;
+    @EJB
+    private SensorBean sensorBean;
+
+    @EJB
+    private PackageBean packageBean;
     @EJB
     private ProductBean productBean;
 
@@ -73,37 +75,11 @@ public class OrderBean {
         entityManager.persist(order);
     }
 
-    public void update(String usernameClient, String usernameLineOp, Map<Long, Integer> products) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
-        Client client = clientBean.find(usernameClient);
-        LineOperator lineOperator = lineOperatorBean.find(usernameLineOp);
-        List<PhysicalProduct> physicalProducts = new ArrayList<>();
-        double totalPrice = 0;
-
-        Order order = new Order(totalPrice, lineOperator, client, physicalProducts);
-
-        // Retrieve PhysicalProducts for each product ID
-        for (Map.Entry<Long, Integer> entry : products.entrySet()) {
-            Long productId = entry.getKey();
-            Integer quantity = entry.getValue();
-
-            // Retrieve PhysicalProducts for the product ID
-            List<PhysicalProduct> productPhysicalProducts = productBean.getListPhysicalProducts(productId);
-
-            if (productPhysicalProducts == null || productPhysicalProducts.isEmpty()) {
-                throw new MyEntityNotFoundException("Physical products not found for product ID: " + productId);
-            }
-
-            // Add PhysicalProducts to the list
-            for (int i = 0; i < quantity; i++) {
-                PhysicalProduct productToAdd = productPhysicalProducts.get(i);
-                physicalProducts.add(productPhysicalProducts.get(i));
-                productToAdd.setOrder(order);
-                totalPrice += productPhysicalProducts.get(i).getProduct().getPrice();
-            }
-        }
-        order.setPhysicalProducts(physicalProducts);
-        order.setTotalPrice(totalPrice);
-        entityManager.persist(order);
+    public void update(int id, TransportationPackage packageOrder, Sensor sensor, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+        Order order = find(id);
+        associateTransportationPackageToOrder(packageOrder.getId(), id);
+        //associateSensorToPackage(sensor.getId(), packageOrder.getId());
+        order.setStatus(status);
     }
 
     public List<Order> getAll() {
@@ -119,18 +95,24 @@ public class OrderBean {
         return order;
     }
 
-//    public List<PhysicalProduct> getAllProductsForOrder(long orderId) {
-//        Order order = entityManager.find(Order.class, orderId);
-//        if (order != null) {
-//            // Retrieve product IDs from the order's map
-//            List<Long> productIds = order.getProducts().keySet().stream().collect(Collectors.toList());
-//
-//            // Retrieve products based on product IDs
-//            return entityManager.createQuery("SELECT p FROM Product p WHERE p.id IN :productIds", PhysicalProduct.class)
-//                    .setParameter("productIds", productIds)
-//                    .getResultList();
-//        }
-//        return Collections.emptyList();
-//    }
+    public void associateTransportationPackageToOrder(long id, int packageId) throws MyEntityNotFoundException {
+        Order order = find(id);
+        TransportationPackage transportationPackage = transportationPackageBean.find(packageId);
+        if(transportationPackage.getCurrentOrder() != order)
+        {
+            order.addPackage(transportationPackage);
+            transportationPackage.addOrder(order);
+        }
+    }
+
+    public void associateSensorToPackage(long id, int sensorId) throws MyEntityNotFoundException {
+        Package aPackage = packageBean.find(id);
+        Sensor sensor = sensorBean.find(sensorId);
+        if(sensor.getCurrentPackage() != aPackage)
+        {
+            aPackage.addSensor(sensor);
+            sensor.addPackage(aPackage);
+        }
+    }
 }
 

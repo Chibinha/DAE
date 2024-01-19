@@ -70,6 +70,7 @@ public class DTOConverter {
                 physicalProduct.getId(),
                 physicalProduct.getProduct().getId(),
                 physicalProduct.getProduct().getName(),
+                physicalProduct.getProduct().getMaker().getUsername(),
                 physicalProduct.getStockTimestamp()
         );
     }

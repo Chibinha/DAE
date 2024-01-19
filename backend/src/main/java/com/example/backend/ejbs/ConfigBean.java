@@ -52,6 +52,10 @@ public class ConfigBean {
             lineOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
             //#endregion
 
+//            transportationPackageBean.create(1, "Papel");
+//            transportationPackageBean.create(1, "Plastico");
+//            transportationPackageBean.create(3, "Metal");
+
             //#region Products/PhysicalProducts
             productBean.create("Pizza", 10, "Pizza de queijo", 0.5, "Queijo", "maker1");
             productBean.create("Hamburger", 5, "Hamburger de carne", 0.5, "Carne", "maker1");

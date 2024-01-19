@@ -7,15 +7,17 @@ public class PhysicalProductDTO implements Serializable {
     private long id;
     private long productId;
     private String productName;
+    private String makerUsername;
     private Timestamp stockTimestamp;
 
     public PhysicalProductDTO() {
     }
 
-    public PhysicalProductDTO(long id, long productId, String productName, Timestamp stockTimestamp) {
+    public PhysicalProductDTO(long id, long productId, String productName, String makerUsername, Timestamp stockTimestamp) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
+        this.makerUsername = makerUsername;
         this.stockTimestamp = stockTimestamp;
     }
 
@@ -41,6 +43,14 @@ public class PhysicalProductDTO implements Serializable {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public String getMakerUsername() {
+        return makerUsername;
+    }
+
+    public void setMakerUsername(String makerUsername) {
+        this.makerUsername = makerUsername;
     }
 
     public Timestamp getStockTimestamp() {
