@@ -142,7 +142,8 @@ public class Order implements Serializable {
     }
 
     public List<Observation> getObservations() {
-        return this.getCurrentPackage().getAllObservations();
+        if(this.getCurrentPackage() != null)
+            return this.getCurrentPackage().getAllObservations();
+        return Collections.emptyList();
     }
-
 }

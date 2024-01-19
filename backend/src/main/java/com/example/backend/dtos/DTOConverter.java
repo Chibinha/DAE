@@ -110,9 +110,7 @@ public class DTOConverter {
                 observation.getSensor().getUnit(),
                 observation.getTimestamp(),
                 observation.getSensor().getName(),
-                0,
-                observation.getOrder().getId()
-        );
+                observation.getSensor().getCurrentPackage().getId());
     }
     public List<ObservationDTO> observationToDTOList(List<Observation> observations) {
         return observations.stream().map(this::observationToDTO).collect(Collectors.toList());
