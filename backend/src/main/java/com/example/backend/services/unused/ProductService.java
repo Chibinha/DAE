@@ -1,4 +1,4 @@
-package com.example.backend.services;
+package com.example.backend.services.unused;
 
 import com.example.backend.dtos.DTOConverter;
 import com.example.backend.dtos.ProductDTO;
@@ -11,7 +11,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Path("/products")
 @Produces({MediaType.APPLICATION_JSON})

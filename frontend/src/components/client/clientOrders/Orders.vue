@@ -3,8 +3,10 @@ import OrderTable from './OrderTable.vue'
 import { useOrderStore } from '../../../stores/order'
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user';
 
 const router = useRouter()
+const userStore = useUserStore()
 const orderStore = useOrderStore()
 
 
@@ -20,7 +22,8 @@ const seeDetails = (order) => {
   router.push({ name: 'Order', params: { id: order.id } })
 }
 
-onMounted(() => {
+onMounted(async() => {
+    await userStore.restoreToken();
     loadOrders()    
 })
 

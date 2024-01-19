@@ -86,7 +86,7 @@ onBeforeMount(async () => {
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
-            <li v-show="!userStore.user || userStore.user?.role == 'Client'" class="nav-item">
+            <li v-show="!userStore.user || userStore.user?.role == 'Customer'" class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'home' }" :to="{ name: 'home' }"
                 @click="clickMenuOption">
                 <i class="bi bi-house"></i>
@@ -95,7 +95,7 @@ onBeforeMount(async () => {
             </li>
 
             <div v-show="userStore.user">
-            <li v-show="userStore.user?.role == 'Client' " class="nav-item">
+            <li v-show="userStore.user?.role == 'Customer' " class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'orders' }" :to="{ name: 'orders' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
@@ -103,7 +103,7 @@ onBeforeMount(async () => {
               </router-link>
             </li>
 
-            <li v-show="userStore.user?.role == 'Client'" class="nav-item">
+            <li v-show="userStore.user?.role == 'Customer'" class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'cart' }" :to="{ name: 'cart' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
@@ -129,7 +129,7 @@ onBeforeMount(async () => {
 
               
 
-            <li v-show="userStore.user?.role == 'Maker'" class="nav-item">
+            <li v-show="userStore.user?.role == 'Manufacturer'" class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'maker/products' }" :to="{ name: 'maker/products' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "observation")
+@Table(name = "observations")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllObservations",

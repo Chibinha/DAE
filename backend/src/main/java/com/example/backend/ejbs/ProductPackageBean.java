@@ -1,19 +1,13 @@
 package com.example.backend.ejbs;
 
-import com.example.backend.dtos.ProductDTO;
 import com.example.backend.dtos.ProductPackageDTO;
-import com.example.backend.entities.*;
-import com.example.backend.exceptions.MyConstraintViolationException;
-import com.example.backend.exceptions.MyEntityExistsException;
+import com.example.backend.entities.ProductPackage;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import jakarta.validation.ConstraintViolationException;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Stateless
@@ -69,7 +63,7 @@ public class ProductPackageBean {
     }
 
 //    public void associateProductPackageToOrder(long id, long productId) {
-//        PhysicalProduct product = entityManager.find(PhysicalProduct.class, productId);
+//        InventoryItem product = entityManager.find(InventoryItem.class, productId);
 //        if(product == null)
 //            return;
 //        ProductPackage productPackage = entityManager.find(ProductPackage.class, id);
@@ -81,7 +75,7 @@ public class ProductPackageBean {
 //    }
 //
 //    public void dissociateProductPackageFromOrder(long id, long productId) {
-//        PhysicalProduct product = entityManager.find(PhysicalProduct.class, productId);
+//        InventoryItem product = entityManager.find(InventoryItem.class, productId);
 //        if(product == null)
 //            return;
 //        ProductPackage productPackage = entityManager.find(ProductPackage.class, id);

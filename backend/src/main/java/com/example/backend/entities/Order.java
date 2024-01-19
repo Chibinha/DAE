@@ -25,23 +25,23 @@ public class Order implements Serializable {
     private double totalPrice;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
-    private List<PhysicalProduct> physicalProducts;
+    private List<InventoryItem> inventoryItems;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<Observation> observations;
 
     @ManyToOne
-    @JoinColumn(name = "client")
+    @JoinColumn(name = "customer")
     @NotNull
-    public Client client;
+    public Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "lineOperator")
+    @JoinColumn(name = "warehouseOperator")
     @NotNull
-    public LineOperator lineOperator;
+    public WarehouseOperator warehouseOperator;
 
     @ManyToMany(mappedBy = "orders")
-    private List<TransportationPackage> packages;
+    private List<TransportPackage> packages;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "orderTimestamp")
@@ -50,18 +50,18 @@ public class Order implements Serializable {
 
     public Order() {
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
-        this.physicalProducts = new ArrayList<>();
+        this.inventoryItems = new ArrayList<>();
         this.observations = new ArrayList<>();
         this.packages = new ArrayList<>();
     }
 
-    public Order(double totalPrice, LineOperator lineOperator, Client client, List<PhysicalProduct> physicalProducts) {
+    public Order(double totalPrice, WarehouseOperator warehouseOperator, Customer customer, List<InventoryItem> inventoryItems) {
         this.status = "created";
         this.totalPrice = totalPrice;
-        this.client = client;
-        this.lineOperator = lineOperator;
+        this.customer = customer;
+        this.warehouseOperator = warehouseOperator;
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
-        this.physicalProducts = physicalProducts;
+        this.inventoryItems = inventoryItems;
         this.observations = new ArrayList<>();
         this.packages = new ArrayList<>();
     }
@@ -74,20 +74,20 @@ public class Order implements Serializable {
         this.id = idOrder;
     }
 
-    public LineOperator getLineOperator() {
-        return lineOperator;
+    public WarehouseOperator getLineOperator() {
+        return warehouseOperator;
     }
 
-    public void setLineOperator(LineOperator lineOperator) {
-        this.lineOperator = lineOperator;
+    public void setLineOperator(WarehouseOperator warehouseOperator) {
+        this.warehouseOperator = warehouseOperator;
     }
 
-    public Client getClient() {
-        return client;
+    public Customer getClient() {
+        return customer;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient(Customer customer) {
+        this.customer = customer;
     }
 
     public Timestamp getOrderTimestamp() {
@@ -98,12 +98,12 @@ public class Order implements Serializable {
         this.orderTimestamp = orderTimestamp;
     }
 
-    public List<PhysicalProduct> getPhysicalProducts() {
-        return physicalProducts;
+    public List<InventoryItem> getPhysicalProducts() {
+        return inventoryItems;
     }
 
-    public void setPhysicalProducts(List<PhysicalProduct> physicalProducts) {
-        this.physicalProducts = physicalProducts;
+    public void setPhysicalProducts(List<InventoryItem> inventoryItems) {
+        this.inventoryItems = inventoryItems;
     }
 
     public List<Observation> getObservations() {
@@ -130,20 +130,20 @@ public class Order implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public List<TransportationPackage> getPackages() {
+    public List<TransportPackage> getPackages() {
         return packages;
     }
 
-    public void setPackages(List<TransportationPackage> packages) {
+    public void setPackages(List<TransportPackage> packages) {
         this.packages = packages;
     }
 
-    public void addPackage(TransportationPackage transportationPackage) {
-        if(transportationPackage!= null)
-            this.packages.add(transportationPackage);
+    public void addPackage(TransportPackage transportPackage) {
+        if(transportPackage != null)
+            this.packages.add(transportPackage);
     }
 
-    public void removePackage(TransportationPackage order) {
+    public void removePackage(TransportPackage order) {
         if(order!= null)
             this.packages.remove(order);
     }

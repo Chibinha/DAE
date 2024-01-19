@@ -1,7 +1,6 @@
 package com.example.backend.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,10 +10,11 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllTransportationPackages",
-                query = "SELECT t FROM TransportationPackage t ORDER BY t.id" // JPQL
+                query = "SELECT t FROM TransportPackage t ORDER BY t.id" // JPQL
         )
 })
-public class TransportationPackage extends Package implements Serializable {
+
+public class TransportPackage extends Package implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "packages_orders",
@@ -25,11 +25,11 @@ public class TransportationPackage extends Package implements Serializable {
             }
     )
     private List<Order> orders;
-    public TransportationPackage() {
+    public TransportPackage() {
         this.orders = new ArrayList<>();
     }
 
-    public TransportationPackage(int packageType, String material) {
+    public TransportPackage(int packageType, String material) {
         super(packageType, material);
         this.orders = new ArrayList<>();
     }

@@ -1,14 +1,13 @@
 package com.example.backend.entities;
 
 import jakarta.persistence.*;
-import org.glassfish.jaxb.runtime.v2.runtime.reflect.Lister;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "sensor")
+@Table(name = "sensors")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllSensors",

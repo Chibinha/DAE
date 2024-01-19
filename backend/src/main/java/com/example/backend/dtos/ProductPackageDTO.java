@@ -1,10 +1,5 @@
 package com.example.backend.dtos;
 
-import com.example.backend.entities.Sensor;
-
-import java.util.LinkedList;
-import java.util.List;
-
 public class ProductPackageDTO {
     private long id;
     private int packageType;

@@ -1,12 +1,14 @@
 package com.example.backend.entities;
 
+import com.example.backend.entities.Order;
+import com.example.backend.entities.Package;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "packages_orders")
+@Table(name = "package_order")
 public class PackageOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

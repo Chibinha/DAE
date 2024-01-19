@@ -1,13 +1,15 @@
 package com.example.backend.entities;
 
+import com.example.backend.entities.InventoryItem;
+import com.example.backend.entities.Package;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "packages_physical_product")
-public class PackagePhysicalProduct {
+@Table(name = "packages_inventoryitems")
+public class PackageInventoryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,20 +20,20 @@ public class PackagePhysicalProduct {
 
     @ManyToOne
     @JoinColumn(name = "physical_product_id")
-    private PhysicalProduct physicalProduct;
+    private InventoryItem inventoryItem;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "associationDate")
     @NotNull
     private Timestamp associationDate;
 
-    public PackagePhysicalProduct(Package physicalProductPackage, PhysicalProduct physicalProduct, Timestamp associationDate) {
+    public PackageInventoryItem(Package physicalProductPackage, InventoryItem inventoryItem, Timestamp associationDate) {
         this.physicalProductPackage = physicalProductPackage;
-        this.physicalProduct = physicalProduct;
+        this.inventoryItem = inventoryItem;
         this.associationDate = associationDate;
     }
 
-    public PackagePhysicalProduct() {
+    public PackageInventoryItem() {
     }
 
     public Long getId() {
@@ -50,12 +52,12 @@ public class PackagePhysicalProduct {
         this.physicalProductPackage = physicalProductPackage;
     }
 
-    public PhysicalProduct getPhysicalProduct() {
-        return physicalProduct;
+    public InventoryItem getPhysicalProduct() {
+        return inventoryItem;
     }
 
-    public void setPhysicalProduct(PhysicalProduct physicalProduct) {
-        this.physicalProduct = physicalProduct;
+    public void setPhysicalProduct(InventoryItem inventoryItem) {
+        this.inventoryItem = inventoryItem;
     }
 
     public Timestamp getAssociationDate() {

@@ -13,6 +13,11 @@ const seeDetails = (order) => {
   emit('details', order)
 }
 
+const formatTimestamp = (timestamp) => {
+  const date = new Date(timestamp);
+  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}.${date.getMilliseconds().toString().padStart(3, '0')}`;
+  return formattedDate;
+};
 </script>
 
 <template>
@@ -31,7 +36,7 @@ const seeDetails = (order) => {
         <td>{{ order.id }}</td>
         <td>{{ order.totalPrice }}€</td>
         <td>{{ order.status }}</td>
-        <td>{{ order.orderTimestamp }}</td>
+        <td>{{ formatTimestamp(order.orderTimestamp) }}</td>
         <td class="text-end">
           <div class="d-flex justify-content-end">
             <button class="btn btn-xs btn-light" @click="seeDetails(order)"><i

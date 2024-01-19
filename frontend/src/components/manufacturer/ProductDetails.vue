@@ -35,12 +35,11 @@ const fetchPhysicalProducts = async () => {
     try {
         const response = await axios.get(`maker/${makerUsername}/physicalproducts/${props.productId}`);
         physicalProducts.value = response.data;
-        physicalProductExists.value = true;
-        // transform the timestamp to a human readable format
+        console.log("physicalProducts:", physicalProducts.value);
         physicalProducts.value.forEach(physicalProduct => {
-            physicalProduct.stockTimestamp = physicalProduct.stockTimestamp.substring(0, 19).replace('T', ' ');
-
+            physicalProduct.stockTimestamp = formatTimestamp(physicalProduct.stockTimestamp);
         });
+        physicalProductExists.value = true;
     } catch (error) {
         physicalProductExists.value = false;
         console.error("Error fetching physical products:", error);
@@ -113,6 +112,14 @@ const deletePhysicalProduct = (physicalProductId) => {
             console.error('Error deleting physical product:', error);
         });
 };
+
+const formatTimestamp = (timestamp) => {
+  const date = new Date(timestamp);
+  // Adjust the format as needed
+  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}.${date.getMilliseconds().toString().padStart(3, '0')}`;
+  return formattedDate;
+};
+
 </script>
 
 <template>

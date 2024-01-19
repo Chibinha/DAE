@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientDTO implements Serializable {
+
+public class WarehouseOperatorDTO implements Serializable {
     private String username;
     private String password;
     private String name;
@@ -13,15 +14,15 @@ public class ClientDTO implements Serializable {
     private List<OrderDTO> orderDTOS;
 
 
-    public ClientDTO(String username, String password, String name, String email) {
+    public WarehouseOperatorDTO(String username, String password, String name, String email) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.email = email;
-        //this.orderDTOS = new ArrayList<OrderDTO>();
+        this.orderDTOS = new ArrayList<OrderDTO>();
     }
 
-    public ClientDTO() {this.orderDTOS = new ArrayList<OrderDTO>();}
+    public WarehouseOperatorDTO() {this.orderDTOS = new ArrayList<OrderDTO>();}
 
     public List<OrderDTO> getOrdersDTOS() {return orderDTOS;}
 

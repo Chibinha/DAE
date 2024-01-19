@@ -5,11 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 @Entity
-@Table(name = "alert")
+@Table(name = "alerts")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllAlerts",

@@ -9,11 +9,12 @@ export const useOrderStore = defineStore('order', () => {
     const order = ref([])
     const products = ref([])
     const observations = ref([])
-    const userType = userStore.userType;
+    let userType
 
     async function loadOrders() {
         try {
-            const response = await axios.get(`${userType}/${userStore.username}/orders`);
+            userType =  userStore.user.role.toLowerCase()
+            const response = await axios.get(`${userType}/${userStore.user.username}/orders`);
             orders.value = response.data;
             orders.value.forEach((order, index) => {
                 order.orderTimestamp = formatTimestamp(order.orderTimestamp)
@@ -28,7 +29,8 @@ export const useOrderStore = defineStore('order', () => {
 
     async function loadOrder(id) {
         try {
-            const response = await axios.get(`${userType}/${userStore.username}/orders/` + id)
+            userType =  userStore.user.role.toLowerCase()
+            const response = await axios.get(`${userType}/${userStore.user.username}/orders/` + id)
             order.value = response.data
             order.value.orderTimestamp = formatTimestamp(order.value.orderTimestamp)
             return order.value
@@ -40,7 +42,8 @@ export const useOrderStore = defineStore('order', () => {
 
     async function loadProducts(id) {
         try {
-            const response = await axios.get(`${userType}/${userStore.username}/orders/${id}/products`);
+            userType =  userStore.user.role.toLowerCase()
+            const response = await axios.get(`${userType}/${userStore.user.username}/orders/${id}/products`);
             const productsData = response.data;
             const productQuantityMap = {}; //Cria mapa para obter a quantidade
     
@@ -66,7 +69,8 @@ export const useOrderStore = defineStore('order', () => {
     async function loadObservations(id) {
         try 
         {
-            const response = await axios.get(`${userType}/${userStore.username}/orders/${id}/observations`);
+            userType =  userStore.user.role.toLowerCase()
+            const response = await axios.get(`${userType}/${userStore.user.username}/orders/${id}/observations`);
             observations.value = response.data
             observations.value = response.data;
             observations.value.forEach((observation, index) => {
@@ -82,7 +86,8 @@ export const useOrderStore = defineStore('order', () => {
 
     function formatTimestamp(timestamp) 
     {
-        return timestamp.substring(0, 16).replace("T", ' - ')
+        return timestamp.replace("T", ' - ').substring(0, 16)
+        // return timestamp.substring(0, 16).replace("T", ' - ')
     }
 
     return {

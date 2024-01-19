@@ -11,22 +11,22 @@ import java.util.List;
 // in stock since
 
 @Entity
-@Table(name = "physical_product")
+@Table(name = "inventory_items")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllPhysicalProducts",
-                query = "SELECT p FROM PhysicalProduct p ORDER BY p.id"
+                query = "SELECT p FROM InventoryItem p ORDER BY p.id"
         ),
         @NamedQuery(
                 name = "getMakerPhysicalProducts",
-                query = "SELECT p FROM PhysicalProduct p WHERE p.product.maker.username = :username ORDER BY p.id"
+                query = "SELECT p FROM InventoryItem p WHERE p.product.manufacturer.username = :username ORDER BY p.id"
         ),//getMakerPhysicalProductsForProduct
         @NamedQuery(
                 name = "getMakerPhysicalProductsForProduct",
-                query = "SELECT p FROM PhysicalProduct p WHERE p.product.maker.username = :username AND p.product.id = :productId ORDER BY p.id"
+                query = "SELECT p FROM InventoryItem p WHERE p.product.manufacturer.username = :username AND p.product.id = :productId ORDER BY p.id"
         ),
 })
-public class PhysicalProduct implements Serializable {
+public class InventoryItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -40,38 +40,39 @@ public class PhysicalProduct implements Serializable {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToMany(mappedBy = "physicalProducts")
+    @ManyToMany
+    @JoinColumn(name = "package_id")
     private List<ProductPackage> productPackages;
 
-    // maker
+    // manufacturer
     @ManyToOne
     @JoinColumn(name = "maker_id")
     @NotNull
-    private Maker maker;
+    private Manufacturer manufacturer;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "stock_timestamp")
     @NotNull
     private Timestamp stockTimestamp;
 
-    public PhysicalProduct() {
+    public InventoryItem() {
         this.productPackages = new ArrayList<>();
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
     }
 
-    public PhysicalProduct(Product product) {
+    public InventoryItem(Product product) {
         this.product = product;
         this.productPackages = new ArrayList<>();
-        this.maker = product.getMaker();
+        this.manufacturer = product.getMaker();
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
         this.product.addPhysicalProduct(this);
         this.order = null;
     }
 
-    public PhysicalProduct(Product product, List<ProductPackage> productPackages) {
+    public InventoryItem(Product product, List<ProductPackage> productPackages) {
         this.product = product;
         this.productPackages = productPackages;
-        this.maker = product.getMaker();
+        this.manufacturer = product.getMaker();
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
         this.product.addPhysicalProduct(this);
         this.order = null;
@@ -109,12 +110,12 @@ public class PhysicalProduct implements Serializable {
         this.productPackages = productPackages;
     }
 
-    public Maker getMaker() {
-        return maker;
+    public Manufacturer getMaker() {
+        return manufacturer;
     }
 
-    public void setMaker(Maker maker) {
-        this.maker = maker;
+    public void setMaker(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
     public Timestamp getStockTimestamp() {

@@ -1,5 +1,7 @@
 package com.example.backend.entities;
 
+import com.example.backend.entities.Observation;
+import com.example.backend.entities.Sensor;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -8,16 +10,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
+@Table(name = "packages")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllPackages",
                 query = "SELECT p FROM Package p ORDER BY p.id" // JPQL
         )
 })
-@Table(
-        name = "packages",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"id"})
-)
 public abstract class Package implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

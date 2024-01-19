@@ -1,8 +1,8 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.dtos.ProductDTO;
-import com.example.backend.entities.Maker;
-import com.example.backend.entities.PhysicalProduct;
+import com.example.backend.entities.InventoryItem;
+import com.example.backend.entities.Manufacturer;
 import com.example.backend.entities.Product;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.Stateless;
@@ -32,9 +32,9 @@ public class ProductBean {
     // CRUD
     // Create
     public long create(String name,double price, String description, double weight, String ingredients, String makerName) throws MyEntityNotFoundException {
-        Maker maker = entityManager.find(Maker.class, makerName);
+        Manufacturer manufacturer = entityManager.find(Manufacturer.class, makerName);
 
-        Product product = new Product(name, price, description, weight, ingredients, maker);
+        Product product = new Product(name, price, description, weight, ingredients, manufacturer);
         entityManager.persist(product);
 
         find(product.getId());
@@ -87,8 +87,8 @@ public class ProductBean {
         entityManager.remove(find(id));
     }
 
-    //get List<PhysicalProduct> from Product
-    public List<PhysicalProduct> getListPhysicalProducts(long productId) {
+    //get List<InventoryItem> from Product
+    public List<InventoryItem> getListPhysicalProducts(long productId) {
         Product product = entityManager.find(Product.class, productId);
         if (product != null) {
             Hibernate.initialize(product.getPhysicalProducts());
