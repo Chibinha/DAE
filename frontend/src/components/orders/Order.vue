@@ -11,7 +11,7 @@ const props = defineProps({
   id: {
     type: String,
     default: null
-  }
+  },
 })
 
 const loadOrder = async () => {
@@ -38,9 +38,14 @@ const loadObservations = async () => {
   }
 }
 
-// const seeProduct = (product) => {
-//   router.push({ name: 'Product', params: { id: product.id } })
-// }
+const seeProduct = (product) => {
+  router.push({ name: 'Product', params: { id: product.id } })
+}
+
+const edit = () => {
+  originalValueStr = JSON.stringify(editingOrder.value)
+  router.back()
+}
 
 onMounted(async () => {
   await userStore.restoreToken();
@@ -48,6 +53,7 @@ onMounted(async () => {
   loadProducts()
   loadObservations()
 })
+
 const formatTimestamp = (timestamp) => {
   const date = new Date(timestamp);
   return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
@@ -56,7 +62,14 @@ const formatTimestamp = (timestamp) => {
 
 <template>
   <form class="row g-3">
+    <div class="d-flex justify-content-between align-items-end">
     <h3 class="mt-5 mb-3">Encomenda #{{ orderStore.order.id }}</h3>
+    <router-link v-show="userStore.user?.role == 'WarehouseOperator'" :class="{ active: $route.name === 'EditOrder' }" :to="{ name: 'EditOrder', props: { order: orderStore.order } } ">
+        <button class="btn btn-primary align-self-end">
+            Editar Encomenda
+        </button>
+    </router-link>
+</div>
     <hr>
     <table class="table">
       <thead>

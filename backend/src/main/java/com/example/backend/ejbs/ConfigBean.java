@@ -117,7 +117,10 @@ public class ConfigBean {
             alertBean.create("bruno", "Temperatura elevada");
             //#endregion
 
-            orderBean.update(3,3,2, "Sent");
+            orderBean.update(3,3,1, "Preparar");
+            orderBean.update(2,1,2, "Criada");
+            orderBean.update(1,2,3, "Recebida");
+
         } catch (Exception e) {
             logger.severe(e.getClass().getCanonicalName() + e.getMessage());
         }

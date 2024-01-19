@@ -109,7 +109,9 @@ public class Sensor implements Serializable {
     public Package getCurrentPackage() {
         if(!packages.isEmpty())
             return packages.get(packages.size() - 1);
-        return null;
+        Package empty = new Package();
+        empty.setId(-1);
+        return empty;
     }
 
     public void addPackage(Package aPackage) {

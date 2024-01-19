@@ -55,7 +55,7 @@ public class Order implements Serializable {
     }
 
     public Order(double totalPrice, WarehouseOperator warehouseOperator, Customer customer, List<InventoryItem> inventoryItems) {
-        this.status = "created";
+        this.status = "Criada";
         this.totalPrice = totalPrice;
         this.customer = customer;
         this.warehouseOperator = warehouseOperator;
@@ -125,10 +125,12 @@ public class Order implements Serializable {
     }
 
     public TransportPackage getCurrentPackage() {
-        if(!packages.isEmpty()) {
+        if(!packages.isEmpty() && packages.get(packages.size() - 1).getId() == packages.get(packages.size() - 1).getCurrentOrder().getId()) {
             return packages.get(packages.size() - 1);
         }
-        return null;
+        TransportPackage empty = new TransportPackage();
+        empty.setId(-1);
+        return empty;
     }
 
 

@@ -6,6 +6,7 @@ import Login from "../components/auth/Login.vue"
 import Cart from "../components/client/Cart.vue"
 import Orders from "../components/orders/Orders.vue"
 import Order from "../components/orders/Order.vue"
+import EditOrder from "../components/orders/EditOrder.vue"
 import ProductCRUD from "../components/productCRUD/productCRUD.vue"
 import PhysicalProductCRUD from "../components/productCRUD/PhysicalProductCRUD.vue"
 import Alerts from "../components/alerts/Alerts.vue"
@@ -38,7 +39,13 @@ const router = createRouter({
       name: 'cart',
       component: Cart
     },   
-    
+    {
+      path: '/orders/:id',
+      name: 'EditOrder',
+      component: EditOrder,
+      props: true,
+    }, 
+
     //OTHERS
     {
       path: '/productCRUD',

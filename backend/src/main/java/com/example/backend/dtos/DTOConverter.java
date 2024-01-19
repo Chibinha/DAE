@@ -94,8 +94,9 @@ public class DTOConverter {
         return new SensorDTO(
                 sensor.getId(),
                 sensor.getName(),
-                sensor.getType()
-        );
+                sensor.getType(),
+                sensor.getUnit(),
+                sensor.getCurrentPackage().getId());
     }
     public List<SensorDTO> sensorToDTOList(List<Sensor> sensors) {
         return sensors.stream().map(this::sensorToDTO).collect(Collectors.toList());
@@ -121,6 +122,7 @@ public class DTOConverter {
     // Transportation Package
     public TransportPackageDTO transportationPackageToDTO(TransportPackage transportPackage) {
         return new TransportPackageDTO(
+                transportPackage.getId(),
                 transportPackage.getPackageType(),
                 transportPackage.getMaterial(),
                 transportPackage.getCurrentOrder().getId()

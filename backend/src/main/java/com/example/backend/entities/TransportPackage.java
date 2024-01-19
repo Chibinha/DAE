@@ -37,7 +37,9 @@ public class TransportPackage extends Package implements Serializable {
     public Order getCurrentOrder() {
         if(!orders.isEmpty())
             return orders.get(orders.size() - 1);
-        return null;
+        Order empty = new Order();
+        empty.setId(-1);
+        return empty;
     }
 
     public List<Order> getOrders() {
