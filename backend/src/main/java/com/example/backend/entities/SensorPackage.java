@@ -23,8 +23,7 @@ public class SensorPackage {
     private Package aPackage;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "associationDate")
-    @NotNull
+    @Column(name = "associationDate", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp associationDate;
 
     public SensorPackage(Long id, Sensor sensor, Package aPackage, Timestamp associationDate) {

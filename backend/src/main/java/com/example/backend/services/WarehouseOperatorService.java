@@ -1,9 +1,12 @@
-package com.example.backend.services.unused;
+package com.example.backend.services;
 
-import com.example.backend.dtos.DTOConverter;
-import com.example.backend.dtos.WarehouseOperatorDTO;
+import com.example.backend.dtos.*;
+import com.example.backend.ejbs.UserBean;
 import com.example.backend.ejbs.WarehouseOperatorBean;
 import com.example.backend.ejbs.OrderBean;
+import com.example.backend.entities.Alert;
+import com.example.backend.entities.Order;
+import com.example.backend.entities.TransportPackage;
 import com.example.backend.entities.WarehouseOperator;
 import com.example.backend.exceptions.*;
 import com.example.backend.exceptions.NotAuthorizedException;
@@ -16,7 +19,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
-@Path("lineOperator") // relative url web path for this service
+@Path("warehouseoperator") // relative url web path for this service
 @Produces({MediaType.APPLICATION_JSON}) // injects header “Content-Type: application/json”
 @Consumes({MediaType.APPLICATION_JSON}) // injects header “Accept: application/json”
 //@Authenticated
@@ -27,6 +30,8 @@ public class WarehouseOperatorService {
     private WarehouseOperatorBean warehouseOperatorBean;
     @EJB
     private OrderBean orderBean;
+    @EJB
+    private UserBean userBean;
     private final DTOConverter dtoConverter = new DTOConverter();
 
     private ExternalContext securityContext;
@@ -128,42 +133,41 @@ public class WarehouseOperatorService {
         }
     }
 
-//    @PUT
-//    @Path("{username}/orders/{index}")
-//    @Transactional
-//    public Response updateLineOperatorOrder(@PathParam("username") String username, @PathParam("index") long index, OrderDTO orderDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
-//        orderBean.update(orderDTO.);
-//        boolean notUpdated = false;
-//        String notUpdatedFields = "";
-//        // check if fields changed with the update
-//        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
-//        if(!lineOperatorDTO.getUsername().equals(warehouseOperator.getUsername()) && warehouseOperatorBean.exists(lineOperatorDTO.getUsername()))
-//        {
-//            throw new MyIllegalArgumentException("Nome de utilizador já está em uso. Nome de utilizador é unico");
-//        }
-//
-//        if(lineOperatorDTO.getUsername() != null && !lineOperatorDTO.getUsername().equals(warehouseOperator.getUsername())) {
-//            notUpdated = true;
-//            notUpdatedFields += "username, ";
-//        }
-//        if(lineOperatorDTO.getPassword() != null && !lineOperatorDTO.getPassword().equals(warehouseOperator.getPassword())) {
-//            notUpdated = true;
-//            notUpdatedFields += "password, ";
-//        }
-//        if(lineOperatorDTO.getName() != null && !lineOperatorDTO.getName().equals(warehouseOperator.getName())) {
-//            notUpdated = true;
-//            notUpdatedFields += "name, ";
-//        }
-//        if(lineOperatorDTO.getEmail() != null && !lineOperatorDTO.getEmail().equals(warehouseOperator.getEmail())) {
-//            notUpdated = true;
-//            notUpdatedFields += "email, ";
-//        }
-//
-//        if (notUpdated) {
-//            return Response.status(Response.Status.BAD_REQUEST).entity("Line Operator  [" + username + "] did not update. Fields not updated: " + notUpdatedFields).build();
-//        }
-//        return Response.ok().build();
-//    }
+    @PUT
+    @Path("{username}/orders/{index}")
+    @Transactional
+    public Response updateLineOperatorOrder(@PathParam("username") String username, @PathParam("index") int index, OrderDTO orderDTO) throws MyEntityNotFoundException, MyConstraintViolationException, MyEntityExistsException {
+        //orderBean.update(index, orderDTO.getStatus());
+        boolean notUpdated = false;
+        String notUpdatedFields = "";
+        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
+
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("{username}/orders/{index}")
+    @Transactional
+    public Response updateLineOperatorOrderSensor(@PathParam("username") String username, @PathParam("index") long index, SensorDTO sensorDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
+        //orderBean.update(index, orderDTO.getPackageId(), orderDTO.getSensorId() ,orderDTO.getStatus());
+        boolean notUpdated = false;
+        String notUpdatedFields = "";
+        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
+
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("{username}/orders/{index}")
+    @Transactional
+    public Response updateLineOperatorOrderPackage(@PathParam("username") String username, @PathParam("index") long index, TransportPackageDTO packageDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
+        //packageBean.update(index, orderDTO.getStatus());
+        boolean notUpdated = false;
+        String notUpdatedFields = "";
+        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
+
+        return Response.ok().build();
+    }
 
     @GET
     @Path("{username}/orders/{index}/products")
@@ -187,6 +191,13 @@ public class WarehouseOperatorService {
         {
             return Response.ok(dtoConverter.observationToDTOList(warehouseOperatorBean.getLineOperatorOrderObservations(username ,index))).build();
         }
+    }
+
+    @GET
+    @Path("{username}/alerts")
+    public Response getAlerts(@PathParam("username") String username) throws MyEntityNotFoundException {
+        List<Alert> alerts = userBean.getAlerts(username);
+        return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
 
 //    @GET

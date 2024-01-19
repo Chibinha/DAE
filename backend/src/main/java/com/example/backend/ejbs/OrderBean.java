@@ -76,10 +76,10 @@ public class OrderBean {
         entityManager.persist(order);
     }
 
-    public void update(int id, TransportPackage packageOrder, Sensor sensor, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
-        Order order = find(id);
-        associateTransportationPackageToOrder(packageOrder.getId(), id);
-        //associateSensorToPackage(sensor.getId(), packageOrder.getId());
+    public void update(int orderId, int packageId, int sensorId, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+        Order order = find(orderId);
+        associateTransportationPackageToOrder(order.getId(), packageId);
+        associateSensorToPackage(packageId, sensorId);
         order.setStatus(status);
     }
 
@@ -96,7 +96,7 @@ public class OrderBean {
         return order;
     }
 
-    public void associateTransportationPackageToOrder(long id, int packageId) throws MyEntityNotFoundException {
+    public void associateTransportationPackageToOrder(long id, long packageId) throws MyEntityNotFoundException {
         Order order = find(id);
         TransportPackage transportPackage = transportPackageBean.find(packageId);
         if(transportPackage.getCurrentOrder() != order)
@@ -106,7 +106,7 @@ public class OrderBean {
         }
     }
 
-    public void associateSensorToPackage(long id, int sensorId) throws MyEntityNotFoundException {
+    public void associateSensorToPackage(long id, long sensorId) throws MyEntityNotFoundException {
         Package aPackage = packageBean.find(id);
         Sensor sensor = sensorBean.find(sensorId);
         if(sensor.getCurrentPackage() != aPackage)

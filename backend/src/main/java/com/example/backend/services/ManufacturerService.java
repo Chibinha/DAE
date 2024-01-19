@@ -4,6 +4,7 @@ import com.example.backend.dtos.DTOConverter;
 import com.example.backend.dtos.InventoryItemDTO;
 import com.example.backend.dtos.ProductDTO;
 import com.example.backend.ejbs.ManufacturerBean;
+import com.example.backend.ejbs.UserBean;
 import com.example.backend.entities.Alert;
 import com.example.backend.entities.InventoryItem;
 import com.example.backend.entities.Product;
@@ -22,6 +23,8 @@ import java.util.Map;
 public class ManufacturerService {
     @EJB
     private ManufacturerBean manufacturerBean;
+    @EJB
+    private UserBean userBean;
     private final DTOConverter dtoConverter = new DTOConverter();
 
     //#region Products
@@ -124,9 +127,9 @@ public class ManufacturerService {
     //#region Alerts
     //Get Alerts
     @GET
-    @Path("/alerts")
+    @Path("{username}/alerts")
     public Response getAlerts(@PathParam("username") String username) throws MyEntityNotFoundException {
-        List<Alert> alerts = manufacturerBean.getAlerts(username);
+        List<Alert> alerts = userBean.getAlerts(username);
         return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
     //#endregion

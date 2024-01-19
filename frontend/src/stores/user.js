@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
     const axios = inject('axios')
-    const serverBaseUrl = inject('serverBaseUrl')
 
     const user = ref([
         {

@@ -8,21 +8,21 @@ import java.util.List;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(
-                name = "getAllTransportationPackages",
-                query = "SELECT t FROM TransportPackage t ORDER BY t.id" // JPQL
-        )
+    @NamedQuery(
+        name = "getAllTransportationPackages",
+        query = "SELECT t FROM TransportPackage t ORDER BY t.id" // JPQL
+    )
 })
 
 public class TransportPackage extends Package implements Serializable {
     @ManyToMany
     @JoinTable(
-            name = "packages_orders",
-            joinColumns = @JoinColumn(name = "transportation_package_id"),
-            inverseJoinColumns = {
-                    @JoinColumn(name = "order_id"),
+        name = "packages_orders",
+        joinColumns = @JoinColumn(name = "transportation_package_id"),
+        inverseJoinColumns = {
+            @JoinColumn(name = "order_id"),
 
-            }
+        }
     )
     private List<Order> orders;
     public TransportPackage() {
@@ -37,7 +37,9 @@ public class TransportPackage extends Package implements Serializable {
     public Order getCurrentOrder() {
         if(!orders.isEmpty())
             return orders.get(orders.size() - 1);
-        return null;
+        Order empty = new Order();
+        empty.setId(-1);
+        return empty;
     }
 
     public List<Order> getOrders() {

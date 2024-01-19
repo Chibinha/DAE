@@ -2,9 +2,12 @@ package com.example.backend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.glassfish.jaxb.runtime.v2.runtime.reflect.Lister;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "orders")
@@ -27,9 +30,6 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<InventoryItem> inventoryItems;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
-    private List<Observation> observations;
-
     @ManyToOne
     @JoinColumn(name = "customer")
     @NotNull
@@ -51,18 +51,16 @@ public class Order implements Serializable {
     public Order() {
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
         this.inventoryItems = new ArrayList<>();
-        this.observations = new ArrayList<>();
         this.packages = new ArrayList<>();
     }
 
     public Order(double totalPrice, WarehouseOperator warehouseOperator, Customer customer, List<InventoryItem> inventoryItems) {
-        this.status = "created";
+        this.status = "Criada";
         this.totalPrice = totalPrice;
         this.customer = customer;
         this.warehouseOperator = warehouseOperator;
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
         this.inventoryItems = inventoryItems;
-        this.observations = new ArrayList<>();
         this.packages = new ArrayList<>();
     }
 
@@ -106,14 +104,6 @@ public class Order implements Serializable {
         this.inventoryItems = inventoryItems;
     }
 
-    public List<Observation> getObservations() {
-        return observations;
-    }
-
-    public void setObservations(List<Observation> observations) {
-        this.observations = observations;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -134,6 +124,17 @@ public class Order implements Serializable {
         return packages;
     }
 
+    public TransportPackage getCurrentPackage() {
+        if(!packages.isEmpty() && packages.get(packages.size() - 1).getId() == packages.get(packages.size() - 1).getCurrentOrder().getId()) {
+            return packages.get(packages.size() - 1);
+        }
+        TransportPackage empty = new TransportPackage();
+        empty.setId(-1);
+        return empty;
+    }
+
+
+
     public void setPackages(List<TransportPackage> packages) {
         this.packages = packages;
     }
@@ -146,5 +147,11 @@ public class Order implements Serializable {
     public void removePackage(TransportPackage order) {
         if(order!= null)
             this.packages.remove(order);
+    }
+
+    public List<Observation> getObservations() {
+        if(this.getCurrentPackage() != null)
+            return this.getCurrentPackage().getAllObservations();
+        return Collections.emptyList();
     }
 }

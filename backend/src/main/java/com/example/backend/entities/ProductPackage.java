@@ -8,20 +8,20 @@ import java.util.List;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(
-                name = "getAllProductPackages",
-                query = "SELECT p FROM ProductPackage p ORDER BY p.id" // JPQL
-        )
+    @NamedQuery(
+        name = "getAllProductPackages",
+        query = "SELECT p FROM ProductPackage p ORDER BY p.id" // JPQL
+    )
 })
 public class ProductPackage extends Package implements Serializable {
     @ManyToMany
     @JoinTable(
-            name = "packages_orders",
-            joinColumns = @JoinColumn(name = "product_package_id"),
-            inverseJoinColumns = {
-                    @JoinColumn(name = "productPackage_id"),
+        name = "packages_products",
+        joinColumns = @JoinColumn(name = "product_package_id"),
+        inverseJoinColumns = {
+            @JoinColumn(name = "productPackage_id"),
 
-            }
+        }
     )
     private List<InventoryItem> inventoryItems;
 

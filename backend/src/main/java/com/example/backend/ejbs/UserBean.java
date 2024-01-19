@@ -1,12 +1,18 @@
 package com.example.backend.ejbs;
 
+import com.example.backend.entities.Alert;
+import com.example.backend.entities.InventoryItem;
+import com.example.backend.entities.Product;
 import com.example.backend.entities.User;
+import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.security.Hasher;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.Hibernate;
+
+import java.util.List;
 
 @Stateless
 public class UserBean {
@@ -36,4 +42,10 @@ public class UserBean {
         return true;
     }
 
+    public List<Alert> getAlerts(String username) throws MyEntityNotFoundException {
+        var user = find(username);
+        return em.createNamedQuery("getUserAlerts", Alert.class)
+            .setParameter("user", user)
+            .getResultList();
+    }
 }

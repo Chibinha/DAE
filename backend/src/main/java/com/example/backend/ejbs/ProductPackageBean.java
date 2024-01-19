@@ -17,7 +17,7 @@ public class ProductPackageBean {
 
     public boolean exists(long id) {
         Query query = entityManager.createQuery(
-                "SELECT COUNT(p.id) FROM ProductPackage p WHERE p.id = :id", Long.class);
+            "SELECT COUNT(p.id) FROM ProductPackage p WHERE p.id = :id", Long.class);
         query.setParameter("id", id);
         return (Long) query.getSingleResult() > 0L;
     }

@@ -1,5 +1,6 @@
 package com.example.backend.ejbs;
 
+import com.example.backend.entities.Observation;
 import com.example.backend.entities.Sensor;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.Stateless;
@@ -61,5 +62,11 @@ public class SensorBean {
     public void delete(long id) throws MyEntityNotFoundException {
         Sensor sensor = find(id);
         entityManager.remove(sensor);
+    }
+
+    // Delete
+    public List<Observation> getObservations(long id) throws MyEntityNotFoundException {
+        Sensor sensor = find(id);
+        return sensor.getObservations();
     }
 }

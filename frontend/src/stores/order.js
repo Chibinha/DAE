@@ -15,12 +15,15 @@ export const useOrderStore = defineStore('order', () => {
         try {
             userType =  userStore.user.role.toLowerCase()
             const response = await axios.get(`${userType}/${userStore.user.username}/orders`);
+
+            
             orders.value = response.data;
             orders.value.forEach((order, index) => {
                 order.orderTimestamp = formatTimestamp(order.orderTimestamp)
               });
             return orders.value;
         } catch (error) {
+            console.log(userType)
             console.error('Error loading orders:', error);
             clearOrders();
             throw error;
@@ -86,8 +89,9 @@ export const useOrderStore = defineStore('order', () => {
 
     function formatTimestamp(timestamp) 
     {
-        return timestamp.replace("T", ' - ').substring(0, 16)
-        // return timestamp.substring(0, 16).replace("T", ' - ')
+        const date = new Date(timestamp);
+        return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+      
     }
 
     return {

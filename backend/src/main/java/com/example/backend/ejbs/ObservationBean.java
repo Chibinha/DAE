@@ -29,11 +29,9 @@ public class ObservationBean {
 
     // CRUD
     // Create
-    public long create(String value, long sensorId, long orderId) throws MyEntityNotFoundException {
+    public long create(String value, long sensorId) throws MyEntityNotFoundException {
         Sensor sensor = sensorBean.find(sensorId);
-        Order order = orderBean.find(orderId);
-
-        Observation observation = new Observation(value, sensor, order);
+        Observation observation = new Observation(value, sensor);
         entityManager.persist(observation);
 
         find(observation.getId());
@@ -58,17 +56,11 @@ public class ObservationBean {
     }
 
     // Update
-    public void update(long id, String type, String value, String unit, long sensorId) throws MyEntityNotFoundException {
+    public void update(long id, String value, long sensorId) throws MyEntityNotFoundException {
         Observation observation = find(id);
 
-        if (type != null) {
-            observation.setType(type);
-        }
         if (value != null) {
             observation.setValue(value);
-        }
-        if (unit != null) {
-            observation.setUnit(unit);
         }
         if (sensorId != 0) {
             Sensor sensor = sensorBean.find(sensorId);

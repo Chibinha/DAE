@@ -1,6 +1,6 @@
 <script setup>
 import { useUserStore } from '@/stores/user';
-import { useOrderStore } from '../../../stores/order'
+import { useOrderStore } from '../../stores/order'
 
 import { onMounted } from 'vue'
 
@@ -9,9 +9,9 @@ const orderStore = useOrderStore()
 
 const props = defineProps({
   id: {
-    type: Number,
+    type: String,
     default: null
-  }
+  },
 })
 
 const loadOrder = async () => {
@@ -38,27 +38,38 @@ const loadObservations = async () => {
   }
 }
 
-// const seeProduct = (product) => {
-//   router.push({ name: 'Product', params: { id: product.id } })
-// }
+const seeProduct = (product) => {
+  router.push({ name: 'Product', params: { id: product.id } })
+}
+
+const edit = () => {
+  originalValueStr = JSON.stringify(editingOrder.value)
+  router.back()
+}
 
 onMounted(async () => {
-  console.log("Component mounted");
   await userStore.restoreToken();
   loadOrder()
   loadProducts()
   loadObservations()
 })
+
 const formatTimestamp = (timestamp) => {
   const date = new Date(timestamp);
-  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}.${date.getMilliseconds().toString().padStart(3, '0')}`;
-  return formattedDate;
+  return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
 };
 </script>
 
 <template>
   <form class="row g-3">
+    <div class="d-flex justify-content-between align-items-end">
     <h3 class="mt-5 mb-3">Encomenda #{{ orderStore.order.id }}</h3>
+    <router-link v-show="userStore.user?.role == 'WarehouseOperator'" :class="{ active: $route.name === 'EditOrder' }" :to="{ name: 'EditOrder', props: { order: orderStore.order } } ">
+        <button class="btn btn-primary align-self-end">
+            Editar Encomenda
+        </button>
+    </router-link>
+</div>
     <hr>
     <table class="table">
       <thead>
@@ -70,7 +81,7 @@ const formatTimestamp = (timestamp) => {
         </tr>
       </thead>
       <tbody>
-        <td>{{ orderStore.order.orderTimestamp }}</td>
+        <td>{{ formatTimestamp(orderStore.order.orderTimestamp) }}</td>
         <td>{{ orderStore.order.totalPrice }}€</td>
         <td>{{ orderStore.order.status }}</td>
       </tbody>
