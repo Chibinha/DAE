@@ -3,7 +3,7 @@ import { ref, inject, onMounted, computed, defineEmits } from 'vue';
 import { useUserStore } from '@/stores/user.js';
 
 const userStore = useUserStore();
-const emit = defineEmits(["removeProduct", "changePrice", "addProductToCart"]);
+const emit = defineEmits(["removeProduct", "changePrice", "addProductToCart", "removeProductFromCart"]);
 
 const axios = inject('axios');
 const toast = inject('toast');
@@ -66,6 +66,22 @@ const handleAddProductToCart = (product) => {
   emit("addProductToCart", { product, quantity: product.quantity });
 }
 
+const handleRemoveProductFromCart = (product) => {
+  const index = cart.value.findIndex(item => item.product.id === product.id);
+  if (index !== -1) {
+    const cartItem = cart.value[index];
+    if (cartItem.quantity > 1) {
+
+      cartItem.quantity -= 1;
+    } else {
+
+      cart.value.splice(index, 1);
+    }
+    console.log("Updated Cart:", cart.value); // Log the cart array to the console
+    emit("removeProductFromCart", { product, quantity: cartItem.quantity });
+  }
+}
+
 
 onMounted(async () => {
   await fetchProducts();
@@ -122,6 +138,10 @@ onMounted(async () => {
                         class="btn btn-primary">
                         Add to Cart {{ product.quantity }}
                       </button>
+                      <button :disabled="product.quantity > product.inStock" @click="handleRemoveProductFromCart(product)"
+                        class="btn btn-danger">
+                        Remove From Cart {{ product.quantity }}
+                      </button>
                       <div v-if="product.quantity > product.inStock" class="text-danger text-center mt-2">Sem stock
                         disponível</div>
                     </div>
@@ -149,4 +169,5 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-</div></template>
+  </div>
+</template>
