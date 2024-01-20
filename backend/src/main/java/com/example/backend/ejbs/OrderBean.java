@@ -72,6 +72,7 @@ public class OrderBean {
             // Add InventoryItems to the list
             for (int i = 0; i < quantity && i < productInventoryItems.size(); i++) {
                 InventoryItem productToAdd = productInventoryItems.get(i);
+                productToAdd.getProduct().setInStock(productToAdd.getProduct().getInStock()-1);
                 inventoryItems.add(productToAdd);
                 productToAdd.setOrder(order);
                 totalPrice += productToAdd.getProduct().getPrice();
