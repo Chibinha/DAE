@@ -116,11 +116,6 @@ public class ConfigBean {
 
             //#endregion
 
-            //#region Alerts
-            alertBean.create("joao", "Embalagem aberta");
-            alertBean.create("bruno", "Temperatura elevada");
-            //#endregion
-
             orderBean.update(3,2,1, "Preparar");
             orderBean.update(2,1,3, "Criada");
             orderBean.update(1, 3,2, "Recebida");

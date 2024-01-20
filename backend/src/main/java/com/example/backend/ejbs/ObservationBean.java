@@ -1,8 +1,7 @@
 package com.example.backend.ejbs;
 
-import com.example.backend.entities.Observation;
-import com.example.backend.entities.Order;
-import com.example.backend.entities.Sensor;
+import com.example.backend.entities.*;
+import com.example.backend.entities.Package;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.websocket.WebsocketService;
 import jakarta.ejb.EJB;
@@ -17,8 +16,12 @@ public class ObservationBean {
     private EntityManager entityManager;
     @EJB
     private SensorBean sensorBean;
+
     @EJB
     private OrderBean orderBean;
+
+    @EJB
+    private AlertBean alertBean;
 
 
     public boolean exists(long id) {
@@ -37,8 +40,20 @@ public class ObservationBean {
 
         find(observation.getId());
 
-        //send notification
-        WebsocketService.sendNotification("joao", "New observation created: " + value);
+        // Check if the value is out of range and create an alert if needed
+        if (!isValueInRange(value, sensor)) {
+            // Fetch the user associated with the order
+            User user = fetchUserFromOrder(order);
+
+            // Send WebSocket notification dynamically
+            if (user != null) {
+                WebsocketService.sendNotification(user.getUsername(), "Sensor value out of range: " + value);
+            }
+
+            // Create an alert
+            alertBean.create(user.getUsername(), "Sensor value out of range: " + value);
+        }
+
         return observation.getId();
     }
 
@@ -75,5 +90,37 @@ public class ObservationBean {
     public void delete(long id) throws MyEntityNotFoundException {
         Observation observation = find(id);
         entityManager.remove(observation);
+    }
+
+    private boolean isValueInRange(String value, Sensor sensor) {
+        // Implement your logic to check if the value is within the sensor's range
+        // For example, you can compare the value with min and max range values of the sensor.
+        // Replace the following lines with your specific logic.
+
+        if (sensor.getType().equals("Velocidade")) {
+            // Example logic for Humidade sensor
+            return Integer.parseInt(value) >= 5 && Integer.parseInt(value) <= 200;
+        } else if (sensor.getType().equals("Humidade")) {
+            // Example logic for Velocidade sensor
+            return Integer.parseInt(value) >= 40 && Integer.parseInt(value) <= 100;
+        } else if (sensor.getType().equals("Temperatura")) {
+            // Example logic for Temperatura sensor
+            return Integer.parseInt(value) >= -6 && Integer.parseInt(value) <= 50;
+        } else {
+            // Handle other sensor types if needed
+            return false;
+        }
+    }
+
+    private User fetchUserFromOrder(Order order) {
+        // Your logic to fetch the user associated with the order
+        // For example, check if the order has a customer or a warehouse operator
+        if (order.getClient() != null) {
+            return order.getClient();
+        } else if (order.getLineOperator() != null) {
+            return order.getLineOperator();
+        }
+
+        return null;
     }
 }
