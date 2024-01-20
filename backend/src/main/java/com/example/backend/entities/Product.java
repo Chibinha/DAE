@@ -129,17 +129,23 @@ public class Product implements Serializable {
 
     public void setInventoryItems(List<InventoryItem> inventoryItems) {
         this.inventoryItems = inventoryItems;
-        this.inStock = inventoryItems.size();
+        for (InventoryItem inventoryItem : inventoryItems) {
+            if (inventoryItem.getOrder() == null) {
+                this.inStock++;
+            }
+        }
     }
 
     public void addInventoryItem(InventoryItem inventoryItem) {
         this.inventoryItems.add(inventoryItem);
-        this.inStock = inventoryItems.size();
+        this.inStock++;
     }
 
     public void removeInventoryItem(InventoryItem inventoryItem) {
+        if (inventoryItem.getOrder() == null) {
+            this.inStock--;
+        }
         this.inventoryItems.remove(inventoryItem);
-        this.inStock = inventoryItems.size();
     }
 
     public long getInStock() {
@@ -148,6 +154,16 @@ public class Product implements Serializable {
 
     public void setInStock(long inStock) {
         this.inStock = inStock;
+    }
+
+    //add inStock
+    public void addToStock() {
+        this.inStock ++;
+    }
+
+    //remove inStock
+    public void removeFromStock() {
+        this.inStock --;
     }
 
     public Timestamp getCreationTimestamp() {

@@ -75,15 +75,28 @@ public class DTOConverter {
 
     // InventoryItem
     public InventoryItemDTO inventoryItemToDTO(InventoryItem inventoryItem) {
+        Product product = inventoryItem.getProduct();
+        Manufacturer manufacturer = product.getMaker();
+        Order order = inventoryItem.getOrder();
+
+        long orderId = (order == null) ? -1 : order.getId();
+        List<ProductPackage> productPackages = inventoryItem.getProductPackages();
+
         return new InventoryItemDTO(
             inventoryItem.getId(),
-            inventoryItem.getProduct().getId(),
-            inventoryItem.getProduct().getName(),
-            inventoryItem.getProduct().getMaker().getUsername(),
+            product.getId(),
+            product.getName(),
+            manufacturer.getUsername(),
+            orderId,
             inventoryItem.getStockTimestamp(),
-            inventoryItem.getProductPackages().stream().map(this::productPackageToDTO).collect(Collectors.toList())
+            productPackageToDTOList(productPackages),
+            (order != null) ? transportationPackageToDTOList(order.getPackages()) : null,
+            (order != null && !order.getPackages().isEmpty()) ? sensorToDTO(order.getPackages().iterator().next().getCurrentSensor()) : null,
+            (order != null && !order.getPackages().isEmpty() && order.getPackages().iterator().hasNext()) ?
+                observationToDTOList(order.getPackages().iterator().next().getCurrentSensor().getObservations()) : null
         );
     }
+
     public List<InventoryItemDTO> inventoryItemToDTOList(List<InventoryItem> inventoryItems) {
         return inventoryItems.stream().map(this::inventoryItemToDTO).collect(Collectors.toList());
     }

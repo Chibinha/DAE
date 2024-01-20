@@ -15,7 +15,12 @@ import java.util.stream.Collectors;
         @NamedQuery(
                 name = "getAllOrders",
                 query = "SELECT o FROM Order o ORDER BY o.id"
-        )
+        ),//getOrderSensors - get all sensors from an order
+    @NamedQuery(
+        name = "getOrderSensors",
+        query = "SELECT DISTINCT sensor FROM Order o JOIN o.packages p JOIN p.sensors sensor WHERE sensor.id = :sensorId ORDER BY o.id"
+    )
+
 })
 public class Order implements Serializable {
     @Id
@@ -43,7 +48,7 @@ public class Order implements Serializable {
     @NotNull
     public WarehouseOperator warehouseOperator;
 
-    @ManyToMany(mappedBy = "orders")
+    @ManyToMany(mappedBy = "orders", fetch = FetchType.EAGER)
     private List<TransportPackage> packages;
 
     @Temporal(TemporalType.TIMESTAMP)
