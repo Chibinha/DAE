@@ -104,6 +104,9 @@ public class ManufacturerService {
     @Path("/items")
     public List<InventoryItemDTO> getInventoryItems(@PathParam("username") String username) throws MyEntityNotFoundException {
         List<InventoryItem> inventoryItems = manufacturerBean.getAllInventoryItems(username);
+        if (inventoryItems == null || inventoryItems.isEmpty()) {
+            throw new MyEntityNotFoundException("Inventory Items not found for username: " + username);
+        }
         return dtoConverter.inventoryItemToDTOList(inventoryItems);
     }
 
@@ -111,6 +114,9 @@ public class ManufacturerService {
     @Path("/items/{productId}")
     public List<InventoryItemDTO> getInventoryItemsProduct(@PathParam("username") String username, @PathParam("productId") long productId) throws MyEntityNotFoundException {
         List<InventoryItem> inventoryItems = manufacturerBean.getInventoryItemsForProduct(username, productId);
+        if (inventoryItems == null || inventoryItems.isEmpty()) {
+            throw new MyEntityNotFoundException("Inventory Items not found for product ID: " + productId);
+        }
         return dtoConverter.inventoryItemToDTOList(inventoryItems);
     }
 
@@ -123,6 +129,9 @@ public class ManufacturerService {
     @Path("{username}/alerts")
     public Response getAlerts(@PathParam("username") String username) throws MyEntityNotFoundException {
         List<Alert> alerts = userBean.getAlerts(username);
+        if (alerts == null || alerts.isEmpty()) {
+            throw new MyEntityNotFoundException("Alerts not found for username: " + username);
+        }
         return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
     //#endregion
@@ -134,6 +143,9 @@ public class ManufacturerService {
     @Path("/packages")
     public Response getPackages(@PathParam("username") String username) throws MyEntityNotFoundException {
         List<ProductPackage> productPackages = manufacturerBean.getPackages(username);
+        if (productPackages == null || productPackages.isEmpty()) {
+            throw new MyEntityNotFoundException("Packages not found for username: " + username);
+        }
         return Response.ok(dtoConverter.productPackageToDTOList(productPackages)).build();
     }
     //#endregion
