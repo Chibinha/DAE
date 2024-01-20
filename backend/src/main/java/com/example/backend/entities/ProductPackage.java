@@ -14,7 +14,7 @@ import java.util.List;
     )
 })
 public class ProductPackage extends Package implements Serializable {
-    @ManyToMany(mappedBy = "productPackages", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "productPackages", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<InventoryItem> inventoryItems;
 
     public ProductPackage() {

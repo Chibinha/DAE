@@ -11,6 +11,8 @@ import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.security.Hasher;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.persistence.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
@@ -102,6 +104,7 @@ public class ManufacturerBean {
 
     //#region InventoryItems
     //createInventoryItemList
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createInventoryItemList(long productId, int amount, List<Long> packageIds) throws MyEntityNotFoundException {
         for (int i = 0; i < amount; i++) {
             inventoryItemBean.create(productId, packageIds);

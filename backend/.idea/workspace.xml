@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df7fb87e-4faf-4982-a0ca-2eea59da706c" name="Changes" comment="Only my table doesnt work...">
+    <list default="true" id="df7fb87e-4faf-4982-a0ca-2eea59da706c" name="Changes" comment="All tables with stuff :)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/InventoryItemBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/InventoryItemBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ManufacturerBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ManufacturerBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/InventoryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/InventoryItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/InventoryItem_ProductPackage.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/ProductPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/ProductPackage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -76,7 +76,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705759814987</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="All tables with stuff :)">
+      <option name="closed" value="true" />
+      <created>1705762050373</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1705762050373</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -85,6 +93,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update" />
     <MESSAGE value="Only my table doesnt work..." />
-    <option name="LAST_COMMIT_MESSAGE" value="Only my table doesnt work..." />
+    <MESSAGE value="All tables with stuff :)" />
+    <option name="LAST_COMMIT_MESSAGE" value="All tables with stuff :)" />
   </component>
 </project>

@@ -42,7 +42,7 @@ public class InventoryItem implements Serializable {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "productpackages_inventoryitems",
         joinColumns = @JoinColumn(name = "inventory_item_id"),
