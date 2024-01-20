@@ -84,7 +84,7 @@ public class OrderBean {
         return order.getId();
     }
 
-    public void update(int orderId, int packageId, int sensorId, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+    public void update(int orderId, long packageId, long sensorId, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
         find(orderId).setStatus(status);
         associateTransportationPackageToOrder(orderId, packageId);
         sensorBean.associateSensorToPackage(packageId, sensorId);

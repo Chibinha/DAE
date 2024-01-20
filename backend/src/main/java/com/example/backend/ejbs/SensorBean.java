@@ -3,6 +3,7 @@ package com.example.backend.ejbs;
 import com.example.backend.entities.Observation;
 import com.example.backend.entities.Package;
 import com.example.backend.entities.Sensor;
+import com.example.backend.entities.TransportPackage;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
@@ -77,7 +78,7 @@ public class SensorBean {
     public void associateSensorToPackage(long id, long sensorId) throws MyEntityNotFoundException {
         Package aPackage = packageBean.find(id);
         Sensor sensor = this.find(sensorId);
-        if(sensor.getCurrentPackage() != aPackage)
+        if(sensor.getCurrentPackage() != aPackage && aPackage.getCurrentSensor() != sensor)
         {
             aPackage.addSensor(sensor);
             sensor.addPackage(aPackage);

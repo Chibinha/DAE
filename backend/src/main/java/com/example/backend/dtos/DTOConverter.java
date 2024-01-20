@@ -155,8 +155,9 @@ public class DTOConverter {
             order.getLineOperator().getUsername(),
             order.getClient().getUsername(),
             order.getOrderTimestamp(),
-            physicalProductToDTOList(order.getPhysicalProducts())
-        );
+            physicalProductToDTOList(order.getPhysicalProducts()),
+            order.getCurrentPackage().getId(),
+            order.getCurrentPackage().getCurrentSensor().getId());
     }
     public List<OrderDTO> orderToDTOList(List<Order> orders) {
         return orders.stream().map(this::orderToDTO).collect(Collectors.toList());
