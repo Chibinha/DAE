@@ -90,7 +90,14 @@ public class InventoryItemBean {
     // Delete
     public void delete(long id) throws MyEntityNotFoundException {
         InventoryItem inventoryItem = find(id);
-        inventoryItem.getProduct().removeInventoryItem(inventoryItem);
+        Product product = productBean.find(inventoryItem.getProduct().getId());
+        Manufacturer manufacturer = manufacturerBean.find(inventoryItem.getMaker().getUsername());
+        List<ProductPackage> productPackages = inventoryItem.getProductPackages();
+
+        product.removeInventoryItem(inventoryItem);
+        manufacturer.removeInventoryItem(inventoryItem);
+        productPackages.forEach(productPackage -> productPackage.removeInventoryItem(inventoryItem));
+
         entityManager.remove(find(id));
     }
 }

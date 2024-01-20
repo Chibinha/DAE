@@ -96,4 +96,20 @@ public class ProductBean {
         }
         return null;
     }
+
+    //get List<InventoryItem> without associated order
+    public List<InventoryItem> getAvailableInventoryItems(long productId) throws MyEntityNotFoundException {
+        Product product = find(productId);
+        if (product != null) {
+            Hibernate.initialize(product.getInventoryItems());
+            List<InventoryItem> availableStock = product.getInventoryItems();
+            for (int i = 0; i < availableStock.size(); i++) {
+                if (availableStock.get(i).getOrder() != null) {
+                    availableStock.remove(i);
+                }
+            }
+            return availableStock;
+        }
+        return null;
+    }
 }

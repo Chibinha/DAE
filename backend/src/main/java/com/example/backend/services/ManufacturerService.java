@@ -11,6 +11,7 @@ import com.example.backend.entities.Product;
 import com.example.backend.entities.ProductPackage;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.EJB;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -20,6 +21,7 @@ import java.util.List;
 @Path("manufacturer/{username}")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
+@Transactional
 public class ManufacturerService {
     @EJB
     private ManufacturerBean manufacturerBean;
