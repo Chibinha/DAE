@@ -1,3 +1,4 @@
+
 package com.example.backend.ejbs;
 
 import com.example.backend.entities.*;
@@ -10,6 +11,7 @@ import com.example.backend.exceptions.MyEntityExistsException;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.exceptions.NotAuthorizedException;
 import com.example.backend.security.Hasher;
+import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
@@ -24,6 +26,10 @@ public class WarehouseOperatorBean {
 
     @PersistenceContext
     private EntityManager entityManager;
+    @EJB
+    private OrderBean orderBean;
+    @EJB
+    private AlertBean alertBean;
     private Hasher hasher;
 
     public WarehouseOperator find(String username) throws MyEntityNotFoundException {
@@ -115,5 +121,9 @@ public class WarehouseOperatorBean {
     public List<Observation> getLineOperatorOrderObservations(String username, Long index) throws MyEntityNotFoundException {
         find(username);
         return entityManager.find(Order.class, index).getObservations();
+    }
+
+    public void updateOrder(int index, String status) throws MyConstraintViolationException, MyEntityNotFoundException, MyEntityExistsException {
+        orderBean.update(index,status);
     }
 }

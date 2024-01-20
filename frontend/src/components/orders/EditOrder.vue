@@ -13,6 +13,10 @@ const packageStore = usePackageStore()
 const currentPackage = ref([])
 const currentSensor = ref([])
 
+const emit = defineEmits(['save'])
+
+const editingOrder = ref(orderStore.order.value)
+
 const props = defineProps({
 })
 
@@ -23,6 +27,8 @@ const loadPackages = async () => {
     console.log(error)
   }
 }
+
+
 
 const loadSensors = async () => {
   try {
@@ -36,7 +42,7 @@ onMounted(async () => {
   await userStore.restoreToken();
   loadPackages()
   loadSensors()
-  
+
 })
 
 function convertPackageType(type)
@@ -49,6 +55,13 @@ function convertPackageType(type)
         return "Terciária"
 
 }
+
+
+
+const save = () => {
+    emit('save', editingOrder.value)
+}
+
 
 </script>
 
@@ -74,8 +87,8 @@ function convertPackageType(type)
 
         <!--PACKAGE-->
         <div class="mb-3">
-            <label for="inputStatus" class="form-label">Embalagem</label>
-            <select class="form-select pe-2" id="input" :disabled="orderStore.order.status != 'Criada'">
+            <label for="inputStatus" class="form-label" >Embalagem</label>
+            <select class="form-select pe-2" id="input" :disabled="orderStore.order.status != 'Criada'" v-model="editingOrder.status">
                 <option v-if="currentPackage != null"  selected>Selecione uma embalagem</option> 
                 <option v-for="packageOption in packageStore.packages" :key="packageOption.id">{{ packageOption.material }} ({{ convertPackageType(packageOption.packageType) }})</option>
             </select>

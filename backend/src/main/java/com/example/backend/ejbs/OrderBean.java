@@ -84,11 +84,10 @@ public class OrderBean {
         return order.getId();
     }
 
-    public void update(int orderId, int packageId, int sensorId, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
-        Order order = find(orderId);
-        associateTransportationPackageToOrder(order.getId(), packageId);
-        associateSensorToPackage(packageId, sensorId);
-        order.setStatus(status);
+    public void update(int orderId, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+        find(orderId).setStatus(status);
+        //associateTransportationPackageToOrder(order.getId(), packageId);
+        //associateSensorToPackage(packageId, sensorId);
     }
 
     public List<Order> getAll() {

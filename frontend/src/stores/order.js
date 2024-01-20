@@ -87,6 +87,15 @@ export const useOrderStore = defineStore('order', () => {
         }
     }
 
+    async function updateOrder(updateOrder) {
+        // Note that when an error occours, the exception should be
+        // catch by the function that called the updateProject
+        const response = await axios.put(`${userType}/${userStore.user.username}/orders/` + id, updateOrder)
+        updateTransactionOnArray(response.data)
+        //socket.emit('updateTransaction', response.data.data)
+        return response.data
+    }
+
     function formatTimestamp(timestamp) 
     {
         const date = new Date(timestamp);
@@ -99,6 +108,7 @@ export const useOrderStore = defineStore('order', () => {
         loadOrder,
         loadProducts,
         loadObservations,
+        updateOrder,
         formatTimestamp,
         orders,
         order,
