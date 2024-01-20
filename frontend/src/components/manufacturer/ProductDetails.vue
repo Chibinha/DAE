@@ -29,6 +29,12 @@ const selectedProductPackageIds = ref([]);
 
 const selectedPhysicalProductId = ref(null);
 
+const expandedItemId = ref(null);
+
+const toggleDetails = (productId) => {
+    expandedItemId.value = (expandedItemId.value === productId) ? null : productId;
+};
+
 const fetchPhysicalProducts = async () => {
     try {
         const response = await axios.get(`manufacturer/${userStore.user.username}/items/${props.productId}`);
@@ -38,7 +44,7 @@ const fetchPhysicalProducts = async () => {
             physicalProduct.stockTimestamp = formatTimestamp(physicalProduct.stockTimestamp);
         });
         hasPhysicalProducts.value = true;
-        
+
     } catch (error) {
         hasPhysicalProducts.value = false;
         console.error("Error fetching physical products:", error);
@@ -196,8 +202,8 @@ const getProductPackageName = (packageId) => {
                                 <th v-if="!onlyDetails">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-for="physical in physicalProducts" :key="physical.id">
+                        <tbody v-for="physical in physicalProducts" :key="physical.id" @click="toggleDetails(physical.id)">
+                            <tr>
                                 <td>{{ physical.id }}</td>
                                 <td>{{ physical.productName }}</td>
                                 <td>{{ physical.productId }}</td>
@@ -210,6 +216,33 @@ const getProductPackageName = (packageId) => {
                                 <td v-if="!onlyDetails">
                                     <button type="button" class="btn btn-danger"
                                         @click="deletePhysicalProduct(physical.id)">Delete item</button>
+                                </td>
+                            </tr>
+                            <tr v-if="expandedItemId === physical.id" >
+                                <td :colspan="physical.length + 1">
+                                    <h5>Observations</h5>
+                                    <p v-if="physical.observations === null">There is no sensor information for this Item.</p>
+
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Sensor Id</th>
+                                                <th>Observation Type</th>
+                                                <th>Observation Value</th>
+                                                <th>Observation Unit</th>
+                                                <th>Observation Timestamp</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-for="observation in physical.observations" :key="observation.id">
+                                            <tr>
+                                                <td>{{ observation.sensorId }}</td>
+                                                <td>{{ observation.type }}</td>
+                                                <td>{{ observation.value }}</td>
+                                                <td>{{ observation.unit }}</td>
+                                                <td>{{ formatTimestamp(observation.timestamp) }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </td>
                             </tr>
                         </tbody>

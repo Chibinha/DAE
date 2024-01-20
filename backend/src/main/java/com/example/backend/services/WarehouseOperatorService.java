@@ -1,12 +1,7 @@
 package com.example.backend.services;
 
 import com.example.backend.dtos.*;
-import com.example.backend.ejbs.UserBean;
 import com.example.backend.ejbs.WarehouseOperatorBean;
-import com.example.backend.ejbs.OrderBean;
-import com.example.backend.entities.Alert;
-import com.example.backend.entities.Order;
-import com.example.backend.entities.TransportPackage;
 import com.example.backend.entities.WarehouseOperator;
 import com.example.backend.exceptions.*;
 import com.example.backend.exceptions.NotAuthorizedException;
@@ -17,7 +12,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Path("warehouseoperator") // relative url web path for this service

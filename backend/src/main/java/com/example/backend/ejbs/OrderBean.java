@@ -63,7 +63,7 @@ public class OrderBean {
             Integer quantity = entry.getValue();
 
             // Retrieve InventoryItems for the product ID
-            List<InventoryItem> productInventoryItems = productBean.getListInventoryItems(productId);
+            List<InventoryItem> productInventoryItems = productBean.getAvailableInventoryItems(productId);
 
             if (productInventoryItems == null || productInventoryItems.isEmpty()) {
                 throw new MyEntityNotFoundException("Inventory Items not found for product ID: " + productId);
@@ -74,6 +74,7 @@ public class OrderBean {
                 InventoryItem productToAdd = productInventoryItems.get(i);
                 inventoryItems.add(productToAdd);
                 productToAdd.setOrder(order);
+                productToAdd.getProduct().removeFromStock();
                 totalPrice += productToAdd.getProduct().getPrice();
             }
         }

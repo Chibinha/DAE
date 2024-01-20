@@ -58,4 +58,20 @@ public class TransportPackage extends Package implements Serializable {
         if(order!= null)
             this.orders.remove(order);
     }
+
+    //get sensors
+    public List<Sensor> getSensors() {
+        //where orderId = sensor.order.orderid
+        List<Sensor> sensors = this.getSensors();
+        List<Order> orders = this.getOrders();
+        List<Sensor> orderSensors = new ArrayList<>();
+
+        for (int i = 0; i < orders.size(); i++) {
+
+            if (orders.get(i).getId() == this.getCurrentOrder().getId()) {
+                orderSensors.add(sensors.get(i));
+            }
+        }
+        return orderSensors;
+    }
 }
