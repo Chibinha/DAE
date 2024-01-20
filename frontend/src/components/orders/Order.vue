@@ -49,17 +49,13 @@ onMounted(async () => {
   loadObservations()
 })
 
-const formatTimestamp = (timestamp) => {
-  const date = new Date(timestamp);
-  return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
-};
 </script>
 
 <template>
   <form class="row g-3">
     <div class="d-flex justify-content-between align-items-end">
     <h3 class="mt-5 mb-3">Encomenda #{{ orderStore.order.id }}</h3>
-    <router-link @save="save" v-show="userStore.user?.role == 'WarehouseOperator'" :class="{ active: $route.name === 'EditOrder' }" :to="{ name: 'EditOrder', props: { order: orderStore.order } } ">
+    <router-link v-show="userStore.user?.role == 'WarehouseOperator'" :class="{ active: $route.name === 'EditOrder' }" :to="{ name: 'EditOrder', props: { order: orderStore.order } } ">
         <button class="btn btn-primary align-self-end">
             Editar Encomenda
         </button>
@@ -76,7 +72,7 @@ const formatTimestamp = (timestamp) => {
         </tr>
       </thead>
       <tbody>
-        <td>{{ formatTimestamp(orderStore.order.orderTimestamp) }}</td>
+        <td>{{ orderStore.order.orderTimestamp }}</td>
         <td>{{ orderStore.order.totalPrice }}€</td>
         <td>{{ orderStore.order.status }}</td>
       </tbody>
@@ -126,7 +122,7 @@ const formatTimestamp = (timestamp) => {
       </thead>
       <tbody>
         <tr v-for="observation in orderStore.observations" :key="observation.id">
-          <td>{{ formatTimestamp(observation.timestamp) }}</td>
+          <td>{{ observation.timestamp }}</td>
           <td>O sensor {{ observation.sensorId }} que mede {{ observation.type }} registou um/uma {{ observation.type }}
             de {{ observation.value }}{{ observation.unit }} </td>
           <td class="text-end">

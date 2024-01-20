@@ -29,6 +29,18 @@ public class TransportPackageService {
         return dtoConverter.transportationPackageToDTOList(transportPackageBean.getAll());
     }
 
+    @GET
+    @Path("{id}")
+    public Response getTransportationPackageDetails(@PathParam("id") long id) throws MyEntityNotFoundException {
+        TransportPackage transportationPackage = transportPackageBean.find(id);
+        if (transportationPackage != null) {
+            return Response.ok(dtoConverter.transportationPackageToDTO(transportationPackage)).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND)
+            .entity("ERROR_FINDING_TRANSPORTATION_PACKAGE")
+            .build();
+    }
+
     @POST
     @Path("/")
     public Response createNewTransportationPackage(TransportPackageDTO transportationPackageDTO) throws  MyEntityNotFoundException {
@@ -39,15 +51,18 @@ public class TransportPackageService {
         return Response.status(Response.Status.CREATED).entity(dtoConverter.transportationPackageToDTO(newTransportationPackage)).build();
     }
 
-    @GET
+    @PUT
     @Path("{id}")
-    public Response getTransportationPackageDetails(@PathParam("id") long id) throws MyEntityNotFoundException {
+    public Response updateTransportationPackage(@PathParam("id") long id, TransportPackageDTO dto) throws  MyEntityNotFoundException {
         TransportPackage transportationPackage = transportPackageBean.find(id);
-        if (transportationPackage != null) {
-            return Response.ok(dtoConverter.transportationPackageToDTO(transportationPackage)).build();
+        long index = transportPackageBean.update(id, dto.getType(), dto.getMaterial());
+        if (index < 1) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Transport Package with id [" + id + "] not updated.").build();
         }
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("ERROR_FINDING_TRANSPORTATION_PACKAGE")
-                .build();
+        return Response.status(Response.Status.CREATED).entity("Transport Package with id [" + id + "] updated.").build();
     }
+
+
+
+
 }

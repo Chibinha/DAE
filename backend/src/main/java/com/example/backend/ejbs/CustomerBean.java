@@ -91,7 +91,7 @@ public class CustomerBean {
     public Customer getClientOrders(String username) throws MyEntityNotFoundException {
         Customer customer = find(username);
         Hibernate.initialize(customer.getOrders());
-        return this.find(username);
+        return customer;
     }
 
     public Order getClientOrder(String username, Long index) throws MyEntityNotFoundException, NotAuthorizedException {

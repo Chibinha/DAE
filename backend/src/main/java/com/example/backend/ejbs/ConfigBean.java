@@ -73,26 +73,21 @@ public class ConfigBean {
         String[] lastNames = {"Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller", "Wilson"};
         Random random = new Random();
         int randomFirstNameIndex = random.nextInt(firstNames.length);
-        int randomMiddleNameIndex = random.nextInt(lastNames.length);
         int randomLastNameIndex = random.nextInt(lastNames.length);
         String randomFirstName = firstNames[randomFirstNameIndex];
-        String randomMiddleName = lastNames[randomMiddleNameIndex];
         String randomLastName = lastNames[randomLastNameIndex];
-        String fullName = randomFirstName + " " + randomMiddleName + " " + randomLastName;
+        String fullName = randomFirstName + " " + randomLastName;
         return fullName;
     }
 
 
     private void update_Orders() {
         try {
-            orderBean.update(1, 1, 2, "Preparar");
-            orderBean.update(2, 2, 1, "Criada");
-            orderBean.update(3, 3, 3, "Recebida");
-            orderBean.update(4, 4, 4, "Preparar");
-            orderBean.update(5, 5, 5, "Criada");
-            orderBean.update(6, 6, 6, "Recebida");
-            orderBean.update(7, 7, 7, "Preparar");
-            orderBean.update(8, 8, 8, "Criada");
+            Random random = new Random();
+            orderBean.update(random.nextInt(4)+1, 1, 2, "Preparada");
+            orderBean.update(random.nextInt(4)+1, 3, 3, "Recebida");
+            orderBean.update(random.nextInt(4)+1, 4, 4, "Em transporte");
+            orderBean.update(random.nextInt(4)+1, 5, 5, "Preparada");
         } catch (Exception e) {
             logger.severe("Order Updates: " + e.getClass().getCanonicalName() + e.getMessage());
         }
@@ -101,22 +96,23 @@ public class ConfigBean {
 
     private void populate_Observations() {
         try {
-            observationBean.create("20", 1, 1);
-            observationBean.create("10", 1, 1);
-            observationBean.create("40", 2, 2);
-            observationBean.create("342", 2, 2);
-            observationBean.create("23", 3, 3);
-            observationBean.create("45", 3, 3);
-            observationBean.create("23", 4, 4);
-            observationBean.create("45", 4, 4);
-            observationBean.create("23", 5, 5);
-            observationBean.create("45", 5, 5);
-            observationBean.create("23", 6, 6);
-            observationBean.create("45", 6, 6);
-            observationBean.create("23", 7, 7);
-            observationBean.create("45", 7, 7);
-            observationBean.create("23", 8, 8);
-            observationBean.create("45", 8, 8);
+            Random random = new Random();
+            observationBean.create("20", 1, random.nextInt(4)+1);
+            observationBean.create("10", 1, random.nextInt(4)+1);
+            observationBean.create("40", 2, random.nextInt(4)+1);
+            observationBean.create("342", 2,random.nextInt(4)+1);
+            observationBean.create("23", 3, random.nextInt(4)+1);
+            observationBean.create("45", 3, random.nextInt(4)+1);
+            observationBean.create("23", 4, random.nextInt(4)+1);
+            observationBean.create("45", 4, random.nextInt(4)+1);
+            observationBean.create("23", 5, random.nextInt(4)+1);
+            observationBean.create("45", 5, random.nextInt(4)+1);
+            observationBean.create("23", 6, random.nextInt(4)+1);
+            observationBean.create("45", 6, random.nextInt(4)+1);
+            observationBean.create("23", 7, random.nextInt(4)+1);
+            observationBean.create("45", 7, random.nextInt(4)+1);
+            observationBean.create("23", 8, random.nextInt(4)+1);
+            observationBean.create("45", 8, random.nextInt(4)+1);
         } catch (Exception e) {
             logger.severe("Observations: " + e.getClass().getCanonicalName() + e.getMessage());
         }
@@ -127,19 +123,22 @@ public class ConfigBean {
         try {
             HashMap<Long, Integer> order1 = new HashMap<Long, Integer>();
             HashMap<Long, Integer> order2 = new HashMap<Long, Integer>();
+            HashMap<Long, Integer> order3 = new HashMap<Long, Integer>();
+            HashMap<Long, Integer> order4 = new HashMap<Long, Integer>();
             order1.put(1L, 1);
-            order1.put(2L, 1);
+            order1.put(5L, 4);
             order1.put(3L, 1);
-            order2.put(1L, 1);
-            order2.put(3L, 1);
+            order2.put(4L, 2);
+            order2.put(2L, 1);
+            order3.put(7L, 1);
+            order3.put(9L, 2);
+            order4.put(8L, 1);
+            order4.put(6L, 3);
+            order4.put(10L, 1);
             orderBean.create("joao", order1);
-            orderBean.create("bruno", order1);
-            orderBean.create("joao", order2);
             orderBean.create("bruno", order2);
-            orderBean.create("joao", order1);
-            orderBean.create("bruno", order1);
-            orderBean.create("joao", order2);
-            orderBean.create("bruno", order2);
+            orderBean.create("joao", order3);
+            orderBean.create("bruno", order4);
         } catch (Exception e) {
             logger.severe("Orders: " + e.getClass().getCanonicalName() + e.getMessage());
         }
@@ -152,17 +151,18 @@ public class ConfigBean {
             productPackageIds.add(1L);
             productPackageIds.add(2L);
             productPackageIds.add(3L);
+            Random random = new Random();
 
-            manufacturerBean.createInventoryItemList(1, 10, productPackageIds);
-            manufacturerBean.createInventoryItemList(2, 10, productPackageIds);
-            manufacturerBean.createInventoryItemList(3, 10, productPackageIds);
-            manufacturerBean.createInventoryItemList(4, 10, productPackageIds);
-            manufacturerBean.createInventoryItemList(5, 10, productPackageIds);
-            manufacturerBean.createInventoryItemList(6, 10, productPackageIds);
-            manufacturerBean.createInventoryItemList(7, 10, productPackageIds);
-            manufacturerBean.createInventoryItemList(8, 10, productPackageIds);
-            manufacturerBean.createInventoryItemList(9, 10, productPackageIds);
-            manufacturerBean.createInventoryItemList(10, 10, productPackageIds);
+            manufacturerBean.createInventoryItemList(1, random.nextInt(15) + 1, productPackageIds);
+            manufacturerBean.createInventoryItemList(2, random.nextInt(15) + 1, productPackageIds);
+            manufacturerBean.createInventoryItemList(3, random.nextInt(15) + 1, productPackageIds);
+            manufacturerBean.createInventoryItemList(4, random.nextInt(15) + 1, productPackageIds);
+            manufacturerBean.createInventoryItemList(5, random.nextInt(15) + 1, productPackageIds);
+            manufacturerBean.createInventoryItemList(6, random.nextInt(15) + 1, productPackageIds);
+            manufacturerBean.createInventoryItemList(7, random.nextInt(15) + 1, productPackageIds);
+            manufacturerBean.createInventoryItemList(8, random.nextInt(15) + 1, productPackageIds);
+            manufacturerBean.createInventoryItemList(9, random.nextInt(15) + 1, productPackageIds);
+            manufacturerBean.createInventoryItemList(10,random.nextInt(15) + 1, productPackageIds);
 
         } catch (Exception e) {
             logger.severe("InventoryItems: " + e.getClass().getCanonicalName() + e.getMessage());
@@ -172,17 +172,17 @@ public class ConfigBean {
 
     private void populate_ProductPackages() {
         try {
-            productPackageBean.create("1", "Papel");
-            productPackageBean.create("1", "Plastico");
-            productPackageBean.create("3", "Metal");
-            productPackageBean.create("4", "Madeira");
-            productPackageBean.create("5", "Vidro");
-            productPackageBean.create("6", "Cartão");
-            productPackageBean.create("7", "Tecido");
-            productPackageBean.create("8", "Cerâmica");
-            productPackageBean.create("9", "Lata");
-            productPackageBean.create("10", "Caixa");
-            productPackageBean.create("11", "Saco");
+            productPackageBean.create("Primária", "Papel");
+            productPackageBean.create("Secundária", "Plastico");
+            productPackageBean.create("Terciária", "Metal");
+            productPackageBean.create("Primária", "Madeira");
+            productPackageBean.create("Secundária", "Vidro");
+            productPackageBean.create("Primária", "Cartão");
+            productPackageBean.create("Secundária", "Tecido");
+            productPackageBean.create("Primária", "Cerâmica");
+            productPackageBean.create("Secundária", "Lata");
+            productPackageBean.create("Primária", "Caixa");
+            productPackageBean.create("Terciária", "Saco");
         } catch (Exception e) {
             logger.severe("ProductPackages: " + e.getClass().getCanonicalName() + e.getMessage());
         }
@@ -191,16 +191,16 @@ public class ConfigBean {
 
     private void populate_TransportPackages() {
         try {
-            transportPackageBean.create("1", "Papel");
-            transportPackageBean.create("1", "Plastico");
-            transportPackageBean.create("3", "Metal");
-            transportPackageBean.create("4", "Madeira");
-            transportPackageBean.create("5", "Vidro");
-            transportPackageBean.create("6", "Cartão");
-            transportPackageBean.create("7", "Tecido");
-            transportPackageBean.create("8", "Cerâmica");
-            transportPackageBean.create("9", "Lata");
-            transportPackageBean.create("10", "Caixa");
+            transportPackageBean.create("Primária", "Papel");
+            transportPackageBean.create("Primária", "Plastico");
+            transportPackageBean.create("Secundária", "Metal");
+            transportPackageBean.create("Primária", "Madeira");
+            transportPackageBean.create("Secundária", "Vidro");
+            transportPackageBean.create("Primária", "Cartão");
+            transportPackageBean.create("Terciária", "Tecido");
+            transportPackageBean.create("Primária", "Cerâmica");
+            transportPackageBean.create("Terciária", "Lata");
+            transportPackageBean.create("Secundária", "Caixa");
         } catch (Exception e) {
             logger.severe("TransportPackages: " + e.getClass().getCanonicalName() + e.getMessage());
         }
@@ -249,7 +249,7 @@ public class ConfigBean {
             for (int i = 1; i <= 4; i++) {
                 String randomName = generateRandomFullName();
                 warehouseOperatorBean.create(
-                    randomName,
+                    "operator" + i,
                     "123",
                     randomName,
                     "operator" + i + "@mail.pt"
@@ -266,7 +266,8 @@ public class ConfigBean {
             customerBean.create("joao", "123", "joao", "joao@mail.com");
             customerBean.create("bruno", "123", "bruno", "bruno@mail.com");
             for (int i = 1; i <= 10; i++) {
-                customerBean.create("customer" + i, "123", "customer" + i, "customer" + i + "@mail.pt");
+                String randomName = generateRandomFullName();
+                customerBean.create("customer" + i, "123", randomName, "customer" + i + "@mail.pt");
             }
         } catch (Exception e) {
             logger.severe("Customers: " + e.getClass().getCanonicalName() + e.getMessage());
@@ -280,11 +281,13 @@ public class ConfigBean {
             manufacturerBean.create("maker2", "123", "maker2", "maker2@mail.pt");
             manufacturerBean.create("maker3", "123", "maker3", "maker3@mail.pt");
             for (int i = 4; i <= 10; i++) {
-                manufacturerBean.create("maker" + i, "123", "maker" + i, "maker" + i + "@mail.pt");
+                String randomName = generateRandomFullName();
+                manufacturerBean.create("maker" + i, "123", randomName, "maker" + i + "@mail.pt");
             }
 
             for (int i = 1; i <= 10; i++) {
-                manufacturerBean.create("manufacturer" + i, "123", "manufacturer" + i, "manufacturer" + i + "@mail.pt");
+                String randomName = generateRandomFullName();
+                manufacturerBean.create("manufacturer" + i, "123", randomName, "manufacturer" + i + "@mail.pt");
             }
         } catch (Exception e) {
             logger.severe("Manufacturers: " + e.getClass().getCanonicalName() + e.getMessage());

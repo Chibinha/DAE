@@ -16,7 +16,7 @@ import java.util.List;
 @Path("/sensors")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-public class SensorResource {
+public class SensorService {
 
     @EJB
     private SensorBean sensorBean;

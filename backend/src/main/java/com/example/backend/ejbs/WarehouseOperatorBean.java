@@ -93,7 +93,7 @@ public class WarehouseOperatorBean {
     public WarehouseOperator getLineOperatorOrders(String username) throws MyEntityNotFoundException {
         WarehouseOperator warehouseOperator = find(username);
         Hibernate.initialize(warehouseOperator.getOrders());
-        return this.find(username);
+        return warehouseOperator;
     }
 
     public Order getLineOperatorOrder(String username, Long index) throws MyEntityNotFoundException, NotAuthorizedException {
