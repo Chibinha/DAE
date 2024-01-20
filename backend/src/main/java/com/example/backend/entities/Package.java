@@ -77,10 +77,12 @@ public class Package implements Serializable {
     }
 
     public Sensor getCurrentSensor() {
-        if(!sensors.isEmpty()) {
+        if(!sensors.isEmpty() && sensors.get(sensors.size() - 1).getCurrentPackage().getId() == this.getId()) {
             return sensors.get(sensors.size() - 1);
         }
-        return null;
+        Sensor empty = new Sensor();
+        empty.setId(-1);
+        return empty;
     }
 
     public List<Observation> getAllObservations() {

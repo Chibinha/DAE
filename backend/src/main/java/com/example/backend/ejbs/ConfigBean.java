@@ -107,12 +107,12 @@ public class ConfigBean {
             //#endregion
 
             //#region Observations
-            observationBean.create("20", 1);
-            observationBean.create("10",  1);
-            observationBean.create("40",  2);
-            observationBean.create("342",  2);
-            observationBean.create("23",  3);
-            observationBean.create("45",  3);
+            observationBean.create("20", 1, 1);
+            observationBean.create("10",  1,2);
+            observationBean.create("40",  2,3);
+            observationBean.create("342",  2,3);
+            observationBean.create("23",  3,3);
+            observationBean.create("45",  3,1);
 
             //#endregion
 
@@ -121,9 +121,9 @@ public class ConfigBean {
             alertBean.create("bruno", "Temperatura elevada");
             //#endregion
 
-            orderBean.update(3, "Preparar");
-            orderBean.update(2, "Criada");
-            orderBean.update(1, "Recebida");
+            orderBean.update(3,2,1, "Preparar");
+            orderBean.update(2,1,3, "Criada");
+            orderBean.update(1, 3,2, "Recebida");
 
         } catch (Exception e) {
             logger.severe(e.getClass().getCanonicalName() + e.getMessage());

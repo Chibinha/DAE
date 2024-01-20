@@ -123,7 +123,7 @@ public class WarehouseOperatorBean {
         return entityManager.find(Order.class, index).getObservations();
     }
 
-    public void updateOrder(int index, String status) throws MyConstraintViolationException, MyEntityNotFoundException, MyEntityExistsException {
-        orderBean.update(index,status);
+    public void updateOrder(int index,int packageId, int sensorId, String status) throws MyConstraintViolationException, MyEntityNotFoundException, MyEntityExistsException {
+        orderBean.update(index,packageId, sensorId, status);
     }
 }

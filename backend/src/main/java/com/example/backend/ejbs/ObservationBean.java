@@ -29,9 +29,10 @@ public class ObservationBean {
 
     // CRUD
     // Create
-    public long create(String value, long sensorId) throws MyEntityNotFoundException {
+    public long create(String value, long sensorId, long orderId) throws MyEntityNotFoundException {
         Sensor sensor = sensorBean.find(sensorId);
-        Observation observation = new Observation(value, sensor);
+        Order order = orderBean.find(orderId);
+        Observation observation = new Observation(value, sensor, order);
         entityManager.persist(observation);
 
         find(observation.getId());
