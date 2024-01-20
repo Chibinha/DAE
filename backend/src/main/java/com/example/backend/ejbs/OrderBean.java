@@ -72,14 +72,17 @@ public class OrderBean {
             // Add InventoryItems to the list
             for (int i = 0; i < quantity && i < productInventoryItems.size(); i++) {
                 InventoryItem productToAdd = productInventoryItems.get(i);
-                inventoryItems.add(productToAdd);
                 productToAdd.setOrder(order);
+                inventoryItems.add(productToAdd);
                 productToAdd.getProduct().removeFromStock();
                 totalPrice += productToAdd.getProduct().getPrice();
             }
         }
         order.setInventoryItems(inventoryItems);
         order.setTotalPrice(totalPrice);
+        //productToAdd.setOrder(order);
+
+
         entityManager.persist(order);
         return order.getId();
     }
