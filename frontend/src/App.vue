@@ -103,14 +103,6 @@ onBeforeMount(async () => {
               </router-link>
             </li>
 
-            <li v-show="userStore.user?.role == 'Customer' " class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'cart' }" :to="{ name: 'cart' }"
-                @click="clickMenuOption">
-                <i class="bi bi-circle"></i>
-                Cart
-              </router-link>
-            </li>
-
             <li v-show="userStore.user?.role == 'Admin'" class="nav-item">
               <router-link class="nav-link" :class="{ active: $route.name === 'productCRUD' }" :to="{ name: 'productCRUD' }"
                 @click="clickMenuOption">
