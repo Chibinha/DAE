@@ -3,10 +3,7 @@ package com.example.backend.ejbs;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Singleton
@@ -69,6 +66,20 @@ public class ConfigBean {
         populate_Observations();
 
         update_Orders();
+    }
+
+    public static String generateRandomFullName() {
+        String[] firstNames = {"John", "Alice", "Bob", "Eva", "Michael", "Sophia", "David", "Emma"};
+        String[] lastNames = {"Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller", "Wilson"};
+        Random random = new Random();
+        int randomFirstNameIndex = random.nextInt(firstNames.length);
+        int randomMiddleNameIndex = random.nextInt(lastNames.length);
+        int randomLastNameIndex = random.nextInt(lastNames.length);
+        String randomFirstName = firstNames[randomFirstNameIndex];
+        String randomMiddleName = lastNames[randomMiddleNameIndex];
+        String randomLastName = lastNames[randomLastNameIndex];
+        String fullName = randomFirstName + " " + randomMiddleName + " " + randomLastName;
+        return fullName;
     }
 
 
@@ -235,8 +246,14 @@ public class ConfigBean {
         try {
             warehouseOperatorBean.create("diogo", "123", "diogo", "diogo@mail.com");
             warehouseOperatorBean.create("marco", "123", "MARCO", "marco@mail.com");
-            for (int i = 1; i <= 10; i++) {
-                warehouseOperatorBean.create("warehouseOperator" + i, "123", "warehouseOperator" + i, "warehouseOperator" + i + "@mail.pt");
+            for (int i = 1; i <= 4; i++) {
+                String randomName = generateRandomFullName();
+                warehouseOperatorBean.create(
+                    randomName,
+                    "123",
+                    randomName,
+                    "operator" + i + "@mail.pt"
+                );
             }
         } catch (Exception e) {
             logger.severe("WarehouseOperators: " + e.getClass().getCanonicalName() + e.getMessage());
