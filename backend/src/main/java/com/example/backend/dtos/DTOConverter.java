@@ -97,7 +97,7 @@ public class DTOConverter {
                 sensor.getName(),
                 sensor.getType(),
                 sensor.getUnit(),
-                sensor.getCurrentPackage().getId());
+                sensor.getCurrentPackage());
     }
     public List<SensorDTO> sensorToDTOList(List<Sensor> sensors) {
         return sensors.stream().map(this::sensorToDTO).collect(Collectors.toList());
@@ -112,7 +112,7 @@ public class DTOConverter {
             observation.getSensor().getUnit(),
             observation.getTimestamp(),
             observation.getSensor().getName(),
-            observation.getSensor().getCurrentPackage().getId());
+            observation.getSensor().getCurrentPackage());
     }
     public List<ObservationDTO> observationToDTOList(List<Observation> observations) {
         return observations.stream().map(this::observationToDTO).collect(Collectors.toList());
@@ -126,7 +126,7 @@ public class DTOConverter {
                 transportPackage.getId(),
                 transportPackage.getType(),
                 transportPackage.getMaterial(),
-                transportPackage.getCurrentOrder().getId()
+                transportPackage.getCurrentOrder()
         );
     }
     public List<TransportPackageDTO> transportationPackageToDTOList(List<TransportPackage> transportPackages) {
@@ -157,8 +157,8 @@ public class DTOConverter {
             order.getClient().getUsername(),
             order.getOrderTimestamp(),
             inventoryItemToDTOList(order.getInventoryItems()),
-            order.getCurrentPackage().getId(),
-            order.getCurrentPackage().getCurrentSensor().getId());
+            order.getCurrentPackage(),
+            order.getCurrentPackage());
     }
     public List<OrderDTO> orderToDTOList(List<Order> orders) {
         return orders.stream().map(this::orderToDTO).collect(Collectors.toList());
