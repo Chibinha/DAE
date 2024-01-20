@@ -37,11 +37,31 @@ public class Manufacturer extends User {
         this.products = products;
     }
 
-    public List<InventoryItem> getPhysicalProducts() {
+    public List<InventoryItem> getInventoryItems() {
         return inventoryItems;
     }
 
-    public void setPhysicalProducts(List<InventoryItem> inventoryItems) {
+    public void setInventoryItems(List<InventoryItem> inventoryItems) {
         this.inventoryItems = inventoryItems;
+    }
+
+    public void addProduct(Product product) {
+        if (product != null)
+            this.products.add(product);
+    }
+
+    public void removeProduct(Product product) {
+        if (product != null)
+            this.products.remove(product);
+    }
+
+    public void addInventoryItem(InventoryItem inventoryItem) {
+        if (inventoryItem != null)
+            this.inventoryItems.add(inventoryItem);
+    }
+
+    public void removeInventoryItem(InventoryItem inventoryItem) {
+        if (inventoryItem != null)
+            this.inventoryItems.remove(inventoryItem);
     }
 }

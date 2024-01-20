@@ -1,6 +1,8 @@
 package com.example.backend.ejbs;
 
+import com.example.backend.dtos.InventoryItemDTO;
 import com.example.backend.dtos.ProductDTO;
+import com.example.backend.dtos.ProductPackageDTO;
 import com.example.backend.entities.*;
 import com.example.backend.entities.InventoryItem;
 import com.example.backend.entities.Product;
@@ -9,9 +11,14 @@ import com.example.backend.exceptions.MyEntityNotFoundException;
 import com.example.backend.security.Hasher;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.persistence.*;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+import java.util.Map;
 
 @Stateless
 public class ManufacturerBean {
@@ -21,6 +28,8 @@ public class ManufacturerBean {
     private ProductBean productBean;
     @EJB
     private InventoryItemBean inventoryItemBean;
+    @EJB
+    private ProductPackageBean productPackageBean;
     private Hasher hasher;
 
     //#region CRUD
@@ -93,38 +102,32 @@ public class ManufacturerBean {
     }
     //#endregion
 
-    //#region PhysicalProducts
-    // Create InventoryItem
-    public long createPhysicalProduct(long productId) throws MyEntityNotFoundException {
-        long id = inventoryItemBean.create(productId);
-        inventoryItemBean.exists(id);
-        return id;
-    }
-
-    //createPhysicalProductList
-    public void createPhysicalProductList(long productId, int amount) throws MyEntityNotFoundException {
+    //#region InventoryItems
+    //createInventoryItemList
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void createInventoryItemList(long productId, int amount, List<Long> packageIds) throws MyEntityNotFoundException {
         for (int i = 0; i < amount; i++) {
-            inventoryItemBean.create(productId);
+            inventoryItemBean.create(productId, packageIds);
         }
     }
 
     // Update InventoryItem
-    public long updatePhysicalProduct(long physicalProductId) throws MyEntityNotFoundException {
-        return inventoryItemBean.update(physicalProductId);
+    public long updateInventoryItem(long InventoryItemId, List<Long> packageIds) throws MyEntityNotFoundException {
+        return inventoryItemBean.update(InventoryItemId, packageIds);
     }
 
-    //get physical products for specific product
-    public List<InventoryItem> getPhysicalProductsForProduct(String username, long productId) throws MyEntityNotFoundException {
+    //get Inventory Items for specific product
+    public List<InventoryItem> getInventoryItemsForProduct(String username, long productId) throws MyEntityNotFoundException {
         var maker = find(username);
-        return entityManager.createNamedQuery("getMakerPhysicalProductsForProduct", InventoryItem.class)
+        return entityManager.createNamedQuery("getMakerInventoryItemsForProduct", InventoryItem.class)
                 .setParameter("username", maker.getUsername())
                 .setParameter("productId", productId)
                 .getResultList();
     }
 
-    public List<InventoryItem> getAllPhysicalProducts(String username) throws MyEntityNotFoundException {
+    public List<InventoryItem> getAllInventoryItems(String username) throws MyEntityNotFoundException {
         var maker = find(username);
-        return entityManager.createNamedQuery("getMakerPhysicalProducts", InventoryItem.class)
+        return entityManager.createNamedQuery("getMakerInventoryItems", InventoryItem.class)
                 .setParameter("username", maker.getUsername())
                 .getResultList();
     }
@@ -138,8 +141,17 @@ public class ManufacturerBean {
                 .getResultList();
     }
 
-    public void deletePhysicalProduct(long physicalProductId) throws MyEntityNotFoundException {
-        inventoryItemBean.delete(physicalProductId);
+    public void deleteInventoryItem(long InventoryItemId) throws MyEntityNotFoundException {
+        inventoryItemBean.delete(InventoryItemId);
     }
+    //#endregion
+
+    //#region Packages
+    // Get Packages
+    public List<ProductPackage> getPackages(String username) throws MyEntityNotFoundException {
+        find(username);
+        return entityManager.createNamedQuery("getAllProductPackages", ProductPackage.class).getResultList();
+    }
+
     //#endregion
 }

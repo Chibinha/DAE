@@ -74,17 +74,18 @@ public class DTOConverter {
     }
 
     // InventoryItem
-    public InventoryItemDTO physicalProductToDTO(InventoryItem inventoryItem) {
+    public InventoryItemDTO inventoryItemToDTO(InventoryItem inventoryItem) {
         return new InventoryItemDTO(
             inventoryItem.getId(),
             inventoryItem.getProduct().getId(),
             inventoryItem.getProduct().getName(),
             inventoryItem.getProduct().getMaker().getUsername(),
-            inventoryItem.getStockTimestamp()
+            inventoryItem.getStockTimestamp(),
+            inventoryItem.getProductPackages().stream().map(this::productPackageToDTO).collect(Collectors.toList())
         );
     }
-    public List<InventoryItemDTO> physicalProductToDTOList(List<InventoryItem> inventoryItems) {
-        return inventoryItems.stream().map(this::physicalProductToDTO).collect(Collectors.toList());
+    public List<InventoryItemDTO> inventoryItemToDTOList(List<InventoryItem> inventoryItems) {
+        return inventoryItems.stream().map(this::inventoryItemToDTO).collect(Collectors.toList());
     }
     //#endregion
 
@@ -123,7 +124,7 @@ public class DTOConverter {
     public TransportPackageDTO transportationPackageToDTO(TransportPackage transportPackage) {
         return new TransportPackageDTO(
                 transportPackage.getId(),
-                transportPackage.getPackageType(),
+                transportPackage.getType(),
                 transportPackage.getMaterial(),
                 transportPackage.getCurrentOrder().getId()
         );
@@ -135,9 +136,9 @@ public class DTOConverter {
     // Product Package
     public ProductPackageDTO productPackageToDTO(ProductPackage productPackage) {
         return new ProductPackageDTO(
-            productPackage.getPackageType(),
-            productPackage.getMaterial(),
-            productPackage.getCurrentPhysicalProduct().getId()
+            productPackage.getId(),
+            productPackage.getType(),
+            productPackage.getMaterial()
         );
     }
     public List<ProductPackageDTO> productPackageToDTOList(List<ProductPackage> productPackages) {
@@ -155,7 +156,7 @@ public class DTOConverter {
             order.getLineOperator().getUsername(),
             order.getClient().getUsername(),
             order.getOrderTimestamp(),
-            physicalProductToDTOList(order.getPhysicalProducts()),
+            inventoryItemToDTOList(order.getInventoryItems()),
             order.getCurrentPackage().getId(),
             order.getCurrentPackage().getCurrentSensor().getId());
     }

@@ -88,11 +88,11 @@ public class ProductBean {
     }
 
     //get List<InventoryItem> from Product
-    public List<InventoryItem> getListPhysicalProducts(long productId) {
+    public List<InventoryItem> getListInventoryItems(long productId) {
         Product product = entityManager.find(Product.class, productId);
         if (product != null) {
-            Hibernate.initialize(product.getPhysicalProducts());
-            return product.getPhysicalProducts();
+            Hibernate.initialize(product.getInventoryItems());
+            return product.getInventoryItems();
         }
         return null;
     }

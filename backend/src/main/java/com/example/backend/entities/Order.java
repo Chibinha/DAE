@@ -101,11 +101,11 @@ public class Order implements Serializable {
         this.orderTimestamp = orderTimestamp;
     }
 
-    public List<InventoryItem> getPhysicalProducts() {
+    public List<InventoryItem> getInventoryItems() {
         return inventoryItems;
     }
 
-    public void setPhysicalProducts(List<InventoryItem> inventoryItems) {
+    public void setInventoryItems(List<InventoryItem> inventoryItems) {
         this.inventoryItems = inventoryItems;
     }
 
@@ -123,14 +123,6 @@ public class Order implements Serializable {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public List<InventoryItem> getInventoryItems() {
-        return inventoryItems;
-    }
-
-    public void setInventoryItems(List<InventoryItem> inventoryItems) {
-        this.inventoryItems = inventoryItems;
     }
 
     public Customer getCustomer() {
@@ -184,5 +176,10 @@ public class Order implements Serializable {
     public void removePackage(TransportPackage order) {
         if(order!= null)
             this.packages.remove(order);
+    }
+
+    public void addInventoryItem(InventoryItem inventoryItem) {
+        if(inventoryItem != null)
+            this.inventoryItems.add(inventoryItem);
     }
 }

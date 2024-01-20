@@ -107,7 +107,7 @@ public class WarehouseOperatorBean {
     public List<Product> getLineOperatorOrderProducts(String username, Long index) throws MyEntityNotFoundException, NotAuthorizedException {
         Order order = entityManager.find(Order.class, index);
         if(find(username).getUsername().equals(order.getLineOperator().getUsername())) {
-            List<InventoryItem> physical = entityManager.find(Order.class, index).getPhysicalProducts();
+            List<InventoryItem> physical = entityManager.find(Order.class, index).getInventoryItems();
             List<Product> products = new ArrayList<Product>();
             for (InventoryItem product : physical) {
                 products.add(product.getProduct());

@@ -2,15 +2,15 @@ package com.example.backend.dtos;
 
 public class TransportPackageDTO {
     protected long id;
-    protected int packageType;
+    protected String type;
     protected String material;
     protected long order_id;
 
     public TransportPackageDTO() {}
 
-    public TransportPackageDTO(long id, int packageType, String material, long order_id) {
+    public TransportPackageDTO(long id, String type, String material, long order_id) {
         this.id = id;
-        this.packageType = packageType;
+        this.type = type;
         this.material = material;
         this.order_id = order_id;
     }
@@ -23,12 +23,12 @@ public class TransportPackageDTO {
         this.id = id;
     }
 
-    public int getPackageType() {
-        return packageType;
+    public String getType() {
+        return type;
     }
 
-    public void setPackageType(int packageType) {
-        this.packageType = packageType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getMaterial() {

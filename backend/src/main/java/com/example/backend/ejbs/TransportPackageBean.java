@@ -26,8 +26,8 @@ public class TransportPackageBean {
         query.setParameter("id", id);
         return (Long) query.getSingleResult() > 0L;
     }
-    public long create(int packageType, String material) throws MyEntityNotFoundException {
-        TransportPackage transportPackage = new TransportPackage(packageType, material);
+    public long create(String type, String material) throws MyEntityNotFoundException {
+        TransportPackage transportPackage = new TransportPackage(type, material);
         entityManager.persist(transportPackage);
 
         find(transportPackage.getId());
@@ -50,8 +50,8 @@ public class TransportPackageBean {
     public long update(long id, TransportPackageDTO transportPackageDTO) throws MyEntityNotFoundException {
         TransportPackage transportPackage = find(id);
 
-        if (transportPackageDTO.getPackageType() != 0) {
-            transportPackage.setPackageType(transportPackageDTO.getPackageType());
+        if (transportPackageDTO.getType() != null) {
+            transportPackage.setType(transportPackageDTO.getType());
         }
         if (transportPackageDTO.getMaterial() != null) {
             transportPackage.setMaterial(transportPackageDTO.getMaterial());

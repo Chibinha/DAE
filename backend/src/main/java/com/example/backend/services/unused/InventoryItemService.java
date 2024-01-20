@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
-@Path("/physicalProducts")
+@Path("/InventoryItems")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 public class InventoryItemService {
@@ -24,41 +24,39 @@ public class InventoryItemService {
     // Create
     @POST
     @Path("/")
-    public Response create(InventoryItemDTO inventoryItemDTO) throws MyEntityNotFoundException {
-         long id = inventoryItemBean.create(
-                inventoryItemDTO.getProductId()
-        );
+    public Response create(InventoryItemDTO inventoryItemDTO, List<Long> productPackagesIds) throws MyEntityNotFoundException {
+         long id = inventoryItemBean.create(inventoryItemDTO.getProductId(),productPackagesIds);
         if (id < 1) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Physical product with id [" + id + "] not created.").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Inventory Item with id [" + id + "] not created.").build();
         }
-        return Response.status(Response.Status.CREATED).entity("Physical product with id [" + id + "] created.").build();
+        return Response.status(Response.Status.CREATED).entity("Inventory Item with id [" + id + "] created.").build();
     }
 
     // Read
     @GET
     @Path("/")
     public List<InventoryItemDTO> getAll() {
-        return dtoConverter.physicalProductToDTOList(inventoryItemBean.getAll());
+        return dtoConverter.inventoryItemToDTOList(inventoryItemBean.getAll());
     }
 
     // Find
     @GET
     @Path("/{id}")
     public InventoryItemDTO find(@PathParam("id") long id) throws MyEntityNotFoundException {
-        return dtoConverter.physicalProductToDTO(inventoryItemBean.find(id));
+        return dtoConverter.inventoryItemToDTO(inventoryItemBean.find(id));
     }
 
     // Update
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") long id) throws MyEntityNotFoundException {
-        inventoryItemBean.update(id);
+    public Response update(@PathParam("id") long id, List<Long> productPackagesIds) throws MyEntityNotFoundException {
+        inventoryItemBean.update(id, productPackagesIds);
 
         InventoryItem inventoryItem = inventoryItemBean.find(id);
         if (inventoryItem == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Physical product with id [" + id + "] not found.").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Inventory Item with id [" + id + "] not found.").build();
         }
-        return Response.status(Response.Status.OK).entity(dtoConverter.physicalProductToDTO(inventoryItem)).build();
+        return Response.status(Response.Status.OK).entity(dtoConverter.inventoryItemToDTO(inventoryItem)).build();
     }
 
     // Delete
@@ -68,8 +66,8 @@ public class InventoryItemService {
         inventoryItemBean.delete(id);
 
         if (inventoryItemBean.exists(id)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Physical product with id [" + id + "] not deleted.").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Inventory Item with id [" + id + "] not deleted.").build();
         }
-        return Response.status(Response.Status.OK).entity("Physical product with id [" + id + "] deleted.").build();
+        return Response.status(Response.Status.OK).entity("Inventory Item with id [" + id + "] deleted.").build();
     }
 }

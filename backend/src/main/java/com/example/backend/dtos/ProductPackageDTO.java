@@ -2,16 +2,15 @@ package com.example.backend.dtos;
 
 public class ProductPackageDTO {
     private long id;
-    private int packageType;
+    private String type;
     private String material;
-    private long product_id;
 
     public ProductPackageDTO() {}
 
-    public ProductPackageDTO(int packageType, String material, long product_id) {
-        this.packageType = packageType;
+    public ProductPackageDTO(long id,String type, String material) {
+        this.id = id;
+        this.type = type;
         this.material = material;
-        this.product_id = product_id;
     }
 
     public long getId() {
@@ -22,12 +21,12 @@ public class ProductPackageDTO {
         this.id = id;
     }
 
-    public int getPackageType() {
-        return packageType;
+    public String getType() {
+        return type;
     }
 
-    public void setPackageType(int packageType) {
-        this.packageType = packageType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getMaterial() {
@@ -38,11 +37,4 @@ public class ProductPackageDTO {
         this.material = material;
     }
 
-    public long getProductId() {
-        return product_id;
-    }
-
-    public void setProductId(long product_id) {
-        this.product_id = product_id;
-    }
 }

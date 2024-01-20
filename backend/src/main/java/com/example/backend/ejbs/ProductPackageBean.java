@@ -1,6 +1,7 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.dtos.ProductPackageDTO;
+import com.example.backend.entities.Package;
 import com.example.backend.entities.ProductPackage;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.Stateless;
@@ -8,6 +9,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -22,8 +24,8 @@ public class ProductPackageBean {
         return (Long) query.getSingleResult() > 0L;
     }
 
-    public long create(int packageType, String material) throws MyEntityNotFoundException{
-        ProductPackage productPackage = new ProductPackage(packageType, material);
+    public long create(String type, String material) throws MyEntityNotFoundException{
+        ProductPackage productPackage = new ProductPackage(type, material);
         entityManager.persist(productPackage);
 
         find(productPackage.getId());
@@ -47,8 +49,8 @@ public class ProductPackageBean {
     public long update(long id, ProductPackageDTO productPackageDTO) throws MyEntityNotFoundException {
         ProductPackage productPackage = find(id);
 
-        if (productPackageDTO.getPackageType() != 0) {
-            productPackage.setPackageType(productPackageDTO.getPackageType());
+        if (productPackageDTO.getType() != null) {
+            productPackage.setType(productPackageDTO.getType());
         }
         if (productPackageDTO.getMaterial() != null) {
             productPackage.setMaterial(productPackageDTO.getMaterial());
@@ -60,6 +62,16 @@ public class ProductPackageBean {
 
     public void delete(long id) throws MyEntityNotFoundException{
         entityManager.remove(find(id));
+    }
+
+    public List<ProductPackage> getProductPackages(List<Long> packageIds) throws MyEntityNotFoundException {
+        List<ProductPackage> productPackages = new ArrayList<>();
+        for (Long id : packageIds) {
+            if (exists(id)) {
+                productPackages.add(find(id));
+            }
+        }
+        return productPackages;
     }
 
 //    public void associateProductPackageToOrder(long id, long productId) {

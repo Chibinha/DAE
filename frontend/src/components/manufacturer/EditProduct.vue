@@ -32,7 +32,7 @@ const submitForm = () => {
   if (isCreating) {
     // Creating a new product
     console.log('Creating a new product');
-    axios.post(`maker/${makerUsername}/products`, formData)
+    axios.post(`manufacturer/${makerUsername}/products`, formData)
       .then(response => {
         console.log('Product created:', response.data);
         resetForm();
@@ -43,7 +43,7 @@ const submitForm = () => {
       });
   } else {
     // Modifying an existing product
-    axios.put(`maker/${makerUsername}/products/${productId}`, formData)
+    axios.put(`manufacturer/${makerUsername}/products/${productId}`, formData)
       .then(response => {
         resetForm();
         emits('close');

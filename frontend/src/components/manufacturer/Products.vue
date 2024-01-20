@@ -68,7 +68,7 @@ const showCreateProduct = ref(false);
 
 const fetchProducts = async () => {
   try {
-    const response = await axios.get(`maker/${userStore.user.username}/products`);
+    const response = await axios.get(`manufacturer/${userStore.user.username}/products`);
     products.value = response.data;
   } catch (error) {
     console.error("Error fetching products:", error);
