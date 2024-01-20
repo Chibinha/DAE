@@ -3,10 +3,11 @@ import { ref, inject, onMounted, computed, defineEmits } from 'vue';
 import { useUserStore } from '@/stores/user.js';
 
 const userStore = useUserStore();
-const emit = defineEmits(["removeProduct", "changePrice"]);
+const emit = defineEmits(["removeProduct", "changePrice", "addProductToCart"]);
 
 const axios = inject('axios');
 const toast = inject('toast');
+const cart = ref([]);
 
 const searchTerm = ref('');
 const products = ref([]);
@@ -51,6 +52,20 @@ const subtractCounter = (product) => {
     emit("changePrice", product);
   }
 }
+
+const handleAddProductToCart = (product) => {
+  const existingItem = cart.value.find(item => item.product.id === product.id);
+
+  if (existingItem) {
+    existingItem.quantity += product.quantity;
+  } else {
+    cart.value.push({ product, quantity: product.quantity });
+  }
+
+  console.log("Updated Cart:", cart.value); // Log the cart array to the console
+  emit("addProductToCart", { product, quantity: product.quantity });
+}
+
 
 onMounted(async () => {
   await fetchProducts();
@@ -103,19 +118,23 @@ onMounted(async () => {
                   <hr>
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
-                      <button :disabled="product.quantity > product.inStock" @click="addProductToCart(product)"  class="btn btn-primary">
-                        Adicionar ao carrinho {{ product.quantity }}
+                      <button :disabled="product.quantity > product.inStock" @click="handleAddProductToCart(product)"
+                        class="btn btn-primary">
+                        Add to Cart {{ product.quantity }}
                       </button>
-                      <div v-if="product.quantity > product.inStock" class="text-danger text-center mt-2">Sem stock disponível</div>
+                      <div v-if="product.quantity > product.inStock" class="text-danger text-center mt-2">Sem stock
+                        disponível</div>
                     </div>
                     <div class="botoesQuant">
                       <div class="m-2">
-                        <button type="button" class="btn btn-outline-secondary botaoQuant" :disabled="product.quantity > product.inStock" @click="subtractCounter(product)">
+                        <button type="button" class="btn btn-outline-secondary botaoQuant"
+                          :disabled="product.quantity > product.inStock" @click="subtractCounter(product)">
                           <i class="bi-dash"></i>
                         </button>
                       </div>
                       <div class="m-2">
-                        <button type="button" class="btn btn-outline-secondary botaoQuant" :disabled="product.quantity > product.inStock" @click="addToCounter(product)">
+                        <button type="button" class="btn btn-outline-secondary botaoQuant"
+                          :disabled="product.quantity > product.inStock" @click="addToCounter(product)">
                           <i class="bi-plus-lg"></i>
                         </button>
                       </div>
@@ -130,5 +149,4 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-  </div>
-</template>
+</div></template>
