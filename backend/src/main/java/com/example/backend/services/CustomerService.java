@@ -3,6 +3,7 @@ package com.example.backend.services;
 import com.example.backend.dtos.CustomerDTO;
 import com.example.backend.dtos.DTOConverter;
 import com.example.backend.dtos.OrderDTO;
+import com.example.backend.dtos.ProductDTO;
 import com.example.backend.ejbs.AlertBean;
 import com.example.backend.ejbs.CustomerBean;
 import com.example.backend.ejbs.UserBean;
@@ -22,6 +23,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+import java.util.Map;
 
 @Path("customer") // relative url web path for this service
 @Produces({MediaType.APPLICATION_JSON}) // injects header “Content-Type: application/json”
@@ -30,11 +32,11 @@ import java.util.List;
 @RolesAllowed({"Customer"})*/
 public class CustomerService {
     @EJB
-    private CustomerBean customerBean;
-    @EJB
     private AlertBean alertBean;
     @EJB
     private UserBean userBean;
+    @EJB
+    private CustomerBean customerBean;
     private final DTOConverter dtoConverter = new DTOConverter();
     private ExternalContext securityContext;
 
@@ -137,25 +139,39 @@ public class CustomerService {
         List<Alert> alerts = userBean.getAlerts(username);
         return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
     }
-    
+
     @POST
     @Path("{username}/orders")
-    public Response createOrder(@PathParam("username") String username, OrderDTO orderDTO) {
-        try {
-            Long orderId = customerBean.createNewOrder(username, orderDTO);
-            return Response.status(Response.Status.CREATED)
-                .entity("Order created successfully with ID: " + orderId)
-                .build();
-        } catch (MyEntityNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                .entity("Error: " + e.getMessage())
-                .build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("Error creating order: " + e.getMessage())
-                .build();
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createOrder(Map<Long, Integer> products, @PathParam("username") String username) throws MyEntityNotFoundException, MyConstraintViolationException, MyEntityExistsException {
+        long id = customerBean.createOrder(
+            username,
+            products
+        );
+        if (id < 1) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Order with id [" + id + "] not created.").build();
         }
+        return Response.status(Response.Status.CREATED).entity("Order with id [" + id + "] created.").build();
     }
+
+//    @POST
+//    @Path("{username}/orders")
+//    public Response createOrder(@PathParam("username") String username, OrderDTO orderDTO) {
+//        try {
+//            Long orderId = customerBean.createNewOrder(username, orderDTO);
+//            return Response.status(Response.Status.CREATED)
+//                .entity("Order created successfully with ID: " + orderId)
+//                .build();
+//        } catch (MyEntityNotFoundException e) {
+//            return Response.status(Response.Status.NOT_FOUND)
+//                .entity("Error: " + e.getMessage())
+//                .build();
+//        } catch (Exception e) {
+//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+//                .entity("Error creating order: " + e.getMessage())
+//                .build();
+//        }
+//    }
 
 //    @GET
 //    @Path("{username}/alerts")

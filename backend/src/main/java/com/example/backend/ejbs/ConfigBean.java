@@ -100,9 +100,9 @@ public class ConfigBean {
             order1.put(3L, 1);
             order2.put(1L, 2);
             order2.put(3L,1);
-            orderBean.create("joao", "diogo", order1);
-            orderBean.create("bruno", "marco", order1);
-            orderBean.create("joao", "marco", order2);
+            orderBean.create("joao", order1);
+            orderBean.create("bruno", order1);
+            orderBean.create("joao",  order2);
             //orderBean.getAllProductsForOrder(1);
             //#endregion
 

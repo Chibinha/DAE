@@ -15,6 +15,7 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 import java.util.*;
 
@@ -43,13 +44,18 @@ public class OrderBean {
 
     //usernames customer and lineop
     //Receives a json payload with product ids and quantities
-    public void create(String usernameClient, String usernameLineOp, Map<Long, Integer> products) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+    public long create(String usernameClient, Map<Long, Integer> products) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
         Customer customer = customerBean.find(usernameClient);
-        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(usernameLineOp);
+        List<WarehouseOperator> warehouseOperators = warehouseOperatorBean.getAll();
         List<InventoryItem> inventoryItems = new ArrayList<>();
         double totalPrice = 0;
 
-        Order order = new Order(totalPrice, warehouseOperator, customer, inventoryItems);
+        // Randomly select a WarehouseOperator
+        Random random = new Random();
+        int randomIndex = random.nextInt(warehouseOperators.size());
+        WarehouseOperator chosenOperator = warehouseOperators.get(randomIndex);
+
+        Order order = new Order(totalPrice, chosenOperator, customer, inventoryItems);
 
         // Retrieve PhysicalProducts for each product ID
         for (Map.Entry<Long, Integer> entry : products.entrySet()) {
@@ -66,14 +72,16 @@ public class OrderBean {
             // Add PhysicalProducts to the list
             for (int i = 0; i < quantity; i++) {
                 InventoryItem productToAdd = productInventoryItems.get(i);
-                inventoryItems.add(productInventoryItems.get(i));
+                inventoryItems.add(productToAdd);
                 productToAdd.setOrder(order);
-                totalPrice += productInventoryItems.get(i).getProduct().getPrice();
+                totalPrice += productToAdd.getProduct().getPrice();
             }
         }
+
         order.setPhysicalProducts(inventoryItems);
         order.setTotalPrice(totalPrice);
         entityManager.persist(order);
+        return order.getId();
     }
 
     public void update(int orderId, int packageId, int sensorId, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
@@ -113,6 +121,16 @@ public class OrderBean {
         {
             //aPackage.addSensor(sensor);
             sensor.addPackage(aPackage);
+        }
+    }
+
+    public boolean exists(long id) throws MyEntityNotFoundException  {
+        Query query = entityManager.createQuery("SELECT COUNT(o) FROM Order o WHERE o.id = :id");
+        query.setParameter("id", id);
+        if ((long) query.getSingleResult() > 0L) {
+            return true;
+        } else {
+            throw new MyEntityNotFoundException("Order with id " + id + " not found");
         }
     }
 }
