@@ -105,7 +105,6 @@ public class ManufacturerBean {
     public void createInventoryItemList(long productId, int amount, List<Long> packageIds) throws MyEntityNotFoundException {
         for (int i = 0; i < amount; i++) {
             inventoryItemBean.create(productId, packageIds);
-            inventoryItemBean.exists(productId);
         }
     }
 

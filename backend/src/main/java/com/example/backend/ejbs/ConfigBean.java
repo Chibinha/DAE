@@ -74,14 +74,11 @@ public class ConfigBean {
             productBean.create("Menu Familiar", 15, "Coca-Cola, Pizza de queijo, Hamburger de carne e Batatas", 3, "Various", "maker1");
             productBean.create("Pão de alho", 2, "Pão de alho", 0.4, "Pão, alho, manteiga e oregaos", "maker2");
             for (int i = 1; i <= 10; i++) {
-                productBean.create("product" + i, 1, "product" + i, 1, "product" + i, "maker1");
+                productBean.create("product" + i, 1, "product" + i, 1, "product" + i, "manufacturer"+i);
             }
 
-            inventoryItemBean.create(1, new ArrayList<Long>() {{
-                add(1L);
-                add(2L);
-            }});
 
+            inventoryItemBean.create(1, List.of(1L, 2L, 3L));
             inventoryItemBean.create(2, List.of(1L, 3L));
 
             inventoryItemBean.create(2, Arrays.asList(1L, 3L));

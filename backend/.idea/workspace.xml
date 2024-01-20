@@ -4,17 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df7fb87e-4faf-4982-a0ca-2eea59da706c" name="Changes" comment="Update">
+    <list default="true" id="df7fb87e-4faf-4982-a0ca-2eea59da706c" name="Changes" comment="Only my table doesnt work...">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/InventoryItemBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/InventoryItemBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/WarehouseOperatorBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/WarehouseOperatorBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ManufacturerBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ManufacturerBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/InventoryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/InventoryItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Manufacturer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Manufacturer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/InventoryItem_ProductPackage.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/ProductPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/ProductPackage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/ProductPackage_InventoryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/InventoryItem_ProductPackage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/unused/TransportPackageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/unused/TransportPackageService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +68,15 @@
       <updated>1705642191524</updated>
       <workItem from="1705642193027" duration="38348000" />
     </task>
+    <task id="LOCAL-00001" summary="Only my table doesnt work...">
+      <option name="closed" value="true" />
+      <created>1705759814987</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1705759814987</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -79,6 +84,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update" />
+    <MESSAGE value="Only my table doesnt work..." />
+    <option name="LAST_COMMIT_MESSAGE" value="Only my table doesnt work..." />
   </component>
 </project>
