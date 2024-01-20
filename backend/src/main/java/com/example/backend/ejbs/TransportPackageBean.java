@@ -1,6 +1,7 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.dtos.TransportPackageDTO;
+import com.example.backend.entities.Order;
 import com.example.backend.entities.TransportPackage;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.EJB;
@@ -25,7 +26,6 @@ public class TransportPackageBean {
         query.setParameter("id", id);
         return (Long) query.getSingleResult() > 0L;
     }
-
     public long create(String type, String material) throws MyEntityNotFoundException {
         TransportPackage transportPackage = new TransportPackage(type, material);
         entityManager.persist(transportPackage);

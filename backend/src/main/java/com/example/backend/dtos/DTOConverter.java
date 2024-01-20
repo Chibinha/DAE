@@ -55,7 +55,7 @@ public class DTOConverter {
     }
     //#endregion
 
-    //#region Products/InventoryItems
+    //#region Products/PhysicalProducts
     // Product
     public ProductDTO productToDTO(Product product) {
         return new ProductDTO(
@@ -76,12 +76,12 @@ public class DTOConverter {
     // InventoryItem
     public InventoryItemDTO inventoryItemToDTO(InventoryItem inventoryItem) {
         return new InventoryItemDTO(
-                inventoryItem.getId(),
-                inventoryItem.getProduct().getId(),
-                inventoryItem.getProduct().getName(),
-                inventoryItem.getProduct().getMaker().getUsername(),
-                inventoryItem.getStockTimestamp(),
-                productPackageToDTOList(inventoryItem.getProductPackages())
+            inventoryItem.getId(),
+            inventoryItem.getProduct().getId(),
+            inventoryItem.getProduct().getName(),
+            inventoryItem.getProduct().getMaker().getUsername(),
+            inventoryItem.getStockTimestamp(),
+            inventoryItem.getProductPackages().stream().map(this::productPackageToDTO).collect(Collectors.toList())
         );
     }
     public List<InventoryItemDTO> inventoryItemToDTOList(List<InventoryItem> inventoryItems) {
@@ -123,6 +123,7 @@ public class DTOConverter {
     // Transportation Package
     public TransportPackageDTO transportationPackageToDTO(TransportPackage transportPackage) {
         return new TransportPackageDTO(
+                transportPackage.getId(),
                 transportPackage.getType(),
                 transportPackage.getMaterial(),
                 transportPackage.getCurrentOrder().getId()
@@ -135,9 +136,9 @@ public class DTOConverter {
     // Product Package
     public ProductPackageDTO productPackageToDTO(ProductPackage productPackage) {
         return new ProductPackageDTO(
-                productPackage.getId(),
-                productPackage.getType(),
-                productPackage.getMaterial()
+            productPackage.getId(),
+            productPackage.getType(),
+            productPackage.getMaterial()
         );
     }
     public List<ProductPackageDTO> productPackageToDTOList(List<ProductPackage> productPackages) {
@@ -149,14 +150,15 @@ public class DTOConverter {
     // Order
     public OrderDTO orderToDTO(Order order) {
         return new OrderDTO(
-                order.getId(),
-                order.getStatus(),
-                order.getTotalPrice(),
-                order.getLineOperator().getUsername(),
-                order.getClient().getUsername(),
-                order.getOrderTimestamp(),
-                inventoryItemToDTOList(order.getInventoryItems())
-        );
+            order.getId(),
+            order.getStatus(),
+            order.getTotalPrice(),
+            order.getLineOperator().getUsername(),
+            order.getClient().getUsername(),
+            order.getOrderTimestamp(),
+            inventoryItemToDTOList(order.getInventoryItems()),
+            order.getCurrentPackage().getId(),
+            order.getCurrentPackage().getCurrentSensor().getId());
     }
     public List<OrderDTO> orderToDTOList(List<Order> orders) {
         return orders.stream().map(this::orderToDTO).collect(Collectors.toList());

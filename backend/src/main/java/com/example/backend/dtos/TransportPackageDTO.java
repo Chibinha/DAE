@@ -8,7 +8,8 @@ public class TransportPackageDTO {
 
     public TransportPackageDTO() {}
 
-    public TransportPackageDTO(String type, String material, long order_id) {
+    public TransportPackageDTO(long id, String type, String material, long order_id) {
+        this.id = id;
         this.type = type;
         this.material = material;
         this.order_id = order_id;

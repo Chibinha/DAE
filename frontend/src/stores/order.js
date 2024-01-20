@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 
 export const useOrderStore = defineStore('order', () => {
     const axios = inject('axios')
+    const toast = inject('toast')
     const userStore = useUserStore()
     const orders = ref([])
     const order = ref([])
@@ -87,13 +88,20 @@ export const useOrderStore = defineStore('order', () => {
         }
     }
 
-    async function updateOrder(updateOrder) {
-        // Note that when an error occours, the exception should be
-        // catch by the function that called the updateProject
-        const response = await axios.put(`${userType}/${userStore.user.username}/orders/` + id, updateOrder)
-        updateTransactionOnArray(response.data)
-        //socket.emit('updateTransaction', response.data.data)
-        return response.data
+    async function updateOrder(id, updateOrder) {
+        try 
+        {
+            console.log(updateOrder)
+            const response = await axios.patch(`${userType}/${userStore.user.username}/orders/` + id, updateOrder)
+            if(response.status == 200)
+            toast.success('Encomenda atualizada com sucesso.')
+            return response.data
+        }
+        catch (error) {
+            toast.error('Erro: selecione uma EMBALAGEM e um SENSOR.')
+            throw error
+        }
+        
     }
 
     function formatTimestamp(timestamp) 
