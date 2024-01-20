@@ -14,17 +14,19 @@ import java.util.List;
 @Table(name = "inventory_items")
 @NamedQueries({
         @NamedQuery(
-                name = "getAllPhysicalProducts",
+                name = "getAllInventoryItems",
                 query = "SELECT p FROM InventoryItem p ORDER BY p.id"
         ),
         @NamedQuery(
-                name = "getMakerPhysicalProducts",
+                name = "getMakerInventoryItems",
                 query = "SELECT p FROM InventoryItem p WHERE p.product.manufacturer.username = :username ORDER BY p.id"
-        ),//getMakerPhysicalProductsForProduct
-        @NamedQuery(
-                name = "getMakerPhysicalProductsForProduct",
-                query = "SELECT p FROM InventoryItem p WHERE p.product.manufacturer.username = :username AND p.product.id = :productId ORDER BY p.id"
         ),
+        @NamedQuery(
+                name = "getMakerInventoryItemsForProduct",
+                query = "SELECT p FROM InventoryItem p WHERE p.product.manufacturer.username = :username AND p.product.id = :productId ORDER BY p.id"
+        ),// fetch List<ProductPackage> productPackages;
+
+
 })
 public class InventoryItem implements Serializable {
     @Id
@@ -58,23 +60,16 @@ public class InventoryItem implements Serializable {
         this.productPackages = new ArrayList<>();
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
     }
-
-    public InventoryItem(Product product) {
-        this.product = product;
-        this.productPackages = new ArrayList<>();
-        this.manufacturer = product.getMaker();
-        this.stockTimestamp = new Timestamp(System.currentTimeMillis());
-        this.product.addPhysicalProduct(this);
-        this.order = null;
-    }
-
     public InventoryItem(Product product, List<ProductPackage> productPackages) {
         this.product = product;
         this.productPackages = productPackages;
         this.manufacturer = product.getMaker();
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
-        this.product.addPhysicalProduct(this);
         this.order = null;
+        //many to many to product packages
+        for (ProductPackage productPackage : productPackages) {
+            productPackage.addInventoryItem(this);
+        }
     }
 
     public long getId() {
@@ -106,7 +101,24 @@ public class InventoryItem implements Serializable {
     }
 
     public void setProductPackages(List<ProductPackage> productPackages) {
+        // manage the other side of the relationship
         this.productPackages = productPackages;
+    }
+
+    // Add ProductPackage
+    public void addProductPackage(ProductPackage productPackage) {
+        if (!productPackages.contains(productPackage)) {
+            productPackages.add(productPackage);
+            productPackage.getInventoryItems().add(this); // Manage the other side of the relationship
+        }
+    }
+
+    // Remove ProductPackage
+    public void removeProductPackage(ProductPackage productPackage) {
+        if (productPackages.contains(productPackage)) {
+            productPackages.remove(productPackage);
+            productPackage.removeInventoryItem(this);
+        }
     }
 
     public Manufacturer getMaker() {

@@ -9,20 +9,20 @@ public class OrderDTO implements Serializable {
     private String status;
     private double totalPrice;
     private String lineOperator;
-    private List<InventoryItemDTO> physicalProducts;
+    private List<InventoryItemDTO> inventoryItems;
     public String client;
     private Timestamp orderTimestamp;
     public OrderDTO() {
-        this.physicalProducts = new ArrayList<>();
+        this.inventoryItems = new ArrayList<>();
     }
 
-    public OrderDTO(long id, String status, double totalPrice, String lineOperator, String client, Timestamp orderTimestamp, List<InventoryItemDTO> physicalProducts) {
+    public OrderDTO(long id, String status, double totalPrice, String lineOperator, String client, Timestamp orderTimestamp, List<InventoryItemDTO> inventoryItems) {
         this.id = id;
         this.status = status;
         this.totalPrice = totalPrice;
         this.lineOperator = lineOperator;
         this.client = client;
-        this.physicalProducts = physicalProducts;
+        this.inventoryItems = inventoryItems;
         this.orderTimestamp = orderTimestamp;
     }
 
@@ -50,12 +50,12 @@ public class OrderDTO implements Serializable {
         this.client = client;
     }
 
-    public List<InventoryItemDTO> getPhysicalProducts() {
-        return physicalProducts;
+    public List<InventoryItemDTO> getInventoryItems() {
+        return inventoryItems;
     }
 
-    public void setPhysicalProducts(List<InventoryItemDTO> physicalProducts) {
-        this.physicalProducts = physicalProducts;
+    public void setInventoryItems(List<InventoryItemDTO> inventoryItems) {
+        this.inventoryItems = inventoryItems;
     }
 
     public String getStatus() {

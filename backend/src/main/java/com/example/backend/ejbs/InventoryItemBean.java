@@ -2,6 +2,7 @@ package com.example.backend.ejbs;
 
 import com.example.backend.entities.InventoryItem;
 import com.example.backend.entities.Product;
+import com.example.backend.entities.ProductPackage;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
@@ -17,8 +18,8 @@ public class InventoryItemBean {
     private ProductBean productBean;
     @EJB
     private ManufacturerBean manufacturerBean;
-//    @EJB
-//    private OrderBean orderBean;
+    @EJB
+    private ProductPackageBean productPackageBean;
 
     public boolean exists(Long id) {
         Query query = entityManager.createQuery("SELECT COUNT(p) FROM InventoryItem p WHERE p.id = :id");
@@ -28,10 +29,10 @@ public class InventoryItemBean {
 
     // CRUD
     // Create
-    public long create(long productId) throws MyEntityNotFoundException{
+    public long create(long productId, List<Long> productPackageIds) throws MyEntityNotFoundException {
         Product product = productBean.find(productId);
-
-        InventoryItem inventoryItem = new InventoryItem(product);
+        List<ProductPackage> productPackages = productPackageBean.getProductPackages(productPackageIds);
+        InventoryItem inventoryItem = new InventoryItem(product, productPackages);
         entityManager.persist(inventoryItem);
 
         find(inventoryItem.getId());
@@ -41,7 +42,7 @@ public class InventoryItemBean {
 
     // Read
     public List<InventoryItem> getAll() {
-        return entityManager.createNamedQuery("getAllPhysicalProducts", InventoryItem.class).getResultList();
+        return entityManager.createNamedQuery("getAllInventoryItems", InventoryItem.class).getResultList();
     }
 
     // Find
@@ -54,16 +55,22 @@ public class InventoryItemBean {
     }
 
     // Update
-    public long update(long id) throws MyEntityNotFoundException {
+    public long update(long id, List<Long> productPackagesIds) throws MyEntityNotFoundException {
         InventoryItem inventoryItem = find(id);
+
+        if (productPackagesIds != null) {
+            List<ProductPackage> productPackages = productPackageBean.getProductPackages(productPackagesIds);
+            inventoryItem.setProductPackages(productPackages);
+        }
 
         entityManager.merge(inventoryItem);
         return inventoryItem.getId();
     }
+
     // Delete
     public void delete(long id) throws MyEntityNotFoundException {
         InventoryItem inventoryItem = find(id);
-        inventoryItem.getProduct().removePhysicalProduct(inventoryItem);
+        inventoryItem.getProduct().removeInventoryItem(inventoryItem);
         entityManager.remove(find(id));
     }
 }

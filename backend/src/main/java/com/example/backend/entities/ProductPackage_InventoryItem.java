@@ -1,39 +1,37 @@
 package com.example.backend.entities;
 
-import com.example.backend.entities.InventoryItem;
-import com.example.backend.entities.Package;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "packages_inventoryitems")
-public class PackageInventoryItem {
+@Table(name = "productpackages_inventoryitems")
+public class ProductPackage_InventoryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "package_id")
-    private Package physicalProductPackage;
+    @JoinColumn(name = "productpackage_id")
+    private ProductPackage myPackage;
 
     @ManyToOne
-    @JoinColumn(name = "physical_product_id")
+    @JoinColumn(name = "inventoryitem_id")
     private InventoryItem inventoryItem;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "associationDate")
+    @Column(name = "association_date")
     @NotNull
     private Timestamp associationDate;
 
-    public PackageInventoryItem(Package physicalProductPackage, InventoryItem inventoryItem, Timestamp associationDate) {
-        this.physicalProductPackage = physicalProductPackage;
+    public ProductPackage_InventoryItem(ProductPackage myPackage, InventoryItem inventoryItem, Timestamp associationDate) {
+        this.myPackage = myPackage;
         this.inventoryItem = inventoryItem;
         this.associationDate = associationDate;
     }
 
-    public PackageInventoryItem() {
+    public ProductPackage_InventoryItem() {
     }
 
     public Long getId() {
@@ -44,19 +42,19 @@ public class PackageInventoryItem {
         this.id = id;
     }
 
-    public Package getPhysicalProductPackage() {
-        return physicalProductPackage;
+    public Package getMyPackage() {
+        return myPackage;
     }
 
-    public void setPhysicalProductPackage(Package physicalProductPackage) {
-        this.physicalProductPackage = physicalProductPackage;
+    public void setMyPackage(ProductPackage InventoryItemPackage) {
+        this.myPackage = InventoryItemPackage;
     }
 
-    public InventoryItem getPhysicalProduct() {
+    public InventoryItem getInventoryItem() {
         return inventoryItem;
     }
 
-    public void setPhysicalProduct(InventoryItem inventoryItem) {
+    public void setInventoryItem(InventoryItem inventoryItem) {
         this.inventoryItem = inventoryItem;
     }
 

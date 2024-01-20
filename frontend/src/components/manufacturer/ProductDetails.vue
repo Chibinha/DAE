@@ -1,7 +1,8 @@
-
 <script setup>
 import { ref, onMounted, defineProps, inject } from 'vue';
 import EditProduct from './EditProduct.vue';
+import { useUserStore } from '@/stores/user';
+
 const props = defineProps({
     onlyDetails: {
         required: false
@@ -11,100 +12,88 @@ const props = defineProps({
     }
 });
 
-//receive emit 'close' from EditPhysicalProduct
-//emits('close');
-
-
-
-
-const makerUsername = "maker1";
+const userStore = useUserStore();
 const axios = inject('axios');
 const physicalProducts = ref([]);
-const product = ref([]);
-const productExists = ref(false);
-const physicalProductExists = ref(false);
-const showCreateModifyProduct = ref(false);
-const showEditPhysicalProduct = ref(false);
-const showCreatePhysicalProduct = ref(false);
-const isCreating = ref(false);
-const numberOfProducts = ref(1);
+const productDetails = ref([]);
+const hasProductDetails = ref(false);
+const hasPhysicalProducts = ref(false);
+const isEditingProduct = ref(false);
+const isEditingPhysicalProduct = ref(false);
+const isCreatingPhysicalProduct = ref(false);
+const isCreatingProduct = ref(false);
+const quantityOfProducts = ref(1);
+const availableProductPackages = ref([]);
+const selectedProductPackages = ref([]);
+const selectedProductPackageIds = ref([]);
 
 const selectedPhysicalProductId = ref(null);
 
 const fetchPhysicalProducts = async () => {
     try {
-        const response = await axios.get(`maker/${makerUsername}/physicalproducts/${props.productId}`);
+        const response = await axios.get(`manufacturer/${userStore.user.username}/items/${props.productId}`);
         physicalProducts.value = response.data;
         console.log("physicalProducts:", physicalProducts.value);
         physicalProducts.value.forEach(physicalProduct => {
             physicalProduct.stockTimestamp = formatTimestamp(physicalProduct.stockTimestamp);
         });
-        physicalProductExists.value = true;
+        hasPhysicalProducts.value = true;
     } catch (error) {
-        physicalProductExists.value = false;
+        hasPhysicalProducts.value = false;
         console.error("Error fetching physical products:", error);
     }
 
-    // Fetch the product
+    // Fetch the product details
     try {
         const response = await axios.get(`products/${props.productId}`);
-        product.value = response.data;
-        productExists.value = true;
+        productDetails.value = response.data;
+        hasProductDetails.value = true;
     } catch (error) {
-        productExists.value = false;
+        hasProductDetails.value = false;
         console.error("Error fetching product details:", error);
     }
 };
 
-// Fetch physical products only when the component is mounted and onlyDetails is true
 onMounted(async () => {
+    await userStore.restoreToken();
     await fetchPhysicalProducts();
+    await fetchAvailableProductPackages();
 });
 
-
-//emits('close');
-
-
-
 const editProduct = () => {
-    // Handle edit product logic
-    showCreateModifyProduct.value = !showCreateModifyProduct.value;
-    isCreating.value = false;
+    isEditingProduct.value = !isEditingProduct.value;
+    isCreatingProduct.value = false;
 };
 
 const editPhysicalProduct = (id) => {
-    // Toggle visibility of EditPhysicalProduct component
     selectedPhysicalProductId.value = id;
-    isCreating.value = false;
-    showEditPhysicalProduct.value = !showEditPhysicalProduct.value;
+    isCreatingProduct.value = false;
+    isEditingPhysicalProduct.value = !isEditingPhysicalProduct.value;
 };
-const addMultiplePhysicalProducts = () => {
-    const requestData = {
-        productId: parseInt(props.productId),
-        amount: parseInt(numberOfProducts.value)
-    };
 
-    axios.post(`maker/${makerUsername}/physicalproducts/list`, requestData)
+const addMultiplePhysicalProducts = () => {
+    const packageIds = selectedProductPackageIds.value.map(id => Number(id))
+    console.log("packageIds:", packageIds);
+    axios.post(`manufacturer/${userStore.user.username}/items/${props.productId}/${quantityOfProducts.value}`, packageIds)
         .then(response => {
+            console.log("response:", response);
             fetchPhysicalProducts();
         })
         .catch(error => {
-            console.error('Error creating multiple physical products:', error);
+            console.error('Error adding physical products:', error);
         });
 };
 
 
-
 const handleClose = () => {
-    console.log("handleClose");
-    showCreateModifyProduct.value = false;
-    showEditPhysicalProduct.value = false;
-    showCreatePhysicalProduct.value = false;
+    isEditingProduct.value = false;
+    isEditingPhysicalProduct.value = false;
+    isCreatingPhysicalProduct.value = false;
     fetchPhysicalProducts();
 };
 
 const deletePhysicalProduct = (physicalProductId) => {
-    axios.delete(`maker/${makerUsername}/physicalproducts/${physicalProductId}`)
+    axios.delete(`manufacturer/${userStore.user.username}/items/${physicalProductId}`)
         .then(response => {
             fetchPhysicalProducts();
         })
@@ -113,58 +102,88 @@ const deletePhysicalProduct = (physicalProductId) => {
         });
 };
 
-const formatTimestamp = (timestamp) => {
-  const date = new Date(timestamp);
-  // Adjust the format as needed
-  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}.${date.getMilliseconds().toString().padStart(3, '0')}`;
-  return formattedDate;
+const fetchAvailableProductPackages = async () => {
+    try {
+        const response = await axios.get(`manufacturer/${userStore.user.username}/packages`);
+        availableProductPackages.value = response.data;
+        console.log("availableProductPackages:", availableProductPackages.value);
+    } catch (error) {
+        console.error("Error fetching available product packages:", error);
+    }
 };
+
+const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}.${date.getMilliseconds().toString().padStart(3, '0')}`;
+    return formattedDate;
+};
+
+const addProductPackage = () => {
+    const selectedPackageIds = Array.isArray(selectedProductPackages.value)
+        ? selectedProductPackages.value
+        : [selectedProductPackages.value];
+
+    selectedPackageIds.forEach((selectedPackageId) => {
+        if (!selectedProductPackageIds.value.includes(selectedPackageId)) {
+            selectedProductPackageIds.value.push(selectedPackageId);
+            console.log("selectedProductPackageIds:", selectedProductPackageIds.value);
+        }
+    });
+};
+
+const removeProductPackage = (index) => {
+    selectedProductPackageIds.value.splice(index, 1);
+    console.log("selectedProductPackageIds:", selectedProductPackageIds.value);
+};
+
+const getProductPackageName = (packageId) => {
+    const selectedPackage = availableProductPackages.value.find(pkg => pkg.id === packageId);
+    return selectedPackage ? `${selectedPackage.type} : ${selectedPackage.material}` : '';
+};
+
 
 </script>
 
 <template>
-    <div v-if="!productExists">
+    <div v-if="!hasProductDetails">
         <p>Product not found.</p>
     </div>
 
     <div v-else>
-        <br>
+        <br />
         <div v-if="!onlyDetails">
             <div class="col mx-auto text-center">
                 <div class="card shadow-sm sm-4 mb-4">
                     <div class="card-header text-center">
-                        <h4>{{ product.name }}: {{ product.id }}</h4>
+                        <h4>{{ productDetails.name }}: {{ productDetails.id }}</h4>
                     </div>
                     <div class="card-body">
                         <h5>Description:</h5>
-                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">{{ productDetails.description }}</p>
                         <h5>Ingredients:</h5>
-                        <p class="card-text">{{ product.ingredients }}</p>
+                        <p class="card-text">{{ productDetails.ingredients }}</p>
                         <h5>Weight</h5>
-                        <p class="card-text">{{ product.weight }}</p>
+                        <p class="card-text">{{ productDetails.weight }}</p>
                         <h5>Stock:</h5>
-                        <p class="card-text"> {{ product.inStock }}</p>
+                        <p class="card-text"> {{ productDetails.inStock }}</p>
                         <div class="text-center">
-                            <h5> {{ product.price }}€</h5>
+                            <h5> {{ productDetails.price }}€</h5>
                         </div>
                         <div class="text-center">
                             <button class="btn btn-warning m-1 edit-button" @click="editProduct">Edit Product</button>
                         </div>
                     </div>
                 </div>
-                <EditProduct v-if="showCreateModifyProduct && !isCreating" class="col-md-6 mx-auto"
-                    :makerUsername="makerUsername" :productId="product.id" :isCreating="false" @close="handleClose" />
+                <EditProduct v-if="isEditingProduct && !isCreatingProduct" class="col-md-6 mx-auto"
+                    :makerUsername="userStore.user.username" :productId="productDetails.id" :isCreating="false"
+                    @close="handleClose" />
             </div>
-
         </div>
 
-
-
         <div>
-
             <div v-if="physicalProducts.length !== 0">
                 <h2>Stock items</h2>
-                <div v-if="physicalProductExists">
+                <div v-if="hasPhysicalProducts">
                     <table class="table table-sm">
                         <thead>
                             <tr>
@@ -172,6 +191,7 @@ const formatTimestamp = (timestamp) => {
                                 <th>Product Name</th>
                                 <th>Product Id</th>
                                 <th>Added to stock</th>
+                                <th>Product Packages</th>
                                 <th v-if="!onlyDetails">Actions</th>
                             </tr>
                         </thead>
@@ -181,6 +201,11 @@ const formatTimestamp = (timestamp) => {
                                 <td>{{ physical.productName }}</td>
                                 <td>{{ physical.productId }}</td>
                                 <td>{{ physical.stockTimestamp }}</td>
+                                <td>
+                                    <div v-for="pkg in physical.productPackages" :key="pkg.id">
+                                        <p>{{ pkg.type }} : {{ pkg.material }}</p>
+                                    </div>
+                                </td>
                                 <td v-if="!onlyDetails">
                                     <button type="button" class="btn btn-danger"
                                         @click="deletePhysicalProduct(physical.id)">Delete item</button>
@@ -195,13 +220,38 @@ const formatTimestamp = (timestamp) => {
                 <p>No stock items found.</p>
             </div>
 
-            <div v-if="!onlyDetails">
-                <div class="d-flex align-items-center m-1">
-                    <input v-model="numberOfProducts" type="number" min="1" required />
-                    <button class="btn btn-success ms-2 m-1" @click="addMultiplePhysicalProducts">Add {{ numberOfProducts}} items</button>
+            <div class="text-center" v-if="!onlyDetails">
+                <h2>Add Items</h2>
+
+
+                <!-- Dynamic list of select boxes for product packages -->
+
+
+                <div>
+                    <select v-model="selectedProductPackages" class="form-select">
+                        <option v-for="pkg in availableProductPackages" :key="pkg.id" :value="pkg.id">[{{ pkg.id }}] {{
+                            pkg.type }} : {{ pkg.material }}</option>
+                    </select>
+                    <button class="btn btn-info ms-2 m-1" @click="addProductPackage">Add Package</button>
+
+                </div>
+
+                <!-- Display selected product packages -->
+                <div v-if="selectedProductPackageIds.length > 0">
+                    <h2>Selected Product Packages</h2>
+                    <div v-for="(packageId, index) in selectedProductPackageIds" :key="index">
+                        <p>{{ getProductPackageName(packageId) }}</p>
+                        <button class="btn btn-danger" @click="removeProductPackage(index)">Remove Package</button>
+                    </div>
+                </div>
+
+                <div class=" align-items-center m-1">
+                    <input v-model="quantityOfProducts" type="number" min="1" required />
+                    <button class="btn btn-success ms-2 m-1" @click="addMultiplePhysicalProducts">
+                        Add {{ quantityOfProducts }} items
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </template>
-  

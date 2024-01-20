@@ -96,11 +96,11 @@ public class Order implements Serializable {
         this.orderTimestamp = orderTimestamp;
     }
 
-    public List<InventoryItem> getPhysicalProducts() {
+    public List<InventoryItem> getInventoryItems() {
         return inventoryItems;
     }
 
-    public void setPhysicalProducts(List<InventoryItem> inventoryItems) {
+    public void setInventoryItems(List<InventoryItem> inventoryItems) {
         this.inventoryItems = inventoryItems;
     }
 

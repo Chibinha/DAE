@@ -51,27 +51,27 @@ public class OrderBean {
 
         Order order = new Order(totalPrice, warehouseOperator, customer, inventoryItems);
 
-        // Retrieve PhysicalProducts for each product ID
+        // Retrieve InventoryItems for each product ID
         for (Map.Entry<Long, Integer> entry : products.entrySet()) {
             Long productId = entry.getKey();
             Integer quantity = entry.getValue();
 
-            // Retrieve PhysicalProducts for the product ID
-            List<InventoryItem> productInventoryItems = productBean.getListPhysicalProducts(productId);
+            // Retrieve InventoryItems for the product ID
+            List<InventoryItem> productInventoryItems = productBean.getListInventoryItems(productId);
 
             if (productInventoryItems == null || productInventoryItems.isEmpty()) {
-                throw new MyEntityNotFoundException("Physical products not found for product ID: " + productId);
+                throw new MyEntityNotFoundException("Inventory Items not found for product ID: " + productId);
             }
 
-            // Add PhysicalProducts to the list
-            for (int i = 0; i < quantity; i++) {
+            // Add InventoryItems to the list
+            for (int i = 0; i < quantity && i < productInventoryItems.size(); i++) {
                 InventoryItem productToAdd = productInventoryItems.get(i);
-                inventoryItems.add(productInventoryItems.get(i));
+                inventoryItems.add(productToAdd);
                 productToAdd.setOrder(order);
-                totalPrice += productInventoryItems.get(i).getProduct().getPrice();
+                totalPrice += productToAdd.getProduct().getPrice();
             }
         }
-        order.setPhysicalProducts(inventoryItems);
+        order.setInventoryItems(inventoryItems);
         order.setTotalPrice(totalPrice);
         entityManager.persist(order);
     }

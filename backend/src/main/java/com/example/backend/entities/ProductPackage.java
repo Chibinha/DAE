@@ -15,46 +15,41 @@ import java.util.List;
 })
 public class ProductPackage extends Package implements Serializable {
     @ManyToMany
-    @JoinTable(
-        name = "packages_products",
-        joinColumns = @JoinColumn(name = "product_package_id"),
-        inverseJoinColumns = {
-            @JoinColumn(name = "productPackage_id"),
-
-        }
-    )
+    @JoinTable(name = "productpackages_inventoryitems",
+        joinColumns = @JoinColumn(name = "productpackage_id"),
+        inverseJoinColumns = @JoinColumn(name = "inventoryitem_id"))
     private List<InventoryItem> inventoryItems;
 
     public ProductPackage() {
         this.inventoryItems = new ArrayList<>();
     }
 
-    public ProductPackage(int packageType, String material) {
-        super(packageType, material);
+    public ProductPackage(String type, String material) {
+        super(type, material);
         //this.product = product;
         this.inventoryItems = new ArrayList<>();
     }
 
-    public InventoryItem getCurrentPhysicalProduct() {
+    public InventoryItem getCurrentInventoryItem() {
         if (!inventoryItems.isEmpty())
             return inventoryItems.get(inventoryItems.size() - 1);
         return null;
     }
 
-    public List<InventoryItem> getPhysicalProducts() {
+    public List<InventoryItem> getInventoryItems() {
         return inventoryItems;
     }
 
-    public void setPhysicalProducts(List<InventoryItem> inventoryItems) {
+    public void setInventoryItems(List<InventoryItem> inventoryItems) {
         this.inventoryItems = inventoryItems;
     }
 
-    public void addPhysicalProduct(InventoryItem inventoryItem) {
+    public void addInventoryItem(InventoryItem inventoryItem) {
         if (inventoryItem != null)
             this.inventoryItems.add(inventoryItem);
     }
 
-    public void removePhysicalProduct(InventoryItem inventoryItem) {
+    public void removeInventoryItem(InventoryItem inventoryItem) {
         if (inventoryItem != null)
             this.inventoryItems.remove(inventoryItem);
     }
