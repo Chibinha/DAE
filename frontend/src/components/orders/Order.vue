@@ -7,6 +7,29 @@ import { onMounted } from 'vue'
 const userStore = useUserStore()
 const orderStore = useOrderStore()
 
+const save = async () => {
+    try {
+        order.value = await orderStore.updateOrder(order.value)
+        originalValueStr = JSON.stringify(order.value)
+        toast.success('Order #' + order.value.id + ' was updated successfully.')
+        router.back()
+    } catch (error) {
+        console.log(error)
+        if (error.response.status == 422) {
+        errors.value = error.response.data.errors
+        toast.error('Order #' + order.value.id  + ' was not updated due to validation errors!')
+        } else {
+        toast.error('Order #' + order.value.id  + ' was not updated due to unknown server error!')
+        }
+    }
+}  
+
+const cancel = () => {
+  originalValueStr = JSON.stringify(order.value)
+  router.back()
+}
+
+
 const props = defineProps({
   id: {
     type: String,

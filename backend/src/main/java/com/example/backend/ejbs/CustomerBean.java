@@ -1,5 +1,7 @@
 package com.example.backend.ejbs;
 
+import com.example.backend.dtos.InventoryItemDTO;
+import com.example.backend.dtos.OrderDTO;
 import com.example.backend.entities.*;
 import com.example.backend.entities.InventoryItem;
 import com.example.backend.entities.Product;
@@ -7,6 +9,7 @@ import com.example.backend.entities.Observation;
 import com.example.backend.entities.Customer;
 import com.example.backend.exceptions.*;
 import com.example.backend.security.Hasher;
+import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
@@ -15,7 +18,9 @@ import jakarta.validation.ConstraintViolationException;
 import org.hibernate.Hibernate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Stateless
 public class CustomerBean {
@@ -23,6 +28,8 @@ public class CustomerBean {
     @PersistenceContext
     private EntityManager entityManager;
     private Hasher hasher;
+    @EJB
+    private OrderBean orderBean;
 
     public Customer find(String username) throws MyEntityNotFoundException {
         Customer customer = entityManager.find(Customer.class, username);
@@ -113,6 +120,69 @@ public class CustomerBean {
         find(username);
         return entityManager.find(Order.class, index).getObservations();
     }
+
+    public long createOrder(String username, Map<Long, Integer> products)
+        throws MyEntityNotFoundException, MyConstraintViolationException, MyEntityExistsException {
+
+        return orderBean.create(username, products);
+    }
+//        try {
+//            // Check if the customer exists
+//            Customer customer = find(username);
+//
+//            // Create a map to store product IDs and quantities
+//            Map<Long, Integer> products = new HashMap<>();
+//
+//            // Populate the products map from the physicalProducts list
+//            for (InventoryItemDTO inventoryItemDTO : physicalProducts) {
+//                Long productId = inventoryItemDTO.getProductId();
+//                Integer quantity = inventoryItemDTO.getQuantity();
+//
+//                // Check if the product ID is already in the map
+//                if (products.containsKey(productId)) {
+//                    // If yes, increment the quantity
+//                    products.put(productId, products.get(productId) + quantity);
+//                } else {
+//                    // If not, add a new entry to the map
+//                    products.put(productId, quantity);
+//                }
+//            }
+//
+//            // Call the OrderBean to create the order
+//            return orderBean.create(username, usernameLineOp, products);
+//        } catch (Exception e) {
+//            // Handle exceptions and throw appropriate custom exceptions
+//            throw new MyEntityNotFoundException("Failed to create a new order for customer " + username);
+//        }
+
+
+
+//    public Long createNewOrder(String username, OrderDTO orderDTO) throws MyEntityNotFoundException {
+//        try {
+//            Customer customer = find(username);
+//
+//            // Create a new Order entity from the OrderDTO
+//            Order order = new Order();
+//            // Set other properties of the order using orderDTO
+//            order.setStatus("created"); // Set an initial status, you can modify this based on your requirements
+//            order.setTotalPrice(orderDTO.getTotalPrice()); // Assuming OrderDTO has a totalPrice field
+//
+//            // Add the order to the customer's orders
+//            customer.addOrder(order);
+//
+//            // Update the customer entity with the new order
+//            entityManager.merge(customer);
+//
+//            // Flush to persist changes to the database
+//            entityManager.flush();
+//
+//            // Return the index or ID of the newly created order
+//            return order.getId();
+//        } catch (Exception e) {
+//            // Handle exceptions and throw appropriate custom exceptions
+//            throw new MyEntityNotFoundException("Failed to create a new order for customer " + username);
+//        }
+//    }
 
 //    public Customer getClientAlerts(String username) {
 //        Customer customer = this.find(username);

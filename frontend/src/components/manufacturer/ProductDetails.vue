@@ -38,6 +38,7 @@ const fetchPhysicalProducts = async () => {
             physicalProduct.stockTimestamp = formatTimestamp(physicalProduct.stockTimestamp);
         });
         hasPhysicalProducts.value = true;
+        
     } catch (error) {
         hasPhysicalProducts.value = false;
         console.error("Error fetching physical products:", error);

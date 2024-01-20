@@ -17,6 +17,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Path("warehouseoperator") // relative url web path for this service
@@ -28,10 +29,6 @@ public class WarehouseOperatorService {
 
     @EJB
     private WarehouseOperatorBean warehouseOperatorBean;
-    @EJB
-    private OrderBean orderBean;
-    @EJB
-    private UserBean userBean;
     private final DTOConverter dtoConverter = new DTOConverter();
 
     private ExternalContext securityContext;
@@ -133,27 +130,21 @@ public class WarehouseOperatorService {
         }
     }
 
-    @PUT
+    @PATCH
     @Path("{username}/orders/{index}")
-    @Transactional
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response updateLineOperatorOrder(@PathParam("username") String username, @PathParam("index") int index, OrderDTO orderDTO) throws MyEntityNotFoundException, MyConstraintViolationException, MyEntityExistsException {
-        //orderBean.update(index, orderDTO.getStatus());
-        boolean notUpdated = false;
-        String notUpdatedFields = "";
-        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
-
-        return Response.ok().build();
+        warehouseOperatorBean.updateOrder(index, orderDTO.getStatus());
+        if (index < 1) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Order with id [" + index + "] not updated.").build();
+        }
+        return Response.status(Response.Status.OK).entity("Order with id [" + index + "] updated.").build();
     }
 
     @PUT
     @Path("{username}/orders/{index}")
     @Transactional
     public Response updateLineOperatorOrderSensor(@PathParam("username") String username, @PathParam("index") long index, SensorDTO sensorDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
-        //orderBean.update(index, orderDTO.getPackageId(), orderDTO.getSensorId() ,orderDTO.getStatus());
-        boolean notUpdated = false;
-        String notUpdatedFields = "";
-        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
-
         return Response.ok().build();
     }
 
@@ -161,11 +152,6 @@ public class WarehouseOperatorService {
     @Path("{username}/orders/{index}")
     @Transactional
     public Response updateLineOperatorOrderPackage(@PathParam("username") String username, @PathParam("index") long index, TransportPackageDTO packageDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
-        //packageBean.update(index, orderDTO.getStatus());
-        boolean notUpdated = false;
-        String notUpdatedFields = "";
-        WarehouseOperator warehouseOperator = warehouseOperatorBean.find(username);
-
         return Response.ok().build();
     }
 
@@ -196,8 +182,9 @@ public class WarehouseOperatorService {
     @GET
     @Path("{username}/alerts")
     public Response getAlerts(@PathParam("username") String username) throws MyEntityNotFoundException {
-        List<Alert> alerts = userBean.getAlerts(username);
-        return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
+//        List<Alert> alerts = userBean.getAlerts(username);
+//        return Response.ok(dtoConverter.alertToDTOList(alerts)).build();
+        return Response.ok().build();
     }
 
 //    @GET
