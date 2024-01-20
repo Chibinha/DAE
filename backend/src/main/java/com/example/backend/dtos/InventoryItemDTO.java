@@ -1,7 +1,11 @@
 package com.example.backend.dtos;
 
+import com.example.backend.entities.ProductPackage;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InventoryItemDTO implements Serializable {
     private long id;
@@ -9,16 +13,19 @@ public class InventoryItemDTO implements Serializable {
     private String productName;
     private String makerUsername;
     private Timestamp stockTimestamp;
+    private List<ProductPackageDTO> productPackages;
 
     public InventoryItemDTO() {
+        this.productPackages = new ArrayList<>();
     }
 
-    public InventoryItemDTO(long id, long productId, String productName, String makerUsername, Timestamp stockTimestamp) {
+    public InventoryItemDTO(long id, long productId, String productName, String makerUsername, Timestamp stockTimestamp, List<ProductPackageDTO> productPackages) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
         this.makerUsername = makerUsername;
         this.stockTimestamp = stockTimestamp;
+        this.productPackages = productPackages;
     }
 
     public long getId() {
@@ -59,5 +66,23 @@ public class InventoryItemDTO implements Serializable {
 
     public void setStockTimestamp(Timestamp stockTimestamp) {
         this.stockTimestamp = stockTimestamp;
+    }
+
+    public List<ProductPackageDTO> getProductPackages() {
+        return productPackages;
+    }
+
+    public void setProductPackages(List<ProductPackageDTO> productPackages) {
+        this.productPackages = productPackages;
+    }
+
+    public void addProductPackage(ProductPackageDTO productPackage) {
+        if (!productPackages.contains(productPackage)) {
+            productPackages.add(productPackage);
+        }
+    }
+
+    public void removeProductPackage(ProductPackageDTO productPackage) {
+        productPackages.remove(productPackage);
     }
 }

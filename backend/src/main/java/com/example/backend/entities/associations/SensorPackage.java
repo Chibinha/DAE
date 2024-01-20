@@ -1,39 +1,39 @@
-package com.example.backend.entities;
+package com.example.backend.entities.associations;
 
-import com.example.backend.entities.Order;
 import com.example.backend.entities.Package;
+import com.example.backend.entities.Sensor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "packages_orders")
-public class PackageOrder {
+@Table(name = "sensors_packages")
+public class SensorPackage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "transportation_package_id")
-    private TransportPackage orderPackage;
+    @JoinColumn(name = "sensor_id")
+    private Sensor sensor;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @JoinColumn(name = "package_id")
+    private Package aPackage;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "associationDate", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp associationDate;
 
-
-    public PackageOrder(TransportPackage orderPackage, Order order, Timestamp associationDate) {
-        this.orderPackage = orderPackage;
-        this.order = order;
+    public SensorPackage(Long id, Sensor sensor, Package aPackage, Timestamp associationDate) {
+        this.id = id;
+        this.sensor = sensor;
+        this.aPackage = aPackage;
         this.associationDate = associationDate;
     }
 
-    public PackageOrder() {
+    public SensorPackage() {
     }
 
     public Long getId() {
@@ -44,20 +44,20 @@ public class PackageOrder {
         this.id = id;
     }
 
-    public Package getOrderPackage() {
-        return orderPackage;
+    public Sensor getSensor() {
+        return sensor;
     }
 
-    public void setOrderPackage(TransportPackage orderPackage) {
-        this.orderPackage = orderPackage;
+    public void setSensor(Sensor sensor) {
+        this.sensor = sensor;
     }
 
-    public Order getOrder() {
-        return order;
+    public Package getaPackage() {
+        return aPackage;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setaPackage(Package aPackage) {
+        this.aPackage = aPackage;
     }
 
     public Timestamp getAssociationDate() {

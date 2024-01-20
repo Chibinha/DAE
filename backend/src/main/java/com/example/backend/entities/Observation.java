@@ -27,13 +27,19 @@ public class Observation implements Serializable {
     @NotNull
     private Sensor sensor;
 
+    @ManyToOne
+    @JoinColumn(name = "orderId")
+    @NotNull
+    public Order order;
+
     public Observation() {
     }
 
-    public Observation(String value, Sensor sensor) {
+        public Observation(String value, Sensor sensor, Order order) {
         this.value = value;
         this.timestamp = new Timestamp(System.currentTimeMillis());
         this.sensor = sensor;
+        this.order = order;
     }
 
     public long getId() {
@@ -66,5 +72,13 @@ public class Observation implements Serializable {
 
     public Timestamp getTimestamp() {
         return timestamp;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

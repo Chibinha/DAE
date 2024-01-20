@@ -123,21 +123,21 @@ public class Product implements Serializable {
         this.manufacturer = manufacturer;
     }
 
-    public List<InventoryItem> getPhysicalProducts() {
+    public List<InventoryItem> getInventoryItems() {
         return inventoryItems;
     }
 
-    public void setPhysicalProducts(List<InventoryItem> inventoryItems) {
+    public void setInventoryItems(List<InventoryItem> inventoryItems) {
         this.inventoryItems = inventoryItems;
         this.inStock = inventoryItems.size();
     }
 
-    public void addPhysicalProduct(InventoryItem inventoryItem) {
+    public void addInventoryItem(InventoryItem inventoryItem) {
         this.inventoryItems.add(inventoryItem);
         this.inStock = inventoryItems.size();
     }
 
-    public void removePhysicalProduct(InventoryItem inventoryItem) {
+    public void removeInventoryItem(InventoryItem inventoryItem) {
         this.inventoryItems.remove(inventoryItem);
         this.inStock = inventoryItems.size();
     }

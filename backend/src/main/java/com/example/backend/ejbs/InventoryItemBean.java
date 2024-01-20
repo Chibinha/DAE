@@ -1,13 +1,18 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.entities.InventoryItem;
+import com.example.backend.entities.Manufacturer;
 import com.example.backend.entities.Product;
+import com.example.backend.entities.ProductPackage;
 import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Stateless
 public class InventoryItemBean {
@@ -17,8 +22,9 @@ public class InventoryItemBean {
     private ProductBean productBean;
     @EJB
     private ManufacturerBean manufacturerBean;
-//    @EJB
-//    private OrderBean orderBean;
+    @EJB
+    private ProductPackageBean productPackageBean;
+    private static final Logger logger = Logger.getLogger("ejbs.InventoryItem");
 
     public boolean exists(Long id) {
         Query query = entityManager.createQuery("SELECT COUNT(p) FROM InventoryItem p WHERE p.id = :id");
@@ -28,20 +34,35 @@ public class InventoryItemBean {
 
     // CRUD
     // Create
-    public long create(long productId) throws MyEntityNotFoundException{
-        Product product = productBean.find(productId);
+    public long create(long productId, List<Long> productPackageIds) throws MyEntityNotFoundException {
+        try {
+            Product product = productBean.find(productId);
+            List<ProductPackage> productPackages = productPackageBean.getProductPackages(productPackageIds);
+            InventoryItem inventoryItem = new InventoryItem(product);
 
-        InventoryItem inventoryItem = new InventoryItem(product);
-        entityManager.persist(inventoryItem);
+            for (ProductPackage productPackage : productPackages) {
+                inventoryItem.addProductPackage(productPackage);
+            }
 
-        find(inventoryItem.getId());
+            product.addInventoryItem(inventoryItem);
+            Manufacturer manufacturer = manufacturerBean.find(product.getMaker().getUsername());
+            inventoryItem.setMaker(manufacturer);
+            product.setMaker(manufacturer);
+            manufacturer.addInventoryItem(inventoryItem);
 
-        return inventoryItem.getId();
+            entityManager.persist(inventoryItem);
+
+            return inventoryItem.getId();
+        } catch (Exception e) {
+            logger.severe("Error creating InventoryItem: " + e.getMessage());
+            throw e;
+        }
     }
+
 
     // Read
     public List<InventoryItem> getAll() {
-        return entityManager.createNamedQuery("getAllPhysicalProducts", InventoryItem.class).getResultList();
+        return entityManager.createNamedQuery("getAllInventoryItems", InventoryItem.class).getResultList();
     }
 
     // Find
@@ -54,16 +75,22 @@ public class InventoryItemBean {
     }
 
     // Update
-    public long update(long id) throws MyEntityNotFoundException {
+    public long update(long id, List<Long> productPackagesIds) throws MyEntityNotFoundException {
         InventoryItem inventoryItem = find(id);
+
+        if (productPackagesIds != null) {
+            List<ProductPackage> productPackages = productPackageBean.getProductPackages(productPackagesIds);
+            inventoryItem.setProductPackages(productPackages);
+        }
 
         entityManager.merge(inventoryItem);
         return inventoryItem.getId();
     }
+
     // Delete
     public void delete(long id) throws MyEntityNotFoundException {
         InventoryItem inventoryItem = find(id);
-        inventoryItem.getProduct().removePhysicalProduct(inventoryItem);
+        inventoryItem.getProduct().removeInventoryItem(inventoryItem);
         entityManager.remove(find(id));
     }
 }

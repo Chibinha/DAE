@@ -57,37 +57,37 @@ public class OrderBean {
 
         Order order = new Order(totalPrice, chosenOperator, customer, inventoryItems);
 
-        // Retrieve PhysicalProducts for each product ID
+        // Retrieve InventoryItems for each product ID
         for (Map.Entry<Long, Integer> entry : products.entrySet()) {
             Long productId = entry.getKey();
             Integer quantity = entry.getValue();
 
-            // Retrieve PhysicalProducts for the product ID
-            List<InventoryItem> productInventoryItems = productBean.getListPhysicalProducts(productId);
+            // Retrieve InventoryItems for the product ID
+            List<InventoryItem> productInventoryItems = productBean.getListInventoryItems(productId);
 
             if (productInventoryItems == null || productInventoryItems.isEmpty()) {
-                throw new MyEntityNotFoundException("Physical products not found for product ID: " + productId);
+                throw new MyEntityNotFoundException("Inventory Items not found for product ID: " + productId);
             }
 
-            // Add PhysicalProducts to the list
-            for (int i = 0; i < quantity; i++) {
+            // Add InventoryItems to the list
+            for (int i = 0; i < quantity && i < productInventoryItems.size(); i++) {
                 InventoryItem productToAdd = productInventoryItems.get(i);
                 inventoryItems.add(productToAdd);
                 productToAdd.setOrder(order);
                 totalPrice += productToAdd.getProduct().getPrice();
             }
         }
-
-        order.setPhysicalProducts(inventoryItems);
+        order.setInventoryItems(inventoryItems);
         order.setTotalPrice(totalPrice);
         entityManager.persist(order);
         return order.getId();
     }
 
-    public void update(int orderId, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+    public void update(int orderId, long packageId, long sensorId, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
         find(orderId).setStatus(status);
-        //associateTransportationPackageToOrder(order.getId(), packageId);
-        //associateSensorToPackage(packageId, sensorId);
+        associateTransportationPackageToOrder(orderId, packageId);
+        sensorBean.associateSensorToPackage(packageId, sensorId);
+
     }
 
     public List<Order> getAll() {
@@ -113,15 +113,7 @@ public class OrderBean {
         }
     }
 
-    public void associateSensorToPackage(long id, long sensorId) throws MyEntityNotFoundException {
-        Package aPackage = packageBean.find(id);
-        Sensor sensor = sensorBean.find(sensorId);
-        if(sensor.getCurrentPackage() != aPackage)
-        {
-            //aPackage.addSensor(sensor);
-            sensor.addPackage(aPackage);
-        }
-    }
+
 
     public boolean exists(long id) throws MyEntityNotFoundException  {
         Query query = entityManager.createQuery("SELECT COUNT(o) FROM Order o WHERE o.id = :id");

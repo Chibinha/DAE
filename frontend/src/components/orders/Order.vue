@@ -7,29 +7,6 @@ import { onMounted } from 'vue'
 const userStore = useUserStore()
 const orderStore = useOrderStore()
 
-const save = async () => {
-    try {
-        order.value = await orderStore.updateOrder(order.value)
-        originalValueStr = JSON.stringify(order.value)
-        toast.success('Order #' + order.value.id + ' was updated successfully.')
-        router.back()
-    } catch (error) {
-        console.log(error)
-        if (error.response.status == 422) {
-        errors.value = error.response.data.errors
-        toast.error('Order #' + order.value.id  + ' was not updated due to validation errors!')
-        } else {
-        toast.error('Order #' + order.value.id  + ' was not updated due to unknown server error!')
-        }
-    }
-}  
-
-const cancel = () => {
-  originalValueStr = JSON.stringify(order.value)
-  router.back()
-}
-
-
 const props = defineProps({
   id: {
     type: String,
@@ -65,11 +42,6 @@ const seeProduct = (product) => {
   router.push({ name: 'Product', params: { id: product.id } })
 }
 
-const edit = () => {
-  originalValueStr = JSON.stringify(editingOrder.value)
-  router.back()
-}
-
 onMounted(async () => {
   await userStore.restoreToken();
   loadOrder()
@@ -87,7 +59,7 @@ const formatTimestamp = (timestamp) => {
   <form class="row g-3">
     <div class="d-flex justify-content-between align-items-end">
     <h3 class="mt-5 mb-3">Encomenda #{{ orderStore.order.id }}</h3>
-    <router-link v-show="userStore.user?.role == 'WarehouseOperator'" :class="{ active: $route.name === 'EditOrder' }" :to="{ name: 'EditOrder', props: { order: orderStore.order } } ">
+    <router-link @save="save" v-show="userStore.user?.role == 'WarehouseOperator'" :class="{ active: $route.name === 'EditOrder' }" :to="{ name: 'EditOrder', props: { order: orderStore.order } } ">
         <button class="btn btn-primary align-self-end">
             Editar Encomenda
         </button>

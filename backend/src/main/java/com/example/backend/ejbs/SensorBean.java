@@ -1,8 +1,11 @@
 package com.example.backend.ejbs;
 
 import com.example.backend.entities.Observation;
+import com.example.backend.entities.Package;
 import com.example.backend.entities.Sensor;
+import com.example.backend.entities.TransportPackage;
 import com.example.backend.exceptions.MyEntityNotFoundException;
+import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
 
@@ -12,6 +15,8 @@ import java.util.List;
 public class SensorBean {
     @PersistenceContext
     private EntityManager entityManager;
+    @EJB
+    private PackageBean packageBean;
 
     public boolean exists(long id) {
         Query query = entityManager.createQuery("SELECT COUNT(p) FROM Sensor p WHERE p.id = :id");
@@ -68,5 +73,15 @@ public class SensorBean {
     public List<Observation> getObservations(long id) throws MyEntityNotFoundException {
         Sensor sensor = find(id);
         return sensor.getObservations();
+    }
+
+    public void associateSensorToPackage(long id, long sensorId) throws MyEntityNotFoundException {
+        Package aPackage = packageBean.find(id);
+        Sensor sensor = this.find(sensorId);
+        if(sensor.getCurrentPackage() != aPackage && aPackage.getCurrentSensor() != sensor)
+        {
+            aPackage.addSensor(sensor);
+            sensor.addPackage(aPackage);
+        }
     }
 }

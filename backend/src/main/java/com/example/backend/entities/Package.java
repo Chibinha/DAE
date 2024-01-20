@@ -1,7 +1,5 @@
 package com.example.backend.entities;
 
-import com.example.backend.entities.Observation;
-import com.example.backend.entities.Sensor;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -22,7 +20,7 @@ public class Package implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
-    protected int packageType;
+    protected String type;
     protected String material;
 
     @ManyToMany(mappedBy = "packages")
@@ -32,8 +30,8 @@ public class Package implements Serializable {
         this.sensors = new LinkedList<>();
     }
 
-    public Package(int tipoEmbalagem, String material) {
-        this.packageType = tipoEmbalagem;
+    public Package(String type, String material) {
+        this.type = type;
         this.material = material;
         this.sensors = new LinkedList<>();
     }
@@ -46,12 +44,12 @@ public class Package implements Serializable {
         this.id = id;
     }
 
-    public int getPackageType() {
-        return packageType;
+    public String getType() {
+        return type;
     }
 
-    public void setPackageType(int tipoEmbalagem) {
-        this.packageType = tipoEmbalagem;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getMaterial() {
@@ -77,10 +75,12 @@ public class Package implements Serializable {
     }
 
     public Sensor getCurrentSensor() {
-        if(!sensors.isEmpty()) {
+        if(!sensors.isEmpty() && sensors.get(sensors.size() - 1).getCurrentPackage().getId() == this.getId()) {
             return sensors.get(sensors.size() - 1);
         }
-        return null;
+        Sensor empty = new Sensor();
+        empty.setId(-1);
+        return empty;
     }
 
     public List<Observation> getAllObservations() {

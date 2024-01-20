@@ -32,7 +32,7 @@ public class TransportPackageService {
     @POST
     @Path("/")
     public Response createNewTransportationPackage(TransportPackageDTO transportationPackageDTO) throws  MyEntityNotFoundException {
-        transportPackageBean.create(transportationPackageDTO.getPackageType(), transportationPackageDTO.getMaterial());
+        transportPackageBean.create(transportationPackageDTO.getType(), transportationPackageDTO.getMaterial());
         TransportPackage newTransportationPackage = transportPackageBean.find(transportationPackageDTO.getId());
         if (newTransportationPackage == null)
             return Response.status(Response.Status.BAD_REQUEST).build();

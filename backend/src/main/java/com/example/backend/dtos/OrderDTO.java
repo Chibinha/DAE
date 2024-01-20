@@ -12,11 +12,14 @@ public class OrderDTO implements Serializable {
     private List<InventoryItemDTO> physicalProducts;
     public String client;
     private Timestamp orderTimestamp;
+    private long packageId;
+    private long sensorId;
+
     public OrderDTO() {
         this.physicalProducts = new ArrayList<>();
     }
 
-    public OrderDTO(long id, String status, double totalPrice, String lineOperator, String client, Timestamp orderTimestamp, List<InventoryItemDTO> physicalProducts) {
+    public OrderDTO(long id, String status, double totalPrice, String lineOperator, String client, Timestamp orderTimestamp, List<InventoryItemDTO> physicalProducts, long packageId, long sensorId) {
         this.id = id;
         this.status = status;
         this.totalPrice = totalPrice;
@@ -24,12 +27,13 @@ public class OrderDTO implements Serializable {
         this.client = client;
         this.physicalProducts = physicalProducts;
         this.orderTimestamp = orderTimestamp;
+        this.packageId = packageId;
+        this.sensorId = sensorId;
     }
 
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
@@ -76,5 +80,25 @@ public class OrderDTO implements Serializable {
 
     public Timestamp getOrderTimestamp() {
         return orderTimestamp;
+    }
+
+    public void setOrderTimestamp(Timestamp orderTimestamp) {
+        this.orderTimestamp = orderTimestamp;
+    }
+
+    public long getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(long packageId) {
+        this.packageId = packageId;
+    }
+
+    public long getSensorId() {
+        return sensorId;
+    }
+
+    public void setSensorId(long sensorId) {
+        this.sensorId = sensorId;
     }
 }

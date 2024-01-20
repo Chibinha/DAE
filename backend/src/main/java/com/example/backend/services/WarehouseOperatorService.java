@@ -134,7 +134,7 @@ public class WarehouseOperatorService {
     @Path("{username}/orders/{index}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateLineOperatorOrder(@PathParam("username") String username, @PathParam("index") int index, OrderDTO orderDTO) throws MyEntityNotFoundException, MyConstraintViolationException, MyEntityExistsException {
-        warehouseOperatorBean.updateOrder(index, orderDTO.getStatus());
+        warehouseOperatorBean.updateOrder(index, orderDTO.getPackageId(), orderDTO.getSensorId(), orderDTO.getStatus());
         if (index < 1) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Order with id [" + index + "] not updated.").build();
         }
