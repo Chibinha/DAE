@@ -14,10 +14,7 @@ import java.util.List;
     )
 })
 public class ProductPackage extends Package implements Serializable {
-    @ManyToMany
-    @JoinTable(name = "productpackages_inventoryitems",
-        joinColumns = @JoinColumn(name = "productpackage_id"),
-        inverseJoinColumns = @JoinColumn(name = "inventoryitem_id"))
+    @ManyToMany(mappedBy = "productPackages")
     private List<InventoryItem> inventoryItems;
 
     public ProductPackage() {
@@ -26,7 +23,6 @@ public class ProductPackage extends Package implements Serializable {
 
     public ProductPackage(String type, String material) {
         super(type, material);
-        //this.product = product;
         this.inventoryItems = new ArrayList<>();
     }
 

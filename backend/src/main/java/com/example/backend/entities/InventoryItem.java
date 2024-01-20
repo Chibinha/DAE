@@ -13,18 +13,18 @@ import java.util.List;
 @Entity
 @Table(name = "inventory_items")
 @NamedQueries({
-        @NamedQuery(
-                name = "getAllInventoryItems",
-                query = "SELECT p FROM InventoryItem p ORDER BY p.id"
-        ),
-        @NamedQuery(
-                name = "getMakerInventoryItems",
-                query = "SELECT p FROM InventoryItem p WHERE p.product.manufacturer.username = :username ORDER BY p.id"
-        ),
-        @NamedQuery(
-                name = "getMakerInventoryItemsForProduct",
-                query = "SELECT p FROM InventoryItem p WHERE p.product.manufacturer.username = :username AND p.product.id = :productId ORDER BY p.id"
-        ),// fetch List<ProductPackage> productPackages;
+    @NamedQuery(
+        name = "getAllInventoryItems",
+        query = "SELECT p FROM InventoryItem p ORDER BY p.id"
+    ),
+    @NamedQuery(
+        name = "getMakerInventoryItems",
+        query = "SELECT p FROM InventoryItem p WHERE p.product.manufacturer.username = :username ORDER BY p.id"
+    ),
+    @NamedQuery(
+        name = "getMakerInventoryItemsForProduct",
+        query = "SELECT p FROM InventoryItem p WHERE p.product.manufacturer.username = :username AND p.product.id = :productId ORDER BY p.id"
+    ),// fetch List<ProductPackage> productPackages;
 
 
 })
@@ -42,7 +42,12 @@ public class InventoryItem implements Serializable {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToMany(mappedBy = "inventoryItems")
+    @ManyToMany
+    @JoinTable(
+        name = "productpackages_inventoryitems",
+        joinColumns = @JoinColumn(name = "inventory_item_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_package_id")
+    )
     private List<ProductPackage> productPackages;
 
     // manufacturer
@@ -60,16 +65,13 @@ public class InventoryItem implements Serializable {
         this.productPackages = new ArrayList<>();
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
     }
-    public InventoryItem(Product product, List<ProductPackage> productPackages) {
+
+    public InventoryItem(Product product) {
         this.product = product;
-        this.productPackages = productPackages;
         this.manufacturer = product.getMaker();
         this.stockTimestamp = new Timestamp(System.currentTimeMillis());
         this.order = null;
-        //many to many to product packages
-        for (ProductPackage productPackage : productPackages) {
-            productPackage.addInventoryItem(this);
-        }
+        this.productPackages = new ArrayList<>();
     }
 
     public long getId() {
@@ -94,6 +96,7 @@ public class InventoryItem implements Serializable {
 
     public void setOrder(Order order) {
         this.order = order;
+        order.addInventoryItem(this);
     }
 
     public List<ProductPackage> getProductPackages() {

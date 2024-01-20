@@ -125,14 +125,6 @@ public class Order implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public List<InventoryItem> getInventoryItems() {
-        return inventoryItems;
-    }
-
-    public void setInventoryItems(List<InventoryItem> inventoryItems) {
-        this.inventoryItems = inventoryItems;
-    }
-
     public Customer getCustomer() {
         return customer;
     }
@@ -184,5 +176,10 @@ public class Order implements Serializable {
     public void removePackage(TransportPackage order) {
         if(order!= null)
             this.packages.remove(order);
+    }
+
+    public void addInventoryItem(InventoryItem inventoryItem) {
+        if(inventoryItem != null)
+            this.inventoryItems.add(inventoryItem);
     }
 }

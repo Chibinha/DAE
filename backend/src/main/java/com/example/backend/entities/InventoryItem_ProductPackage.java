@@ -7,31 +7,31 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "productpackages_inventoryitems")
-public class ProductPackage_InventoryItem {
+public class InventoryItem_ProductPackage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "productpackage_id")
-    private ProductPackage myPackage;
+    @JoinColumn(name = "inventory_item_id")
+    private InventoryItem inventoryItem;
 
     @ManyToOne
-    @JoinColumn(name = "inventoryitem_id")
-    private InventoryItem inventoryItem;
+    @JoinColumn(name = "product_package_id")
+    private ProductPackage myPackage;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "association_date")
     @NotNull
     private Timestamp associationDate;
 
-    public ProductPackage_InventoryItem(ProductPackage myPackage, InventoryItem inventoryItem, Timestamp associationDate) {
+    public InventoryItem_ProductPackage(ProductPackage myPackage, InventoryItem inventoryItem, Timestamp associationDate) {
         this.myPackage = myPackage;
         this.inventoryItem = inventoryItem;
         this.associationDate = associationDate;
     }
 
-    public ProductPackage_InventoryItem() {
+    public InventoryItem_ProductPackage() {
     }
 
     public Long getId() {

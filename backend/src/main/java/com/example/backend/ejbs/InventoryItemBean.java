@@ -7,6 +7,7 @@ import com.example.backend.exceptions.MyEntityNotFoundException;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -29,12 +30,19 @@ public class InventoryItemBean {
 
     // CRUD
     // Create
+    @Transactional
     public long create(long productId, List<Long> productPackageIds) throws MyEntityNotFoundException {
         Product product = productBean.find(productId);
         List<ProductPackage> productPackages = productPackageBean.getProductPackages(productPackageIds);
-        InventoryItem inventoryItem = new InventoryItem(product, productPackages);
+        InventoryItem inventoryItem = new InventoryItem(product);
+        for (ProductPackage productPackage : productPackages) {
+            inventoryItem.addProductPackage(productPackage);
+            productPackage.addInventoryItem(inventoryItem);
+        }
+        product.addInventoryItem(inventoryItem);
+        product.setMaker(product.getMaker());
+        product.getMaker().addInventoryItem(inventoryItem);
         entityManager.persist(inventoryItem);
-
         find(inventoryItem.getId());
 
         return inventoryItem.getId();

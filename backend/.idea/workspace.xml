@@ -4,37 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df7fb87e-4faf-4982-a0ca-2eea59da706c" name="Changes" comment="">
+    <list default="true" id="df7fb87e-4faf-4982-a0ca-2eea59da706c" name="Changes" comment="Update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/DTOConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/DTOConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/InventoryItemDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/InventoryItemDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/OrderDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/OrderDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/ProductPackageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/ProductPackageDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/TransportPackageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/dtos/TransportPackageDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ConfigBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/CustomerBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/CustomerBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/InventoryItemBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/InventoryItemBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ManufacturerBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ManufacturerBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/OrderBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/OrderBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ProductBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ProductBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ProductPackageBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/ProductPackageBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/TransportPackageBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/TransportPackageBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/WarehouseOperatorBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/ejbs/WarehouseOperatorBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/InventoryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/InventoryItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Manufacturer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Manufacturer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Package.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Package.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/PackageInventoryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/ProductPackage_InventoryItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/PackageOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/associations/PackageOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/ProductPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/ProductPackage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/SensorPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/associations/SensorPackage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/TransportPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/TransportPackage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/ManufacturerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/ManufacturerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/unused/InventoryItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/unused/InventoryItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/manufacturer/EditProduct.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/manufacturer/EditProduct.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/manufacturer/ProductDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/manufacturer/ProductDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/manufacturer/Products.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/manufacturer/Products.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/ProductPackage_InventoryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/entities/InventoryItem_ProductPackage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/backend/services/unused/TransportPackageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/backend/services/unused/TransportPackageService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,34 +27,34 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2bCIe0vWlfq37zDOTe9k9PfbOOX" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "f/maker",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -98,6 +78,7 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="Update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update" />
   </component>
 </project>
