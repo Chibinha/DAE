@@ -57,12 +57,23 @@ const handleAddProductToCart = (product) => {
   const existingItem = cart.value.find(item => item.product.id === product.id);
 
   if (existingItem) {
-    existingItem.quantity += product.quantity;
+    const totalQuantity = existingItem.quantity + product.quantity;
+    if (totalQuantity <= product.inStock) {
+      existingItem.quantity += product.quantity;
+    } else {
+      toast.warning('Cannot add more products than available in stock.');
+      return;
+    }
   } else {
-    cart.value.push({ product, quantity: product.quantity });
+    if (product.quantity <= product.inStock) {
+      cart.value.push({ product, quantity: product.quantity });
+    } else {
+      toast.warning('Cannot add more products than available in stock.');
+      return;
+    }
   }
 
-  console.log("Updated Cart:", cart.value); // Log the cart array to the console
+  console.log("Updated Cart:", cart.value);
   emit("addProductToCart", { product, quantity: product.quantity });
 }
 
@@ -71,15 +82,22 @@ const handleRemoveProductFromCart = (product) => {
   if (index !== -1) {
     const cartItem = cart.value[index];
     if (cartItem.quantity > 1) {
-
       cartItem.quantity -= 1;
     } else {
-
       cart.value.splice(index, 1);
+      if (cart.value.length === 0) {
+        // Show a message when the cart is empty after removing the product
+        toast.info('Your cart is now empty.');
+      }
     }
     console.log("Updated Cart:", cart.value); // Log the cart array to the console
     emit("removeProductFromCart", { product, quantity: cartItem.quantity });
   }
+}
+
+const cartQuantity = (productId) => {
+  const cartItem = cart.value.find(item => item.product.id === productId);
+  return cartItem ? cartItem.quantity : 0;
 }
 
 
@@ -134,8 +152,9 @@ onMounted(async () => {
                   <hr>
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
-                      <button :disabled="product.quantity > product.inStock" @click="handleAddProductToCart(product)"
-                        class="btn btn-primary">
+                      <button
+                        :disabled="product.quantity > product.inStock || product.quantity + cartQuantity(product.id) > product.inStock"
+                        @click="handleAddProductToCart(product)" class="btn btn-primary">
                         Add to Cart {{ product.quantity }}
                       </button>
                       <button :disabled="product.quantity > product.inStock" @click="handleRemoveProductFromCart(product)"
