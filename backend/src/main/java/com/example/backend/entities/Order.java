@@ -30,6 +30,9 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<InventoryItem> inventoryItems;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    private List<Observation> observations;
+
     @ManyToOne
     @JoinColumn(name = "customer")
     @NotNull
@@ -52,6 +55,7 @@ public class Order implements Serializable {
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
         this.inventoryItems = new ArrayList<>();
         this.packages = new ArrayList<>();
+        this.observations = new ArrayList<>();
     }
 
     public Order(double totalPrice, WarehouseOperator warehouseOperator, Customer customer, List<InventoryItem> inventoryItems) {
@@ -62,6 +66,7 @@ public class Order implements Serializable {
         this.orderTimestamp = new Timestamp(System.currentTimeMillis());
         this.inventoryItems = inventoryItems;
         this.packages = new ArrayList<>();
+        this.observations = new ArrayList<>();
     }
 
     public long getId() {
@@ -120,12 +125,44 @@ public class Order implements Serializable {
         this.totalPrice = totalPrice;
     }
 
+    public List<InventoryItem> getInventoryItems() {
+        return inventoryItems;
+    }
+
+    public void setInventoryItems(List<InventoryItem> inventoryItems) {
+        this.inventoryItems = inventoryItems;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public WarehouseOperator getWarehouseOperator() {
+        return warehouseOperator;
+    }
+
+    public void setWarehouseOperator(WarehouseOperator warehouseOperator) {
+        this.warehouseOperator = warehouseOperator;
+    }
+
     public List<TransportPackage> getPackages() {
         return packages;
     }
 
+    public List<Observation> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(List<Observation> observations) {
+        this.observations = observations;
+    }
+
     public TransportPackage getCurrentPackage() {
-        if(!packages.isEmpty() && packages.get(packages.size() - 1).getId() == packages.get(packages.size() - 1).getCurrentOrder().getId()) {
+        if(!packages.isEmpty() && packages.get(packages.size() - 1).getCurrentOrder().getId() == this.getId()) {
             return packages.get(packages.size() - 1);
         }
         TransportPackage empty = new TransportPackage();
@@ -147,11 +184,5 @@ public class Order implements Serializable {
     public void removePackage(TransportPackage order) {
         if(order!= null)
             this.packages.remove(order);
-    }
-
-    public List<Observation> getObservations() {
-        if(this.getCurrentPackage() != null)
-            return this.getCurrentPackage().getAllObservations();
-        return Collections.emptyList();
     }
 }

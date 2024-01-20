@@ -83,10 +83,11 @@ public class OrderBean {
         return order.getId();
     }
 
-    public void update(int orderId, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+    public void update(int orderId, int packageId, int sensorId, String status) throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
         find(orderId).setStatus(status);
-        //associateTransportationPackageToOrder(order.getId(), packageId);
-        //associateSensorToPackage(packageId, sensorId);
+        associateTransportationPackageToOrder(orderId, packageId);
+        sensorBean.associateSensorToPackage(packageId, sensorId);
+
     }
 
     public List<Order> getAll() {
@@ -112,15 +113,7 @@ public class OrderBean {
         }
     }
 
-    public void associateSensorToPackage(long id, long sensorId) throws MyEntityNotFoundException {
-        Package aPackage = packageBean.find(id);
-        Sensor sensor = sensorBean.find(sensorId);
-        if(sensor.getCurrentPackage() != aPackage)
-        {
-            //aPackage.addSensor(sensor);
-            sensor.addPackage(aPackage);
-        }
-    }
+
 
     public boolean exists(long id) throws MyEntityNotFoundException  {
         Query query = entityManager.createQuery("SELECT COUNT(o) FROM Order o WHERE o.id = :id");
