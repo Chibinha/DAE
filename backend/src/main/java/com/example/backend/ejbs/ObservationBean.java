@@ -8,7 +8,9 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Stateless
 public class ObservationBean {
@@ -22,7 +24,6 @@ public class ObservationBean {
 
     @EJB
     private AlertBean alertBean;
-
 
     public boolean exists(long id) {
         Query query = entityManager.createQuery("SELECT COUNT(p) FROM Observation p WHERE p.id = :id");
@@ -46,12 +47,13 @@ public class ObservationBean {
             User user = fetchUserFromOrder(order);
 
             // Send WebSocket notification dynamically
+            // Send WebSocket notification dynamically only if not already sent
             if (user != null) {
-                WebsocketService.sendNotification(user.getUsername(), "Sensor value out of range: " + value);
-            }
+                WebsocketService.sendNotification(user.getUsername(), "Sensor " + sensor.getName() + " (" + sensor.getType() + ") " + " value out of range: " + value + " " + sensor.getUnit() + " - " + observation.getTimestamp());
 
-            // Create an alert
-            alertBean.create(user.getUsername(), "Sensor value out of range: " + value);
+                // Create an alert only after sending the notification
+                alertBean.create(user.getUsername(), "Sensor " + sensor.getName() + " value out of range: " + value + " " + sensor.getUnit());
+            }
         }
 
         return observation.getId();
@@ -98,13 +100,24 @@ public class ObservationBean {
         // Replace the following lines with your specific logic.
 
         if (sensor.getType().equals("Velocidade")) {
-            // Example logic for Humidade sensor
             return Integer.parseInt(value) >= 5 && Integer.parseInt(value) <= 200;
         } else if (sensor.getType().equals("Humidade")) {
-            // Example logic for Velocidade sensor
             return Integer.parseInt(value) >= 40 && Integer.parseInt(value) <= 100;
         } else if (sensor.getType().equals("Temperatura")) {
-            // Example logic for Temperatura sensor
+            return Integer.parseInt(value) >= -6 && Integer.parseInt(value) <= 50;
+        } else if (sensor.getType().equals("Aceleração")) {
+            return Integer.parseInt(value) >= 20 && Integer.parseInt(value) <= 90;
+        } else if (sensor.getType().equals("Bateria")) {
+            return Integer.parseInt(value) >= 0 && Integer.parseInt(value) <= 500;
+        } else if (sensor.getType().equals("Corrente")) {
+            return Integer.parseInt(value) >= 0 && Integer.parseInt(value) <= 12;
+        } else if (sensor.getType().equals("Potência")) {
+            return Integer.parseInt(value) >= 0 && Integer.parseInt(value) <= 40;
+        } else if (sensor.getType().equals("Tensão")) {
+            return Integer.parseInt(value) >= -6 && Integer.parseInt(value) <= 50;
+        } else if (sensor.getType().equals("Frequência")) {
+            return Integer.parseInt(value) >= -6 && Integer.parseInt(value) <= 50;
+        } else if (sensor.getType().equals("Resistência")) {
             return Integer.parseInt(value) >= -6 && Integer.parseInt(value) <= 50;
         } else {
             // Handle other sensor types if needed
