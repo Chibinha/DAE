@@ -10,6 +10,8 @@ import com.example.backend.entities.InventoryItem;
 import com.example.backend.entities.Product;
 import com.example.backend.entities.ProductPackage;
 import com.example.backend.exceptions.MyEntityNotFoundException;
+import com.example.backend.security.Authenticated;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -21,6 +23,8 @@ import java.util.List;
 @Path("manufacturer/{username}")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
+@Authenticated
+@RolesAllowed({"Manufacturer"})
 @Transactional
 public class ManufacturerService {
     @EJB

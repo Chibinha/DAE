@@ -5,6 +5,8 @@ import com.example.backend.ejbs.WarehouseOperatorBean;
 import com.example.backend.entities.WarehouseOperator;
 import com.example.backend.exceptions.*;
 import com.example.backend.exceptions.NotAuthorizedException;
+import com.example.backend.security.Authenticated;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.faces.context.ExternalContext;
 import jakarta.transaction.Transactional;
@@ -17,8 +19,8 @@ import java.util.List;
 @Path("warehouseoperator") // relative url web path for this service
 @Produces({MediaType.APPLICATION_JSON}) // injects header “Content-Type: application/json”
 @Consumes({MediaType.APPLICATION_JSON}) // injects header “Accept: application/json”
-//@Authenticated
-//@RolesAllowed({"WarehouseOperator"})
+@Authenticated
+@RolesAllowed({"WarehouseOperator"})
 public class WarehouseOperatorService {
 
     @EJB

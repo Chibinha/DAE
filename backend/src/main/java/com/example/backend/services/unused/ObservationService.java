@@ -24,8 +24,6 @@ public class ObservationService {
     @EJB
     private ObservationBean observationBean;
 
-
-
     @POST
     @Path("/")
     public Response create(ObservationDTO dto) throws MyEntityNotFoundException {

@@ -123,7 +123,7 @@ onMounted(async () => {
       <tbody>
         <tr v-for="observation in orderStore.observations" :key="observation.id">
           <td>{{ observation.timestamp }}</td>
-          <td>O sensor {{ observation.sensorId }} que mede {{ observation.type }} registou um/uma {{ observation.type }}
+          <td>O sensor {{ observation.sensorName }} que mede {{ observation.type }} registou um/uma {{ observation.type }}
             de {{ observation.value }}{{ observation.unit }} </td>
           <td class="text-end">
           </td>

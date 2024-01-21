@@ -47,14 +47,14 @@ public class TransportPackageBean {
         return entityManager.createNamedQuery("getAllTransportationPackages", TransportPackage.class).getResultList();
     }
 
-    public long update(long id, TransportPackageDTO transportPackageDTO) throws MyEntityNotFoundException {
+    public long update(long id, String type, String material) throws MyEntityNotFoundException {
         TransportPackage transportPackage = find(id);
 
-        if (transportPackageDTO.getType() != null) {
-            transportPackage.setType(transportPackageDTO.getType());
+        if (type != null) {
+            transportPackage.setType(type);
         }
-        if (transportPackageDTO.getMaterial() != null) {
-            transportPackage.setMaterial(transportPackageDTO.getMaterial());
+        if (material != null) {
+            transportPackage.setMaterial(material);
         }
 
         entityManager.merge(transportPackage);

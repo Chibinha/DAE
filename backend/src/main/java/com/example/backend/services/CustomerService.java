@@ -28,8 +28,9 @@ import java.util.Map;
 @Path("customer") // relative url web path for this service
 @Produces({MediaType.APPLICATION_JSON}) // injects header “Content-Type: application/json”
 @Consumes({MediaType.APPLICATION_JSON}) // injects header “Accept: application/json”
-/*@Authenticated
-@RolesAllowed({"Customer"})*/
+@Authenticated
+@RolesAllowed({"Customer"})
+@Transactional
 public class CustomerService {
     @EJB
     private AlertBean alertBean;
@@ -78,7 +79,6 @@ public class CustomerService {
 
     @GET
     @Path("{username}/orders")
-    @Transactional
     public Response getClientOrders(@PathParam("username") String username) throws MyEntityNotFoundException {
         if(username.equals("anonymous"))
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
@@ -99,7 +99,6 @@ public class CustomerService {
 
     @GET
     @Path("{username}/orders/{index}")
-    @Transactional
     public Response getClientOrder(@PathParam("username") String username, @PathParam("index") Long index) throws MyEntityNotFoundException, NotAuthorizedException {
         if(username.equals("anonymous"))
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
@@ -111,7 +110,6 @@ public class CustomerService {
 
     @GET
     @Path("{username}/orders/{index}/products")
-    @Transactional
     public Response getClientOrderProducts(@PathParam("username") String username, @PathParam("index") Long index) throws MyEntityNotFoundException, NotAuthorizedException {
         if(username.equals("anonymous"))
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
@@ -123,7 +121,6 @@ public class CustomerService {
 
     @GET
     @Path("{username}/orders/{index}/observations")
-    @Transactional
     public Response getClientOrderObservations(@PathParam("username") String username, @PathParam("index") Long index) throws MyEntityNotFoundException {
         if(username.equals("anonymous"))
             return Response.status(Response.Status.NOT_FOUND).entity("You are not logged in. Please login.").build();
@@ -153,34 +150,4 @@ public class CustomerService {
         }
         return Response.status(Response.Status.CREATED).entity("Order with id [" + id + "] created.").build();
     }
-
-//    @POST
-//    @Path("{username}/orders")
-//    public Response createOrder(@PathParam("username") String username, OrderDTO orderDTO) {
-//        try {
-//            Long orderId = customerBean.createNewOrder(username, orderDTO);
-//            return Response.status(Response.Status.CREATED)
-//                .entity("Order created successfully with ID: " + orderId)
-//                .build();
-//        } catch (MyEntityNotFoundException e) {
-//            return Response.status(Response.Status.NOT_FOUND)
-//                .entity("Error: " + e.getMessage())
-//                .build();
-//        } catch (Exception e) {
-//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-//                .entity("Error creating order: " + e.getMessage())
-//                .build();
-//        }
-//    }
-
-//    @GET
-//    @Path("{username}/alerts")
-//    public Response getClientAlerts(@PathParam("username") String username) {
-//        var customer = customerBean.getClientAlerts(username);
-//        var dtos = toDTOsAlert(customer.getAlerts());
-//        return Response.ok(dtos).build();
-//    }
-
-
-
 }
