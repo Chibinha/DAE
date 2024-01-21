@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, defineProps, defineEmits, inject } from 'vue';
+import { useUserStore } from '@/stores/user.js'
 
 // Import axios from your setup or import it as needed
 const axios = inject('axios');
@@ -7,9 +8,11 @@ const axios = inject('axios');
 // Define props to receive makerUsername and productId
 const { makerUsername, productId, isCreating } = defineProps(['makerUsername', 'productId', 'isCreating']);
 const emits = defineEmits();
+const userStore = useUserStore()
 console.log(makerUsername);
 console.log(productId);
 console.log(isCreating);
+let userType
 
 
 // Data properties for the form
@@ -32,7 +35,8 @@ const submitForm = () => {
   if (isCreating) {
     // Creating a new product
     console.log('Creating a new product');
-    axios.post(`manufacturer/${makerUsername}/products`, formData)
+    userType =  userStore.user.username
+    axios.post(`manufacturer/${userType}/products`, formData)
       .then(response => {
         console.log('Product created:', response.data);
         resetForm();
@@ -67,7 +71,6 @@ const resetForm = () => {
 
 // Lifecycle hook if you need to perform any action on component mount
 onMounted(() => {
-  // Add any logic needed when the component is mounted
 });
 </script>
 

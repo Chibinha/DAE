@@ -1,7 +1,9 @@
 package com.example.backend.services;
 
 import com.example.backend.dtos.*;
+import com.example.backend.ejbs.UserBean;
 import com.example.backend.ejbs.WarehouseOperatorBean;
+import com.example.backend.entities.Alert;
 import com.example.backend.entities.WarehouseOperator;
 import com.example.backend.exceptions.*;
 import com.example.backend.exceptions.NotAuthorizedException;
