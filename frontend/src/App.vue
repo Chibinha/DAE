@@ -1,5 +1,5 @@
 <script setup>
-import { useRouter, RouterLink, RouterView,  } from "vue-router"
+import { useRouter, RouterLink, RouterView  } from "vue-router"
 import { ref, inject, onBeforeMount } from 'vue'
 import { useUserStore } from "./stores/user.js"
 
@@ -87,7 +87,7 @@ onBeforeMount(async () => {
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
             <li v-show="!userStore.user || userStore.user?.role == 'Customer'" class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'home' }" :to="{ name: 'home' }"
+              <router-link class="nav-link" :class="{ active: $route.name === 'catalog' }" :to="{ name: 'catalog' }"
                 @click="clickMenuOption">
                 <i class="bi bi-house"></i>
                 Catalog
@@ -122,10 +122,10 @@ onBeforeMount(async () => {
               
 
             <li v-show="userStore.user?.role == 'Manufacturer'" class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'maker/products' }" :to="{ name: 'maker/products' }"
+              <router-link class="nav-link" :class="{ active: $route.name === 'products' }" :to="{ name: 'products' }"
                 @click="clickMenuOption">
                 <i class="bi bi-circle"></i>
-                maker/products
+                Products
               </router-link>
             </li>
           </div>

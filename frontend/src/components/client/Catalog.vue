@@ -121,7 +121,6 @@ const createOrder = async () => {
     toast.success('Order created successfully!');
 
     cart.value = [];
-    location.reload()
 
   } catch (error) {
     console.error('Error creating order:', error);
